@@ -20,7 +20,7 @@ const Spinner = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/user/test-session", { withCredentials: true })
+        axios.get("https://offerwhisky.vercel.app/api/user/test-session", { withCredentials: true })
             .then(response => {
                 if (!response.data.user) {
                     navigate(`/login/${ownerId}`, { state: { flashMessage: "Please log in first!" } });

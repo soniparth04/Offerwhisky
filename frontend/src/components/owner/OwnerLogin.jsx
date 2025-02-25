@@ -13,7 +13,7 @@ const OwnerLogin = () => {
     
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/owner/owner-login",
+                "https://offerwhisky.vercel.app/api/owner/owner-login",
                 { email, password },
                 { withCredentials: true } // ✅ Ensures session is stored
             );

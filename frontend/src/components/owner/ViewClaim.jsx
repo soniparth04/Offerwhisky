@@ -21,7 +21,7 @@ const ViewClaim = () => {
     
         const fetchOffers = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/owner/users/${userId}/claimed-offers`);
+                const response = await axios.get(`https://offerwhisky.vercel.app/api/owner/users/${userId}/claimed-offers`);
                 console.log("API Response:", response.data); // Debugging API response
                 setOffers(response.data.claimedOffers);
             } catch (err) {
