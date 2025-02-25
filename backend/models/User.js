@@ -1,0 +1,18 @@
+const mongoose = require('mongoose');
+
+const UserSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    phone: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "Owner" , required: true}, // 🔹 Link user to owner
+    claimedOffers: [
+        {
+            label: String,
+            description: String,
+            claimedAt: { type: Date, default: Date.now }
+        }
+    ]
+}, { timestamps: true });
+
+const User = mongoose.model('User', UserSchema);
+module.exports = User;

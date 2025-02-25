@@ -1,0 +1,156 @@
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { useParams, useNavigate } from "react-router-dom";
+import Chart from "chart.js/auto";
+import { ArcElement } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+import arrow from "../../assets/spinner/arrow.png";
+import Navbar from "./Navbar";
+
+Chart.register(ArcElement, ChartDataLabels);
+
+const Spinner = () => {
+    const { ownerId } = useParams(); // 🔹 Get ownerId from URL
+    const [segments, setSegments] = useState([]);
+    const [currentOffer, setCurrentOffer] = useState("Spin the wheel!");
+    const [showCoupon, setShowCoupon] = useState(false);
+    const [wonOffer, setWonOffer] = useState("");
+    const wheelRef = useRef(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/api/user/test-session", { withCredentials: true })
+            .then(response => {
+                if (!response.data.user) {
+                    navigate(`/login/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
+                } else {
+                    axios.get(`http://localhost:5000/api/user/spinner/${ownerId}`, { withCredentials: true })
+                        .then(response => setSegments(response.data))
+                        .catch(error => console.error("Error fetching spinner data", error));
+                }
+            })
+            .catch(error => {
+                console.error("Error checking session:", error);
+                navigate(`/login/${ownerId}`, { state: { flashMessage: "Session check failed. Please log in." } });
+            });
+    }, [ownerId]);
+
+    const segmentLabels = segments.map(segment => segment.label);
+    const segmentColors = ["#FF5733", "#33FF57", "#3357FF", "#FFC300", "#8E44AD", "#FF33A1"];
+
+    const data = {
+        labels: segmentLabels,
+        datasets: [{
+            backgroundColor: segmentColors.slice(0, segmentLabels.length),
+            data: Array(segmentLabels.length).fill(1),
+        }],
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            tooltip: false,
+            legend: { display: false },
+            datalabels: {
+                color: "#fff",
+                font: { size: 9 },
+                formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+            },
+        },
+    };
+
+    const handleSpin = () => {
+        if (segments.length === 0) return alert("No offers available!");
+
+        const totalSegments = segmentLabels.length;
+        const segmentAngle = 360 / totalSegments;
+        const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
+        const winningAngle = randomSegmentIndex * segmentAngle + 1800; // 🔹 Ensure multiple spins before stopping
+        let startAngle = 0;
+
+        const duration = 5000; // 🔹 Spin duration (5 seconds)
+        const startTime = Date.now();
+
+        const animateSpin = () => {
+            const elapsedTime = Date.now() - startTime;
+            const progress = Math.min(elapsedTime / duration, 1);
+            const easing = (1 - Math.pow(1 - progress, 3)); // 🔹 Smooth animation
+            const currentAngle = startAngle + easing * (winningAngle - startAngle);
+
+            if (wheelRef.current) {
+                wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
+            }
+
+            if (progress < 1) {
+                requestAnimationFrame(animateSpin);
+            } else {
+                setWonOffer(segmentLabels[randomSegmentIndex]);
+                setShowCoupon(true);
+            }
+        };
+
+        requestAnimationFrame(animateSpin);
+    };
+
+
+    const handleClaimOffer = async () => {
+        try {
+            if (!ownerId) {
+                alert("Owner ID is missing. Please use the correct link.");
+                return;
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/user/claim-offer/${ownerId}`, // Use ownerId from useParams
+                { offerLabel: wonOffer },
+                { withCredentials: true }
+            );
+
+            alert(response.data.message);
+            setShowCoupon(false);
+        } catch (error) {
+            console.error("Error claiming offer:", error);
+            alert("Failed to claim the offer. Please try again.");
+        }
+    };
+
+
+
+    return (
+        <div>
+            <Navbar />
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800 relative">
+                <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 text-lg font-bold text-gray-900">
+                    {currentOffer}
+                </div>
+                <div className="relative w-72 h-72 flex items-center justify-center">
+                    <img src={arrow} className="rotate-180 h-16 absolute top-[-30px] z-10" />
+                    <div ref={wheelRef} className="relative w-full h-full">
+                        <Pie data={data} options={options} />
+                    </div>
+                    <button
+                        onClick={handleSpin}
+                        className="absolute w-20 h-20 bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-bold uppercase rounded-full shadow-lg hover:bg-yellow-500 transition"
+                    >
+                        Spin
+                    </button>
+                </div>
+                {showCoupon && (
+                    <div className="mt-6 p-4 bg-white rounded-lg shadow-md text-center">
+                        <h3 className="text-lg font-bold">Congratulations!</h3>
+                        <p className="text-gray-700">You won: {wonOffer}!</p>
+                        <button
+                            onClick={handleClaimOffer}
+                            className="mt-3 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+                        >
+                            Claim Offer
+                        </button>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default Spinner;

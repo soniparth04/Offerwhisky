@@ -1,0 +1,84 @@
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const OwnerDashboard = () => {
+    const navigate = useNavigate();
+    const [shopName, setShopName] = useState("");
+
+    useEffect(() => {
+        // Fetch owner's shop name
+        const fetchOwnerInfo = async () => {
+            try {
+                const response = await axios.get("http://localhost:5000/api/owner/owner-info", { withCredentials: true });
+                setShopName(response.data.shopName);
+            } catch (error) {
+                console.error("Error fetching owner info:", error);
+                navigate("/owner-login"); // Redirect to login if unauthorized
+            }
+        };
+        fetchOwnerInfo();
+    }, [navigate]);
+
+    const handleLogout = async () => {
+        try {
+            await axios.post("http://localhost:5000/api/owner/owner-logout", {}, { withCredentials: true });
+            navigate("/owner-login"); // Redirect to login page
+        } catch (error) {
+            console.error("Logout failed:", error);
+        }
+    };
+
+    return (
+        <div>
+            {/* Navbar */}
+            <nav className="bg-white border-b shadow-md sticky-top">
+                <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
+
+                    <div className="flex space-x-6 ml-auto">
+                        <Link to="/add-offer" className="text-blue-500 hover:text-blue-700">Add new Offer</Link>
+                        <button
+                            onClick={handleLogout}
+                            className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <div className="text-lg font-bold flex-grow text-center">
+                {shopName ? `${shopName} - Owner Panel` : "Loading..."}
+            </div>
+            {/* Dashboard Content */}
+            <div className="grid grid-cols-2 gap-4 mt-4">
+                <div className="bg-white shadow-md p-4 text-center font-semibold rounded-lg">Total Users</div>
+                <div className="bg-white shadow-md p-4 text-center font-semibold rounded-lg">Active Offers</div>
+            </div>
+
+            <p className="mt-4 font-semibold">Quick actions</p>
+
+            <div className="container mx-auto mt-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <Link to="/view-offers" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Offers</h5>
+                        </div>
+                    </Link>
+                    <Link to="/view-users" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Users</h5>
+                        </div>
+                    </Link>
+                    <Link to="/redeemed" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View Redeemed Offers</h5>
+                        </div>
+                    </Link>
+                </div> 
+            </div>
+        </div>
+    );
+};
+
+export default OwnerDashboard;
