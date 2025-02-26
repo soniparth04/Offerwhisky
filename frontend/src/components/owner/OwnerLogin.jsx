@@ -6,7 +6,7 @@ const OwnerLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const navigate = useNavigate();  // ✅ Add useNavigate
+    const navigate = useNavigate();  
 
     const handleLogin = async (event) => {
         event.preventDefault();

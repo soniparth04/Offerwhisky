@@ -3,12 +3,20 @@ require('dotenv').config(); // Load .env variables
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
+const MongoDBStore = require('connect-mongodb-session')(session);
+
 
 const app = express();
 const PORT = 5000;
 
 // Import the DB connection setup
 require('./db'); // Assuming the db.js file is in the same directory
+
+const store = new MongoDBStore({
+    uri: process.env.MONGO_URI,
+    collection: 'sessions'
+});
+store.on('error', (error) => console.error('Session Store Error:', error));
 
 // Middleware setup
 app.use(cors({
@@ -22,14 +30,17 @@ app.use(express.json()); // To parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: false,
-        cookie: { secure: false, httpOnly: true, maxAge: 2 * 60 * 60 * 1000 } // 2 hours
-    })
-);
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+    cookie: { 
+        secure: process.env.NODE_ENV === 'production', // Secure only in production
+        httpOnly: true, 
+        maxAge: 2 * 60 * 60 * 1000 // 2 hours
+    }
+}));
 
 app.get("/", (req, res) => {
     res.send("app is running")
@@ -43,6 +54,7 @@ app.get('/api/test-session', (req, res) => {
 // Example route for user signup
 const userRoutes = require('./routes/user');
 const ownerRoutes = require('./routes/owner')
+
 app.use('/api/user', userRoutes); // Prefix API routes with /api
 app.use("/api/owner", ownerRoutes);
 
