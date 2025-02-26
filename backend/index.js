@@ -12,7 +12,7 @@ require('./db'); // Assuming the db.js file is in the same directory
 
 // Middleware setup
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://offerwhisky-5suo.vercel.app",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
