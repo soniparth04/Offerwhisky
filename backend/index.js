@@ -5,7 +5,7 @@ const session = require('express-session');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 // Import the DB connection setup
 require('./db'); // Assuming the db.js file is in the same directory
