@@ -24,7 +24,7 @@ const OwnerRegistration = () => {
         setSuccess("");
 
         try {
-            const response = await axios.post("https://offerwhisky.vercel.app/api/owner/owner-registration", formData, {
+            const response = await axios.post("http://localhost:5000/api/owner/owner-registration", formData, {
                 headers: { "Content-Type": "application/json" }
             });
 

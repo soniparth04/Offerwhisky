@@ -1,8 +1,8 @@
-const express = require('express');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User'); 
-const Coupon = require("../models/Coupon");
-const Owner = require("../models/Owner"); // ✅ Import the Owner model
+import express from "express";
+import bcrypt from "bcryptjs";
+import User from "../models/User.js"; // ✅ Change require to import
+import Coupon from "../models/Coupon.js";
+import Owner from "../models/Owner.js"; // ✅ Import the Owner model
 
 const router = express.Router();
 
@@ -268,4 +268,4 @@ router.get("/test-session", (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

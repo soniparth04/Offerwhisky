@@ -32,7 +32,7 @@ const Login = () => {
     
         try {
             const response = await axios.post(
-                `https://offerwhisky.vercel.app/api/user/login/${ownerId}`,
+                `http://localhost:5000/api/user/login/${ownerId}`,
                 { phone, password },
                 { withCredentials: true }
             );

@@ -8,7 +8,7 @@ const Navbar = () => {
 
     const handleLogout = async () => {
         try {
-            await axios.post('https://offerwhisky.vercel.app/api/user/logout', {}, { withCredentials: true });
+            await axios.post('http://localhost:5000/api/user/logout', {}, { withCredentials: true });
             console.log("User logged out successfully");
 
             // Redirect to the correct login route

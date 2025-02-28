@@ -1,16 +1,22 @@
-require('dotenv').config(); // Load .env variables
+import dotenv from "dotenv";
+dotenv.config(); // Load .env variables
 
-const express = require('express');
-const session = require('express-session');
-const cors = require('cors');
-const MongoDBStore = require('connect-mongodb-session')(session);
+import express from "express";
+import session from "express-session";
+import cors from "cors";
+import connectMongoDBSession from "connect-mongodb-session";
+
+const MongoDBStore = connectMongoDBSession(session);
+import path from "path";
 
 
 const app = express();
 const PORT = 5000;
 
+const _dirname = path.resolve();
+
 // Import the DB connection setup
-require('./db'); // Assuming the db.js file is in the same directory
+import "./db.js"; // Use .js explicitly for ES modules
 
 const store = new MongoDBStore({
     uri: process.env.MONGO_URI,
@@ -20,7 +26,7 @@ store.on('error', (error) => console.error('Session Store Error:', error));
 
 // Middleware setup
 app.use(cors({
-    origin: "https://offerwhisky-5suo.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
@@ -52,12 +58,16 @@ app.get('/api/test-session', (req, res) => {
 });
 
 // Example route for user signup
-const userRoutes = require('./routes/user');
-const ownerRoutes = require('./routes/owner')
+import userRoutes from './routes/user.js';
+import ownerRoutes from './routes/owner.js';
 
 app.use('/api/user', userRoutes); // Prefix API routes with /api
 app.use("/api/owner", ownerRoutes);
 
+app.use(express.static(path.join(_dirname, "/frontend/dist")));
+app.get("*", (req, res) => {
+    res.sendFile(path.resolve(_dirname, "frontend", "dist", "index.html"));
+})
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

@@ -1,9 +1,9 @@
-const express = require('express');
-const bcrypt = require("bcryptjs");
-const User = require('../models/User');
-const Coupon = require("../models/Coupon");
-const Owner = require("../models/Owner")
-const mongoose = require('mongoose');
+import express from 'express';
+import bcrypt from "bcryptjs";
+import User from '../models/User.js';
+import Coupon from "../models/Coupon.js";
+import Owner from "../models/Owner.js"
+import mongoose from 'mongoose';
 const router = express.Router();
 
 
@@ -300,4 +300,4 @@ router.get("/users/:ownerId", async (req, res) => {
 });
 
 
-module.exports = router;
+export default router;

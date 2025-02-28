@@ -9,7 +9,7 @@ const ViewUser = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get("https://offerwhisky.vercel.app/api/owner/view-users", { withCredentials: true }) ;
+                const res = await axios.get("http://localhost:5000/api/owner/view-users", { withCredentials: true }) ;
                 if (Array.isArray(res.data)) {  // Change response.data to res.data
                     setUsers(res.data);
                 }

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const OwnerSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -9,4 +9,4 @@ const OwnerSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const Owner = mongoose.model('Owner', OwnerSchema);
-module.exports = Owner;
+export default Owner;
