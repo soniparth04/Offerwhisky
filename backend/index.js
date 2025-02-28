@@ -26,7 +26,7 @@ store.on('error', (error) => console.error('Session Store Error:', error));
 
 // Middleware setup
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://offerwhisky.onrender.com",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]

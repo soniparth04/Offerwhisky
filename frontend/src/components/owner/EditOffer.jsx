@@ -13,7 +13,7 @@ const EditOffer = () => {
     useEffect(() => {
         const fetchOffer = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/edit-offer/${id}`);
+                const response = await axios.get(`https://offerwhisky.onrender.com/api/edit-offer/${id}`);
                 setLabel(response.data.label);
                 setDescription(response.data.description);
                 setExpiryDate(response.data.expiryDate.split("T")[0]); // Format date for input

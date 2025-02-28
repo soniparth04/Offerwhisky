@@ -10,7 +10,7 @@ const ViewOffers = () => {
     useEffect(() => {
         const fetchOffers = async () => {
             try {
-                const res = await axios.get("http://localhost:5000/api/owner/view-offers", {
+                const res = await axios.get("https://offerwhisky.onrender.com/api/owner/view-offers", {
                     withCredentials: true, // Ensure authentication
                 });
                 if (Array.isArray(res.data)) {

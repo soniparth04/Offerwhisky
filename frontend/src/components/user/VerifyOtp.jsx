@@ -17,7 +17,7 @@ const VerifyOtp = () => {
         setLoading(true);  // Set loading state for OTP verification
     
         try {
-            const response = await axios.post("http://localhost:5000/api/user/verify-otp", {
+            const response = await axios.post("https://offerwhisky.onrender.com/api/user/verify-otp", {
                 phone,  // Make sure this is the phone number stored in localStorage
                 otp,    // Pass OTP entered by user
             });

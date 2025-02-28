@@ -18,7 +18,7 @@ const AddOffer = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/owner/add-offer", formData, {
+            const response = await axios.post("https://offerwhisky.onrender.com/api/owner/add-offer", formData, {
                 withCredentials: true
             });
             console.log("Offer added:", response.data);

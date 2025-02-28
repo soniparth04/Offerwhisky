@@ -17,7 +17,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `http://localhost:5000/api/user/signup/${ownerId}`, // ✅ ownerId already in URL
+                `https://offerwhisky.onrender.com/api/user/signup/${ownerId}`, // ✅ ownerId already in URL
                 user,  // ❌ Removed redundant ownerId
                 { withCredentials: true } // ✅ Ensures session cookies are sent
             );

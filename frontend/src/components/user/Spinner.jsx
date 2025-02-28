@@ -20,12 +20,12 @@ const Spinner = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/user/test-session", { withCredentials: true })
+        axios.get("https://offerwhisky.onrender.com/api/user/test-session", { withCredentials: true })
             .then(response => {
                 if (!response.data.user) {
                     navigate(`/login/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
                 } else {
-                    axios.get(`http://localhost:5000/api/user/spinner/${ownerId}`, { withCredentials: true })
+                    axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${ownerId}`, { withCredentials: true })
                         .then(response => setSegments(response.data))
                         .catch(error => console.error("Error fetching spinner data", error));
                 }
