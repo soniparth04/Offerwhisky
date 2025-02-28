@@ -7,7 +7,7 @@
     "dev": "nodemon backend/index.js",
     "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend",
     "start": "nodemon backend/index.js"
-    },
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -28,6 +28,7 @@
     "mongoose": "^8.9.6",
     "node-fetch": "^3.3.2",
     "nodemailer": "^6.10.0",
+    "nodemon": "^3.1.9",
     "otp-generator": "^4.0.1"
   }
 }
