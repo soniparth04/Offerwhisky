@@ -10,7 +10,7 @@ const OwnerDashboard = () => {
         // Fetch owner's shop name
         const fetchOwnerInfo = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/owner/owner-info", { withCredentials: true });
+                const response = await axios.get("https://offerwhisky.onrender.com/api/owner/owner-info", { withCredentials: true });
                 setShopName(response.data.shopName);
             } catch (error) {
                 console.error("Error fetching owner info:", error);
