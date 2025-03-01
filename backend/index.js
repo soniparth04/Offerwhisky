@@ -24,13 +24,25 @@ const store = new MongoDBStore({
 });
 store.on('error', (error) => console.error('Session Store Error:', error));
 
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://offerwhisky.onrender.com"
+];
+
 // Middleware setup
 app.use(cors({
-    origin: "https://offerwhisky.onrender.com",
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 
 app.use(express.json()); // To parse JSON request bodies
 app.use(express.urlencoded({ extended: true }));

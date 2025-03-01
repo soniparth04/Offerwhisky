@@ -30,7 +30,7 @@ const EditOffer = () => {
         setError(null);
 
         try {
-            const response = await axios.put(`http://localhost:5000/api/update-offer/${id}`, {
+            const response = await axios.put(`https://offerwhisky.onrender.com/api/update-offer/${id}`, {
                 label,
                 description,
                 expiryDate,
