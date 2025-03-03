@@ -61,13 +61,13 @@ router.post("/owner-registration", async (req, res) => {
 
 router.post('/owner-login', async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { phone, password } = req.body;
 
-        if (!email || !password) {
+        if (!phone || !password) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        const owner = await Owner.findOne({ email });
+        const owner = await Owner.findOne({ phone });
         if (!owner) {
             return res.status(404).json({ message: "Owner not found" });
         }

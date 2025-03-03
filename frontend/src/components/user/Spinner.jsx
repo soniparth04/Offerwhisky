@@ -102,7 +102,7 @@ const Spinner = () => {
             }
 
             const response = await axios.post(
-                `http://localhost:5000/api/user/claim-offer/${ownerId}`, // Use ownerId from useParams
+                `https://offerwhisky.onrender.com/api/user/claim-offer/${ownerId}`, // Use ownerId from useParams
                 { offerLabel: wonOffer },
                 { withCredentials: true }
             );
