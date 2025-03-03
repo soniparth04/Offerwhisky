@@ -97,9 +97,12 @@ const Spinner = () => {
     const handleClaimOffer = async () => {
         try {
             if (!ownerId) {
+                console.error("Owner ID is missing!");
                 alert("Owner ID is missing. Please use the correct link.");
                 return;
             }
+
+            console.log("Sending claim request with:", { ownerId, offerLabel: wonOffer });
 
             const response = await axios.post(
                 `https://offerwhisky.onrender.com/api/user/claim-offer/${ownerId}`, // Use ownerId from useParams
@@ -107,6 +110,7 @@ const Spinner = () => {
                 { withCredentials: true }
             );
 
+            console.log("Offer claimed successfully:", response.data);
             alert(response.data.message);
             setShowCoupon(false);
         } catch (error) {

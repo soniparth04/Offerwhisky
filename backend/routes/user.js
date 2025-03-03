@@ -87,6 +87,7 @@ router.post('/login/:ownerId', async (req, res) => {
 
         // 🔹 Store user session
         req.session.user = { phone: user.phone, ownerId: user.ownerId };
+        await req.session.save();
         console.log("User logged in, session updated:", req.session.user);
 
         res.status(200).json({ message: "Login successful" });
