@@ -59,6 +59,11 @@ const OwnerLogin = () => {
                         Click here to Registration
                     </Link>
                 </p>
+                <p className="text-center mt-2 text-sm">
+                    <Link to="/forgot-password" className="text-blue-500 hover:underline">
+                        Forgot Password?
+                    </Link>
+                </p>
             </div>
         </div>
     );

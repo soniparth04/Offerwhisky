@@ -107,6 +107,30 @@ router.post("/owner-logout", (req, res) => {
     });
 });
 
+router.post("/owner-reset-password", async (req, res) => {
+    try {
+        const { phone, newPassword } = req.body;
+
+        if (!phone || !newPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const owner = await Owner.findOne({ phone });
+        if (!owner) {
+            return res.status(404).json({ message: "Owner not found with this phone number" });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        owner.password = hashedPassword;
+        await owner.save();
+
+        res.status(200).json({ message: "Password updated successfully" });
+    } catch (error) {
+        console.error("Reset password error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 router.get("/owner-info", authenticateOwner, async (req, res) => {
     try {
         const owner = await Owner.findById(req.ownerId);
