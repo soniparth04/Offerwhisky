@@ -21,7 +21,7 @@ const ForgotPassword = () => {
         }
 
         try {
-            const response = await axios.post("http://localhost:5000/api/owner/owner-reset-password", {
+            const response = await axios.post("https://offerwhisky.onrender.com/api/owner/owner-reset-password", {
                 phone,
                 newPassword,
             });
