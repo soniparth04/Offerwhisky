@@ -37,7 +37,7 @@ const OwnerRegistration = () => {
 
     return (
         <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-bold mb-4">Owner Registration</h2>
+            <h2 className="text-xl font-bold mb-4">Shop Owner Registration</h2>
             {error && <p className="text-red-500">{error}</p>}
             {success && <p className="text-green-500">{success}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
