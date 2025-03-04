@@ -8,11 +8,16 @@ const OwnerRegistration = () => {
         phone: "",
         email: "",
         shopName: "",
-        password: ""
+        password: "",
+        city: "",
+        state: "",
+        country: "",
+        pinCode: ""
     });
+
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const navigate = useNavigate(); // ✅ Redirect after success
+    const navigate = useNavigate(); 
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,12 +29,12 @@ const OwnerRegistration = () => {
         setSuccess("");
 
         try {
-            const response = await axios.post("https://offerwhisky.onrender.com/api/owner/owner-registration", formData, {
+            const response = await axios.post("http://localhost:5000/api/owner/owner-registration", formData, {
                 headers: { "Content-Type": "application/json" }
             });
 
             setSuccess("Owner registered successfully!");
-            setTimeout(() => navigate("/owner-dashboard"), 1000); // ✅ Redirect after success
+            setTimeout(() => navigate("/owner-dashboard"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
         }
@@ -46,17 +51,22 @@ const OwnerRegistration = () => {
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full p-2 border rounded" required />
+                
+                <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} className="w-full p-2 border rounded" required />
+                <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleChange} className="w-full p-2 border rounded" required />
+                <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} className="w-full p-2 border rounded" required />
+                <input type="text" name="pinCode" placeholder="Pin Code" value={formData.pinCode} onChange={handleChange} className="w-full p-2 border rounded" required />
+
                 <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">Register</button>
             </form>
 
-            {/* Signup/Login Link */}
             <p className="text-center mt-4 text-sm">
                 Already have an account?{" "}
                 <Link to="/owner-login" className="text-blue-500 hover:underline">
                     Click here to login
                 </Link>
             </p>
-        </div> 
+        </div>
     );
 };
 

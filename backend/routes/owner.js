@@ -17,13 +17,12 @@ const authenticateOwner = (req, res, next) => {
 };
 
 
-
 // Owner Registration Route
 router.post("/owner-registration", async (req, res) => {
     try {
-        const { name, phone, email, shopName, password } = req.body;
+        const { name, phone, email, shopName, password, city, state, country, pinCode } = req.body;
 
-        if (!name || !phone || !email || !shopName || !password) {
+        if (!name || !phone || !email || !shopName || !password || !city || !state || !country || !pinCode) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -41,18 +40,23 @@ router.post("/owner-registration", async (req, res) => {
             phone,
             email,
             shopName,
-            password: hashedPassword
+            password: hashedPassword,
+            city,
+            state,
+            country,
+            pinCode
         });
 
         await newOwner.save();
 
+        // Store owner ID in session
         req.session.ownerId = newOwner._id;
 
         res.status(201).json({
             message: "Owner registered successfully",
-            ownerId: newOwner._id  // No token, using session instead
+            ownerId: newOwner._id
         });
-        
+
     } catch (error) {
         console.error("Registration error:", error);
         res.status(500).json({ message: "Server error" });
