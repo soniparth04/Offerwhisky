@@ -14,6 +14,7 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import OwnerRegistration from "./components/owner/OwnerRegistration";
 import OwnerLogin from "./components/owner/OwnerLogin";
 import ForgotPassword from "./components/owner/ForgotPassword";
+import GenerateLink from "./components/owner/GnerateLink";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path = "/owner-registration" element={<OwnerRegistration/>}/>
         <Route path="/owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/generate-link" element={<GenerateLink />} />
       </Routes>
     </Router>
   );

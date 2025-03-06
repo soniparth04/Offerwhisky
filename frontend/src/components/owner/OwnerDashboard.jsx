@@ -5,6 +5,7 @@ import axios from 'axios';
 const OwnerDashboard = () => {
     const navigate = useNavigate();
     const [shopName, setShopName] = useState("");
+    const [ownerId, setOwnerId] = useState("");
 
     useEffect(() => {
         // Fetch owner's shop name
@@ -12,6 +13,7 @@ const OwnerDashboard = () => {
             try {
                 const response = await axios.get("https://offerwhisky.onrender.com/api/owner/owner-info", { withCredentials: true });
                 setShopName(response.data.shopName);
+                setOwnerId(response.data.ownerId);
             } catch (error) {
                 console.error("Error fetching owner info:", error);
                 navigate("/owner-login"); // Redirect to login if unauthorized
@@ -76,6 +78,15 @@ const OwnerDashboard = () => {
                         </div>
                     </Link>
                 </div> 
+            </div>
+            <div className="mt-6 text-center">
+                <p className="font-semibold">Generate User Login Link:</p>
+                <button
+                    onClick={() => navigate('/generate-link', { state: { ownerId } })}
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mt-2"
+                >
+                    Generate Link
+                </button>
             </div>
         </div>
     );
