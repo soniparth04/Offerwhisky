@@ -16,6 +16,16 @@ const authenticateOwner = (req, res, next) => {
     next();
 };
 
+// ✅ Default Offers
+const defaultOffers = [
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
+];
 
 // Owner Registration Route
 router.post("/owner-registration", async (req, res) => {
@@ -51,6 +61,12 @@ router.post("/owner-registration", async (req, res) => {
 
         // Store owner ID in session
         req.session.ownerId = newOwner._id;
+
+          // ✅ Insert Default Offers for New Owner
+          const defaultOffersWithOwner = defaultOffers.map(offer => ({
+            ...offer, ownerId: newOwner._id
+        }));
+        await Coupon.insertMany(defaultOffersWithOwner);
 
         res.status(201).json({
             message: "Owner registered successfully",
