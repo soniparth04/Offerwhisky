@@ -62,26 +62,29 @@ const Spinner = () => {
 
     const handleSpin = () => {
         if (segments.length === 0) return alert("No offers available!");
-
+    
         const totalSegments = segmentLabels.length;
         const segmentAngle = 360 / totalSegments;
         const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
-        const winningAngle = randomSegmentIndex * segmentAngle + 1800; // 🔹 Ensure multiple spins before stopping
+        
+        // 🔹 Introduce a random offset (0 to segmentAngle) to land anywhere
+        const randomOffset = Math.random() * segmentAngle; 
+        const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800; 
+        
         let startAngle = 0;
-
-        const duration = 5000; // 🔹 Spin duration (5 seconds)
+        const duration = 5000; // 5 seconds
         const startTime = Date.now();
-
+    
         const animateSpin = () => {
             const elapsedTime = Date.now() - startTime;
             const progress = Math.min(elapsedTime / duration, 1);
-            const easing = (1 - Math.pow(1 - progress, 3)); // 🔹 Smooth animation
+            const easing = (1 - Math.pow(1 - progress, 3)); // Smooth animation
             const currentAngle = startAngle + easing * (winningAngle - startAngle);
-
+    
             if (wheelRef.current) {
                 wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
             }
-
+    
             if (progress < 1) {
                 requestAnimationFrame(animateSpin);
             } else {
@@ -89,10 +92,9 @@ const Spinner = () => {
                 setShowCoupon(true);
             }
         };
-
+    
         requestAnimationFrame(animateSpin);
     };
-
 
     const handleClaimOffer = async () => {
         try {
