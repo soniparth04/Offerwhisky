@@ -269,4 +269,20 @@ router.get("/test-session", (req, res) => {
     }
 });
 
+router.get("/:ownerId", async (req, res) => {
+    const { ownerId } = req.params;
+
+    try {
+        const owner = await Owner.findById(ownerId);
+        if (!owner) {
+            return res.status(404).json({ message: "Owner not found" });
+        }
+
+        res.json({ shopName: owner.shopName }); // ✅ Return shop name
+    } catch (error) {
+        console.error("Error fetching owner details:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 export default router;

@@ -11,6 +11,24 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [flashMessage, setFlashMessage] = useState("");
+    const [shopName, setShopName] = useState("");
+
+    // 🔹 Fetch shop name based on ownerId
+    useEffect(() => {
+        const fetchShopDetails = async () => {
+            try {
+                const response = await axios.get(`https://offerwhisky.onrender.com/api/user/${ownerId}`);
+                setShopName(response.data.shopName || "Unknown Shop"); // ✅ Set shop name
+            } catch (error) {
+                console.error("Error fetching shop details", error);
+                setShopName("Unknown Shop"); // Default if shop not found
+            }
+        };
+
+        if (ownerId) {
+            fetchShopDetails();
+        }
+    }, [ownerId]);
 
     // 🔹 Display flash message if passed via navigation state
     useEffect(() => {
@@ -26,23 +44,23 @@ const Login = () => {
             setFlashMessage("Please enter both phone number and password.");
             return;
         }
-    
+
         setLoading(true);
         setFlashMessage(""); // Clear previous messages
-    
+
         try {
             const response = await axios.post(
                 `https://offerwhisky.onrender.com/api/user/login/${ownerId}`,
                 { phone, password },
                 { withCredentials: true }
             );
-    
+
             if (response.status === 200) {
                 navigate(`/spinner/${ownerId}`);
             }
         } catch (error) {
             console.error("Login request failed", error);
-    
+
             if (error.response) {
                 if (error.response.status === 404) {
                     setFlashMessage("Invalid phone number. Please check and try again.");
@@ -58,7 +76,7 @@ const Login = () => {
             setLoading(false);
         }
     };
-    
+
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -70,7 +88,7 @@ const Login = () => {
                     </div>
                 )}
 
-                <h1 className="text-center text-2xl font-bold mb-6">Welcome to Wow Hair</h1>
+                <h1 className="text-center text-2xl font-bold mb-6">Welcome to {shopName}</h1>
                 <h2 className="text-xl font-bold mb-4">Login as Customer</h2>
 
                 <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
