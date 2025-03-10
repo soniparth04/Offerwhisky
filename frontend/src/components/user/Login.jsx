@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
-    const { ownerId } = useParams(); // 🔹 Get ownerId from URL
+    const { ownerId, shopName } = useParams(); // 🔹 Get ownerId from URL
     const navigate = useNavigate();
     const location = useLocation(); // 🔹 Get location state for flash message
 
