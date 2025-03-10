@@ -34,7 +34,7 @@ const OwnerRegistration = () => {
             });
 
             setSuccess("Owner registered successfully!");
-            setTimeout(() => navigate("/owner-dashboard"), 1000);
+            setTimeout(() => navigate("/shop-owner-dashboard"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
         }
@@ -62,7 +62,7 @@ const OwnerRegistration = () => {
 
             <p className="text-center mt-4 text-sm">
                 Already have an account?{" "}
-                <Link to="/owner-login" className="text-blue-500 hover:underline">
+                <Link to="/shop-owner-login" className="text-blue-500 hover:underline">
                     Click here to login
                 </Link>
             </p>

@@ -38,7 +38,7 @@ const OwnerDashboard = () => {
                 <div className="max-w-screen-xl mx-auto flex items-center justify-between p-4">
 
                     <div className="flex space-x-6 ml-auto">
-                        <Link to="/add-offer" className="text-blue-500 hover:text-blue-700">Add new Offer</Link>
+                        <Link to="/shop-owner/add-offer" className="text-blue-500 hover:text-blue-700">Add new Offer</Link>
                         <button
                             onClick={handleLogout}
                             className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
@@ -62,12 +62,12 @@ const OwnerDashboard = () => {
 
             <div className="container mx-auto mt-10">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <Link to="/view-offers" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                    <Link to="/shop-owner/view-offers" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
                         <div className="text-center">
                             <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Offers</h5>
                         </div>
                     </Link>
-                    <Link to="/view-users" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                    <Link to="/shop-owner/view-users" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
                         <div className="text-center">
                             <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Users</h5>
                         </div>

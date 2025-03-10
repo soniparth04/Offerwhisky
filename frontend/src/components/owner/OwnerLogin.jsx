@@ -19,7 +19,7 @@ const OwnerLogin = () => {
             );
 
             console.log("Login response:", response.data);
-            navigate("/owner-dashboard");
+            navigate("/shop-owner-dashboard");
         } catch (error) {
             console.error("Login failed:", error);
             alert("Invalid credentials!");
@@ -55,7 +55,7 @@ const OwnerLogin = () => {
                 {message && <p className="mt-2 text-red-500">{message}</p>}
                 <p className="text-center mt-4 text-sm">
                     Don't have an account?{" "}
-                    <Link to="/owner-registration" className="text-blue-500 hover:underline">
+                    <Link to="/shop-owner-registration" className="text-blue-500 hover:underline">
                         Click here to Registration
                     </Link>
                 </p>

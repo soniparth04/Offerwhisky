@@ -24,15 +24,15 @@ function App() {
         <Route path="/signup/:ownerId" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/spinner/:ownerId" element={<Spinner />} />
-        <Route path="/owner-dashboard" element={<OwnerDashboard />} />
-        <Route path="/view-users" element={ <ViewUser/>}/>
-        <Route path="/view-offers" element={ <ViewOffers />} />
+        <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
+        <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
+        <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
         <Route path="/add-offer" element={<AddOffer />} />
         <Route path="/edit-offer/:id" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
         <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
-        <Route path = "/owner-registration" element={<OwnerRegistration/>}/>
-        <Route path="/owner-login" element={<OwnerLogin/>}/>
+        <Route path = "/shop-owner-registration" element={<OwnerRegistration/>}/>
+        <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/generate-link" element={<GenerateLink />} />
       </Routes>
