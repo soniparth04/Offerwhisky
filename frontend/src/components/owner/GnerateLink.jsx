@@ -5,7 +5,9 @@ import { QRCodeCanvas } from "qrcode.react"; // ✅ Correct import
 const GenerateLink = () => {
     const location = useLocation();
     const ownerId = location.state?.ownerId || "";
-    const loginLink = `${window.location.origin}/login/${ownerId}`;
+    const shopName = location.state?.shopName || "defaultShop"; // Ensure shopName is defined
+
+    const loginLink = `${window.location.origin}/login/${shopName}/${ownerId}`;
 
     const handleCopyLink = () => {
         navigator.clipboard.writeText(loginLink);
@@ -17,7 +19,7 @@ const GenerateLink = () => {
         const pngUrl = canvas.toDataURL("image/png");
         const downloadLink = document.createElement("a");
         downloadLink.href = pngUrl;
-        downloadLink.download = `QR_${ownerId}.png`;
+        downloadLink.download = `QR_${shopName}_${ownerId}.png`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
@@ -32,7 +34,7 @@ const GenerateLink = () => {
             </button>
 
             {/* QR Code Section */}
-            {ownerId && (
+            {ownerId && shopName && (
                 <div className="mt-6 flex flex-col items-center">
                     <QRCodeCanvas id="qrCode" value={loginLink} size={200} />
                     <button

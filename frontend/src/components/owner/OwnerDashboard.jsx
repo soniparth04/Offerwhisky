@@ -82,7 +82,7 @@ const OwnerDashboard = () => {
             <div className="mt-6 text-center">
                 <p className="font-semibold">Generate User Login Link:</p>
                 <button
-                    onClick={() => navigate('/generate-link', { state: { ownerId } })}
+                    onClick={() => navigate('/generate-link', { state: { ownerId, shopName } })}
                     className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 mt-2"
                 >
                     Generate Link

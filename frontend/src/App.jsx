@@ -20,10 +20,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login/:ownerId" element={<Login />} />
-        <Route path="/signup/:ownerId" element={<Signup />} />
+        <Route path="/login/:shopName/:ownerId" element={<Login />} />
+        <Route path="/signup/:shopName/:ownerId" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
-        <Route path="/spinner/:ownerId" element={<Spinner />} />
+        <Route path="/spinner/:shopName/:ownerId" element={<Spinner />} />
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
         <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />

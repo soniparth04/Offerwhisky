@@ -11,7 +11,7 @@ import Navbar from "./Navbar";
 Chart.register(ArcElement, ChartDataLabels);
 
 const Spinner = () => {
-    const { ownerId } = useParams(); // 🔹 Get ownerId from URL
+    const { ownerId , shopName } = useParams(); 
     const [segments, setSegments] = useState([]);
     const [currentOffer, setCurrentOffer] = useState("Spin the wheel!");
     const [showCoupon, setShowCoupon] = useState(false);
@@ -25,14 +25,14 @@ const Spinner = () => {
                 if (!response.data.user) {
                     navigate(`/login/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
                 } else {
-                    axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${ownerId}`, { withCredentials: true })
+                    axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${shopName}/${ownerId}`, { withCredentials: true })
                         .then(response => setSegments(response.data))
                         .catch(error => console.error("Error fetching spinner data", error));
                 }
             })
             .catch(error => {
                 console.error("Error checking session:", error);
-                navigate(`/login/${ownerId}`, { state: { flashMessage: "Session check failed. Please log in." } });
+                navigate(`/login/${shopName}/${ownerId}`, { state: { flashMessage: "Session check failed. Please log in." } });
             });
     }, [ownerId]);
 

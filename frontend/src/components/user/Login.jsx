@@ -11,24 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [flashMessage, setFlashMessage] = useState("");
-    const [shopName, setShopName] = useState("");
 
-    // 🔹 Fetch shop name based on ownerId
-    useEffect(() => {
-        const fetchShopDetails = async () => {
-            try {
-                const response = await axios.get(`https://offerwhisky.onrender.com/api/user/${ownerId}`);
-                setShopName(response.data.shopName || "Unknown Shop"); // ✅ Set shop name
-            } catch (error) {
-                console.error("Error fetching shop details", error);
-                setShopName("Unknown Shop"); // Default if shop not found
-            }
-        };
-
-        if (ownerId) {
-            fetchShopDetails();
-        }
-    }, [ownerId]);
 
     // 🔹 Display flash message if passed via navigation state
     useEffect(() => {
@@ -50,13 +33,13 @@ const Login = () => {
 
         try {
             const response = await axios.post(
-                `https://offerwhisky.onrender.com/api/user/login/${ownerId}`,
+                `https://offerwhisky.onrender.com/api/user/login/${shopName}/${ownerId}`,
                 { phone, password },
                 { withCredentials: true }
             );
 
             if (response.status === 200) {
-                navigate(`/spinner/${ownerId}`);
+                navigate(`/spinner/${shopName}/${ownerId}`);
             }
         } catch (error) {
             console.error("Login request failed", error);
@@ -120,7 +103,7 @@ const Login = () => {
                 </button>
                 <p className="text-center mt-4 text-sm">
                     Don't have an account?{" "}
-                    <Link to={`/signup/${ownerId}`} className="text-blue-500 hover:underline">
+                    <Link to={`/signup/${shopName}/${ownerId}`} className="text-blue-500 hover:underline">
                         Click here to sign up
                     </Link>
                 </p>

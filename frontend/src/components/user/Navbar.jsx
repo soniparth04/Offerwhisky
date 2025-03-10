@@ -13,7 +13,7 @@ const Navbar = () => {
 
             // Redirect to the correct login route
             if (ownerId) {
-                navigate(`/login/${ownerId}`);
+                navigate(`/login/${shopName}/${ownerId}`);
             } else {
                 navigate("/"); // Fallback in case ownerId is missing
             }

@@ -14,7 +14,7 @@ const isAuthenticated = (req, res, next) => {
     next();
 };
 
-router.post('/signup/:ownerId', async (req, res) => {
+router.post('/signup/:shopName/:ownerId', async (req, res) => {
     const { name, phone, password } = req.body;
     const { ownerId } = req.params; // Get ownerId from URL
 
@@ -61,7 +61,7 @@ router.post('/signup/:ownerId', async (req, res) => {
 });
 
 
-router.post('/login/:ownerId', async (req, res) => {
+router.post('/login/:shopName/:ownerId', async (req, res) => {
     const { phone, password } = req.body;
     const { ownerId } = req.params;
 
@@ -183,7 +183,7 @@ router.post('/login/:ownerId', async (req, res) => {
 
 
 // Fetch offers for a specific owner
-router.get("/spinner/:ownerId", async (req, res) => {
+router.get("/spinner/:shopName/:ownerId", async (req, res) => {
     const { ownerId } = req.params;
 
     try {

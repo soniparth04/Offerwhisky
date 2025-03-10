@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const Signup = () => {
-    const { ownerId } = useParams(); // Get ownerId from URL
+    const { ownerId , shopName} = useParams(); // Get ownerId from URL
     const navigate = useNavigate();
     const [user, setUser] = useState({ name: '', phone: '', password: '' });
     const [errorMessage, setErrorMessage] = useState('');
@@ -17,13 +17,13 @@ const Signup = () => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                `https://offerwhisky.onrender.com/api/user/signup/${ownerId}`, // ✅ ownerId already in URL
-                user,  // ❌ Removed redundant ownerId
-                { withCredentials: true } // ✅ Ensures session cookies are sent
+                `https://offerwhisky.onrender.com/api/user/signup/${shopName}/${ownerId}`, 
+                user,  
+                { withCredentials: true } 
             );
     
             if (response.status === 201) {
-                navigate(`/spinner/${ownerId}`); // ✅ Redirect to spinner with ownerId
+                navigate(`/spinner/${shopName}/${ownerId}`); // ✅ Redirect to spinner with ownerId
             }
         } catch (error) {
             setErrorMessage(error.response?.data?.message || 'Error signing up.');
@@ -84,7 +84,7 @@ const Signup = () => {
                     </button>
                     <p className="text-center mt-4 text-sm">
                 Already have an account?{" "}
-                <Link to={`/login/${ownerId}`} className="text-blue-500 hover:underline">
+                <Link to={`/login/${shopName}/${ownerId}`} className="text-blue-500 hover:underline">
                     Click here to login
                 </Link>
             </p>
