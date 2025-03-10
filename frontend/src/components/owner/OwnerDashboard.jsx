@@ -25,7 +25,7 @@ const OwnerDashboard = () => {
     const handleLogout = async () => {
         try {
             await axios.post("https://offerwhisky.onrender.com/api/owner/owner-logout", {}, { withCredentials: true });
-            navigate("/owner-login"); // Redirect to login page
+            navigate("/shop-owner-login"); // Redirect to login page
         } catch (error) {
             console.error("Logout failed:", error);
         }
