@@ -30,11 +30,13 @@ function App() {
         <Route path="/add-offer" element={<AddOffer />} />
         <Route path="/edit-offer/:id" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
         <Route path = "/shop-owner-registration" element={<OwnerRegistration/>}/>
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/generate-link" element={<GenerateLink />} />
+
+        <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
+
       </Routes>
     </Router>
   );
