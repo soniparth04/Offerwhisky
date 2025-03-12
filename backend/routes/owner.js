@@ -236,27 +236,30 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 });
 
 
-// ✅ Get offer by ID for editing
-router.get("/edit-offer/:id", async (req, res) => {
+// ✅ Fetch Single Offer by ID
+router.get("/view-offer/:id", authenticateOwner, async (req, res) => {
     try {
-        const offer = await Coupon.findById(req.params.id);
+        const offer = await Coupon.findOne({ _id: req.params.id, ownerId: req.ownerId });
         if (!offer) {
             return res.status(404).json({ message: "Offer not found" });
         }
         res.json(offer);
-    } catch (err) {
-        console.error("Error fetching offer:", err);
-        res.status(500).json({ message: "Error fetching offer details" });
+    } catch (error) {
+        console.error("[View Single Offer] Error:", error);
+        res.status(500).json({ message: "Error fetching offer" });
     }
 });
 
-// ✅ Update an offer
-router.put("/update-offer/:id", async (req, res) => {
+// ✅ Update Offer
+router.put("/edit-offer/:id", authenticateOwner, async (req, res) => {
     try {
         const { label, description, expiryDate } = req.body;
+        if (!label || !description || !expiryDate) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
 
-        const updatedOffer = await Coupon.findByIdAndUpdate(
-            req.params.id,
+        const updatedOffer = await Coupon.findOneAndUpdate(
+            { _id: req.params.id, ownerId: req.ownerId },
             { label, description, expiryDate },
             { new: true }
         );
@@ -265,9 +268,9 @@ router.put("/update-offer/:id", async (req, res) => {
             return res.status(404).json({ message: "Offer not found" });
         }
 
-        res.json(updatedOffer);
-    } catch (err) {
-        console.error("Error updating offer:", err);
+        res.json({ message: "Offer updated successfully!", updatedOffer });
+    } catch (error) {
+        console.error("[Edit Offer] Error:", error);
         res.status(500).json({ message: "Error updating offer" });
     }
 });
