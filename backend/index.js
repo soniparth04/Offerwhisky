@@ -66,9 +66,10 @@ app.get('/api/test-session', (req, res) => {
 // Example route for user signup
 import userRoutes from './routes/user.js';
 import ownerRoutes from './routes/owner.js';
-
+const adminRoutes = require("./routes/admin")
 app.use('/api/user', userRoutes); // Prefix API routes with /api
 app.use("/api/owner", ownerRoutes);
+app.use('/api/admin', adminRoutes);
 
 app.use(express.static(path.join(_dirname, "/frontend/dist")));
 app.get("*", (req, res) => {
