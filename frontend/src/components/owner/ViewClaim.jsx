@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
+import BackButtonNav from './BackButton';
 
 const ViewClaim = () => {
     const { userId } = useParams();
@@ -42,7 +42,8 @@ const ViewClaim = () => {
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto mt-10 ml-2">
+        <div className="container mx-auto">
+            <BackButtonNav/>
             <h1 className="text-2xl font-bold mb-4 ml-2">Claimed Offers</h1>
             {offers.length > 0 ? (
                 <ul className="list-none pl-5 ">

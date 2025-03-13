@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import BackButtonNav from './BackButton';
 
 const ViewUser = () => {
     const [users, setUsers] = useState([]);
@@ -31,7 +32,8 @@ const ViewUser = () => {
     if (error) return <p className="text-center text-red-500">{error}</p>;
 
     return (
-        <div className="container mx-auto mt-10 ">
+        <div className="container mx-auto ">
+            <BackButtonNav/>
             <h1 className="text-2xl font-bold mb-4">All Users</h1>
             <table className="w-full border-collapse border border-gray-300 ml-4 mr-4">
                 <thead>
