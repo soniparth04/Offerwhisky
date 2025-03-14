@@ -49,17 +49,23 @@ const Spinner = () => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             tooltip: false,
             legend: { display: false },
             datalabels: {
                 color: "#fff",
-                font: { size: 9 },
-                formatter: (value, context) => context.chart.data.labels[context.dataIndex],
-            },
-        },
+                font: { size: 10 }, // 🔹 Decreased font size
+                formatter: (value, context) => {
+                    const label = context.chart.data.labels[context.dataIndex];
+                    return label.length > 12 ? label.substring(0, 12) + "..." : label; // Truncate long labels
+                },
+                anchor: "center",
+                align: "center",
+            }
+        }
     };
-
+    
     const handleSpin = () => {
         if (segments.length === 0) return alert("No offers available!");
     
