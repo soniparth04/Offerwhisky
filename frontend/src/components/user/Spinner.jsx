@@ -104,7 +104,10 @@ const Spinner = () => {
             if (progress < 1) {
                 requestAnimationFrame(animateSpin);
             } else {
-                setWonOffer(segmentLabels[randomSegmentIndex]);
+                const finalAngle = (winningAngle % 360);
+                const correctedIndex = Math.floor((360 - finalAngle) / segmentAngle) % totalSegments;
+    
+                setWonOffer(segmentLabels[correctedIndex]); // 🔥 Ensuring the correct segment is selected
                 setShowCoupon(true);
             }
         };
