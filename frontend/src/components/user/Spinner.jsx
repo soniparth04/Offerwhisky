@@ -63,6 +63,14 @@ const Spinner = () => {
                 },
                 anchor: "center",
                 align: "center",
+                rotation: (context) => {
+                    let angle = context.chart.getDatasetMeta(0).data[context.dataIndex].startAngle + 
+                                context.chart.getDatasetMeta(0).data[context.dataIndex].endAngle;
+                    angle = (angle / 2) * (180 / Math.PI); // Convert to degrees
+                    return angle > 90 && angle < 270 ? angle + 180 : angle; // Flip if upside down
+                },
+                textAlign: "center",
+    
             }
         }
     };
