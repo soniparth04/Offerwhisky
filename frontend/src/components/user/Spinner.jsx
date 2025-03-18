@@ -55,11 +55,11 @@ const Spinner = () => {
             tooltip: false,
             legend: { display: false },
             datalabels: {
-                color: "#fff",
+                color: "#000",
                 font: { size: 10 }, // 🔹 Decreased font size
                 formatter: (value, context) => {
                     const label = context.chart.data.labels[context.dataIndex];
-                    return label.length > 12 ? label.substring(0, 12) + "..." : label; // Truncate long labels
+                    return label.length > 14 ? label.substring(0, 15) + "..." : label; // Truncate long labels
                 },
                 anchor: "center",
                 align: "center",
