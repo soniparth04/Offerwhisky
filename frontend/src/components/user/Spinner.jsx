@@ -6,6 +6,7 @@ import { ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import arrow from "../../assets/spinner/arrow.png";
+import playbutton from "../../assets/spinner/playbutton.png";
 import Navbar from "./Navbar";
 
 Chart.register(ArcElement, ChartDataLabels);
@@ -78,7 +79,8 @@ const Spinner = () => {
         const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800; 
         
         let startAngle = 0;
-        const duration = 5000; // 5 seconds
+        const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000; 
+        console.log(`Spin duration: ${duration}ms`);     
         const startTime = Date.now();
     
         const animateSpin = () => {
@@ -143,9 +145,9 @@ const Spinner = () => {
                     </div>
                     <button
                         onClick={handleSpin}
-                        className="absolute w-20 h-20 bg-gradient-to-r from-orange-500 to-yellow-500 text-black font-bold uppercase rounded-full shadow-lg hover:bg-yellow-500 transition"
+                        className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg  transition"
                     >
-                        Spin
+                        <img src={playbutton}  />
                     </button>
                 </div>
                 {showCoupon && (
