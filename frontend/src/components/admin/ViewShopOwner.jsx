@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import BackButtonNav from "../owner/BackButton"
 
 const ViewShopOwner = () => {
 
@@ -18,7 +19,8 @@ const ViewShopOwner = () => {
     }, []);
 
     return (
-       <div className="container max-auto mt-10">
+        <div className="container max-auto">
+        <BackButtonNav/>
             <h2 className="text-2xl font-bold mb-4">All Shop Owners</h2>
             <table className="w-full border-collapse border border-gray-300 ml-4 mr-4">
                 <thead>
