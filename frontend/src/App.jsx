@@ -16,6 +16,7 @@ import OwnerLogin from "./components/owner/OwnerLogin";
 import ForgotPassword from "./components/owner/ForgotPassword";
 import GenerateLink from "./components/owner/GnerateLink";
 import ViewShopOwner from "./components/admin/ViewShopOwner";
+import ViewShopUser from "./components/admin/ViewShopUser";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
+        <Route path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId" element={<ViewShopUser />} />
 
       </Routes>
     </Router>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import BackButtonNav from "../owner/BackButton"
+import { Link } from "react-router-dom";
 
 const ViewShopOwner = () => {
 
@@ -9,9 +10,9 @@ const ViewShopOwner = () => {
         const fetchOwners = async () => {
             try {
                 const response = await fetch("https://offerwhisky.onrender.com/api/admin/view-owner");
-                const data =await response.json();
+                const data = await response.json();
                 setOwners(data);
-            }catch (error){
+            } catch (error) {
                 console.error("Error fetching owners:", error);
             }
         };
@@ -20,7 +21,7 @@ const ViewShopOwner = () => {
 
     return (
         <div className="container max-auto">
-        <BackButtonNav/>
+            <BackButtonNav />
             <h2 className="text-2xl font-bold mb-4">All Shop Owners</h2>
             <table className="w-full border-collapse border border-gray-300 ml-4 mr-4">
                 <thead>
@@ -31,17 +32,18 @@ const ViewShopOwner = () => {
                 </thead>
                 <tbody>
                     {owners.length > 0 ? (
-                        owners.map((owner , index) => (
+                        owners.map((owner, index) => (
                             <tr key={owner._id}>
-                                <td className="border p-2 text-center" > {index + 1 }</td>
-                                <td className="border p-2 " > <strong>Name:- </strong> 
-                                {owner.name} <br /> 
-                                <strong> Phone:-</strong> {owner.phone} <br /> 
-                                <strong> shopName:- </strong> {owner.shopName} <br /> 
-                                <strong> Email id:- </strong> {owner.email} <br /> 
-                                <strong> City:- </strong> {owner.city} <br /> 
-                                <strong> state:- </strong> {owner.state} <br /> 
-                                <strong> Country:- </strong> {owner.country} <br /> 
+                                <td className="border p-2 text-center" > {index + 1}</td>
+                                <td className="border p-2 " > <strong>Name:- </strong>
+                                    {owner.name} <br />
+                                    <strong> Phone:-</strong> {owner.phone} <br />
+                                    <strong> shopName:- </strong> {owner.shopName} <br />
+                                    <strong> Email id:- </strong> {owner.email} <br />
+                                    <strong> City:- </strong> {owner.city} <br />
+                                    <strong> state:- </strong> {owner.state} <br />
+                                    <strong> Country:- </strong> {owner.country} <br />
+                                    <Link to={`/Offeerwhisky-admin/viewshopowner/viewusers/${owner._id}`} className="text-blue-500 underline">View Users</Link>
                                 </td>
                             </tr>
                         ))
@@ -53,7 +55,7 @@ const ViewShopOwner = () => {
                 </tbody>
 
             </table>
-            
+
         </div>
     )
 }
