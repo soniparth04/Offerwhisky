@@ -146,8 +146,8 @@ const Spinner = () => {
     return (
         <div>
             <Navbar />
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800 relative">
-                <div className="absolute top-[100px] left-1/2 transform -translate-x-1/2 text-lg font-bold text-gray-900">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
+                <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">
                     {currentOffer}
                 </div>
                 <div className="relative w-72 h-72 flex items-center justify-center">
