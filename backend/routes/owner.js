@@ -353,5 +353,20 @@ router.get("/users/:ownerId", async (req, res) => {
     }
 });
 
+router.delete("/users/:userId/claimed-offers/:offerId", async (req, res) => {
+    const { userId, offerId } = req.params;
+    try {
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        user.claimedOffers = user.claimedOffers.filter(offer => offer._id.toString() !== offerId);
+        await user.save();
+
+        res.json({ message: "Offer deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+});
+
 
 export default router;

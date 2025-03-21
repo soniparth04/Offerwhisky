@@ -36,7 +36,16 @@ const ViewClaim = () => {
         fetchOffers();
     }, [userId]);
     
-    
+    const handleDelete = async (offerId) => {
+        if (!window.confirm("Are you sure you want to delete this offer?")) return;
+
+        try {
+            await axios.delete(`https://offerwhisky.onrender.com/api/owner/users/${userId}/claimed-offers/${offerId}`);
+            setOffers(prevOffers => prevOffers.filter(offer => offer._id !== offerId));
+        } catch (err) {
+            alert("Error deleting offer");
+        }
+    };
 
     if (loading) return <p className="text-center">Loading...</p>;
     if (error) return <p className="text-center text-red-500">{error}</p>;
@@ -52,7 +61,7 @@ const ViewClaim = () => {
                             <strong>Offer:-</strong>{offer.label} <br />
                             <strong>Description</strong> {offer.description} <br />
                             <p className='font-semibold'>(Claimed on: {new Date(offer.claimedAt).toLocaleDateString()})</p>
-                            <button className="bg-red-500 text-white px-3 py-1 rounded mb-2">delete</button> 
+                            <button onClick={() => handleDelete(offer._id)} className="bg-red-500 text-white px-3 py-1 rounded mb-2">Remove</button> 
                             <hr />
                         </li>
                     ))}
