@@ -141,7 +141,7 @@ const Spinner = () => {
         <div>
             <Navbar />
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
-                <button onClick={handleViewOffers} className="absolute top-5 right-5 text-white text-3xl">
+                <button  className="absolute top-5 right-5 text-white text-3xl">
                     <Bell size={28} />
                 </button>
                 <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">
