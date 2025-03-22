@@ -285,4 +285,26 @@ router.get("/:ownerId", async (req, res) => {
     }
 });
 
+router.get("/user-offers/:shopName/:ownerId", async (req, res) => {
+    if (!req.session.user || !req.session.user.userId) {
+        return res.status(401).json({ message: "Unauthorized: No user session found" });
+    }
+
+    const { shopName, ownerId } = req.params;
+    const userId = req.session.user.userId; // ✅ Fetch correct userId
+
+    try {
+        const user = await User.findOne({ _id: userId, ownerId });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found or unauthorized" });
+        }
+
+        res.json({ claimedOffers: user.claimedOffers });
+    } catch (error) {
+        console.error("Error fetching claimed offers:", error);
+        res.status(500).json({ message: "Server error. Please try again later." });
+    }
+});
+
 export default router;

@@ -38,6 +38,10 @@ const Spinner = () => {
             });
     }, [ownerId]);
 
+    const handleViewOffers = () => {
+        navigate(`/user-offers/${shopName}/${ownerId}`);
+    };
+
     const segmentLabels = segments.map(segment => segment.label);
     const segmentColors = ["#FF5733", "#33FF57", "#3357FF", "#FFC300", "#8E44AD", "#FF33A1"];
 
@@ -140,7 +144,7 @@ const Spinner = () => {
         <div>
             <Navbar />
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
-                <button  className="absolute top-5 right-5 text-white text-3xl">
+                <button onClick={handleViewOffers} className="absolute top-5 right-5 text-white text-3xl">
                     <Bell size={28} />
                 </button>
                 <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">

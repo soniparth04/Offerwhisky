@@ -17,6 +17,7 @@ import ForgotPassword from "./components/owner/ForgotPassword";
 import GenerateLink from "./components/owner/GnerateLink";
 import ViewShopOwner from "./components/admin/ViewShopOwner";
 import ViewShopUser from "./components/admin/ViewShopUser";
+import UserOffer from "./components/user/UserOffer";
 
 function App() {
   return (
@@ -26,6 +27,8 @@ function App() {
         <Route path="/signup/:shopName/:ownerId" element={<Signup />} />
         <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/spinner/:shopName/:ownerId" element={<Spinner />} />
+        <Route path="/user-offers/:shopName/:ownerId" element={<UserOffer />} />
+        
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
         <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
