@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"; 
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 const UserOffer = () => {
     const { shopName, ownerId } = useParams();
     const [claimedOffers, setClaimedOffers] = useState([]);
+    const [timeLeft, setTimeLeft] = useState({}); // Store timers for each offer
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,6 +19,13 @@ const UserOffer = () => {
 
                 console.log("Fetched Claimed Offers:", response.data.claimedOffers);
                 setClaimedOffers(response.data.claimedOffers);
+
+                // Initialize countdown timers for each offer
+                const initialTimers = {};
+                response.data.claimedOffers.forEach(offer => {
+                    initialTimers[offer._id] = calculateTimeLeft(offer.expiry);
+                });
+                setTimeLeft(initialTimers);
             } catch (error) {
                 console.error("Error fetching claimed offers:", error);
             }
@@ -26,6 +34,33 @@ const UserOffer = () => {
         fetchClaimedOffers();
     }, [shopName, ownerId]);
 
+    // Function to calculate remaining time
+    const calculateTimeLeft = (expiry) => {
+        const difference = new Date(expiry) - new Date();
+        if (difference <= 0) return "Expired";
+
+        const hours = Math.floor(difference / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+        return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    };
+
+    // Update all countdown timers every second
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTimeLeft(prevTimers => {
+                const updatedTimers = {};
+                claimedOffers.forEach(offer => {
+                    updatedTimers[offer._id] = calculateTimeLeft(offer.expiry);
+                });
+                return updatedTimers;
+            });
+        }, 1000);
+
+        return () => clearInterval(timer); // Cleanup interval on unmount
+    }, [claimedOffers]);
+
     return (
         <div>
             <Navbar />
@@ -33,10 +68,20 @@ const UserOffer = () => {
                 <h2 className="text-2xl font-bold mb-4">Your Offers</h2>
                 {claimedOffers.length > 0 ? (
                     <ul className="bg-white p-4 rounded-lg shadow-md w-full max-w-md">
-                        {claimedOffers.map((offer, index) => (
-                            <li key={index} className="border-b py-2 text-center">
-                                <strong> {offer.label} </strong> <br />
-                                {offer.description}
+                        {claimedOffers.map((offer) => (
+                            <li 
+                                key={offer._id} 
+                                className={`border-b py-2 text-center ${timeLeft[offer._id] === "Expired" ? "text-red-500" : "text-black"}`}
+                            >
+                                <strong>{offer.label}</strong> <br />
+                                {offer.description} <br />
+                                <span className="text-sm">
+                                    {timeLeft[offer._id] === "Expired" ? (
+                                        <span className="text-red-500">Expired</span>
+                                    ) : (
+                                        <span className="text-red-600">Expires in:<strong>  {timeLeft[offer._id]}</strong></span>
+                                    )}
+                                </span>
                             </li>
                         ))}
                     </ul>
