@@ -21,11 +21,26 @@ const Spinner = () => {
     const wheelRef = useRef(null);
     const navigate = useNavigate();
 
+    const chartRef = useRef(null); // Chart reference
+
+    useEffect(() => {
+        axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${shopName}/${ownerId}`, { withCredentials: true })
+            .then(response => {
+                setSegments(response.data);
+                setTimeout(() => {
+                    if (chartRef.current) {
+                        chartRef.current.update(); // 🔄 Force a chart update
+                    }
+                }, 500); // Delay to let Chart.js fully initialize
+            })
+            .catch(error => console.error("Error fetching spinner data", error));
+    }, [ownerId, shopName]);
+
     useEffect(() => {
         axios.get("https://offerwhisky.onrender.com/api/user/test-session", { withCredentials: true })
             .then(response => {
                 if (!response.data.user) {
-                    navigate(`/login/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
+                    navigate(`/login/${shopName}/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
                 } else {
                     axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${shopName}/${ownerId}`, { withCredentials: true })
                         .then(response => setSegments(response.data))
@@ -153,7 +168,7 @@ const Spinner = () => {
                 <div className="relative w-72 h-72 flex items-center justify-center">
                     <img src={arrow} className="rotate-180 h-16 absolute top-[-30px] z-10" />
                     <div ref={wheelRef} className="relative w-full h-full">
-                        <Pie data={data} options={options} />
+                    <Pie ref={chartRef} data={data} options={options} />
                     </div>
                     <button
                         onClick={handleSpin}
