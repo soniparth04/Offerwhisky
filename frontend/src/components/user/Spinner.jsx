@@ -5,6 +5,7 @@ import Chart from "chart.js/auto";
 import { ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+import { Bell } from "lucide-react";
 import arrow from "../../assets/spinner/arrow.png";
 import playbutton from "../../assets/spinner/playbutton.png";
 import Navbar from "./Navbar";
@@ -12,7 +13,7 @@ import Navbar from "./Navbar";
 Chart.register(ArcElement, ChartDataLabels);
 
 const Spinner = () => {
-    const { ownerId , shopName } = useParams(); 
+    const { ownerId, shopName } = useParams();
     const [segments, setSegments] = useState([]);
     const [currentOffer, setCurrentOffer] = useState("Spin the wheel!");
     const [showCoupon, setShowCoupon] = useState(false);
@@ -64,89 +65,85 @@ const Spinner = () => {
                 anchor: "center",
                 align: "center",
                 rotation: (context) => {
-                    let angle = context.chart.getDatasetMeta(0).data[context.dataIndex].startAngle + 
-                                context.chart.getDatasetMeta(0).data[context.dataIndex].endAngle;
+                    let angle = context.chart.getDatasetMeta(0).data[context.dataIndex].startAngle +
+                        context.chart.getDatasetMeta(0).data[context.dataIndex].endAngle;
                     angle = (angle / 2) * (180 / Math.PI); // Convert to degrees
                     return angle > 90 && angle < 270 ? angle + 180 : angle; // Flip if upside down
                 },
                 textAlign: "center",
-    
+
             }
         }
     };
-    
+
     const handleSpin = () => {
         if (segments.length === 0) return alert("No offers available!");
-    
+
         const totalSegments = segmentLabels.length;
         const segmentAngle = 360 / totalSegments;
         const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
-        
-        // 🔹 Introduce a random offset (0 to segmentAngle) to land anywhere
-        const randomOffset = Math.random() * segmentAngle; 
-        const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800; 
-        
+        const randomOffset = Math.random() * segmentAngle;
+        const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800;
+
         let startAngle = 0;
-        const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000; 
-        console.log(`Spin duration: ${duration}ms`);     
+        const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000;
+        console.log(`Spin duration: ${duration}ms`);
         const startTime = Date.now();
-    
+
         const animateSpin = () => {
             const elapsedTime = Date.now() - startTime;
             const progress = Math.min(elapsedTime / duration, 1);
-            const easing = (1 - Math.pow(1 - progress, 3)); // Smooth animation
+            const easing = (1 - Math.pow(1 - progress, 3));
             const currentAngle = startAngle + easing * (winningAngle - startAngle);
-    
+
             if (wheelRef.current) {
                 wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
             }
-    
+
             if (progress < 1) {
                 requestAnimationFrame(animateSpin);
             } else {
-                // 🔹 Calculate the actual winning segment based on final angle
                 const finalAngle = (winningAngle % 360);
                 const correctedIndex = Math.floor((360 - finalAngle) / segmentAngle) % totalSegments;
-    
-                setWonOffer(segmentLabels[correctedIndex]); // 🔥 Ensuring the correct segment is selected
+                const selectedOffer = segmentLabels[correctedIndex];
+
+                setWonOffer(selectedOffer);
                 setShowCoupon(true);
+
+                // Automatically claim the offer
+                claimOffer(selectedOffer);
             }
         };
-    
+
         requestAnimationFrame(animateSpin);
     };
 
-    const handleClaimOffer = async () => {
+    const claimOffer = async (offerLabel) => {
         try {
             if (!ownerId) {
-                console.error("Owner ID is missing!");
                 alert("Owner ID is missing. Please use the correct link.");
                 return;
             }
 
-            console.log("Sending claim request with:", { ownerId, offerLabel: wonOffer });
-
             const response = await axios.post(
-                `https://offerwhisky.onrender.com/api/user/claim-offer/${ownerId}`, // Use ownerId from useParams
-                { offerLabel: wonOffer },
+                `http://localhost:5000/api/user/claim-offer/${ownerId}`,
+                { offerLabel },
                 { withCredentials: true }
             );
 
-            console.log("Offer claimed successfully:", response.data);
-            alert(response.data.message);
-            setShowCoupon(false);
         } catch (error) {
             console.error("Error claiming offer:", error);
             alert("Failed to claim the offer. Please try again.");
         }
     };
 
-
-
     return (
         <div>
             <Navbar />
             <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
+                <button onClick={handleViewOffers} className="absolute top-5 right-5 text-white text-3xl">
+                    <Bell size={28} />
+                </button>
                 <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">
                     {currentOffer}
                 </div>
@@ -159,19 +156,13 @@ const Spinner = () => {
                         onClick={handleSpin}
                         className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg  transition"
                     >
-                        <img src={playbutton}  />
+                        <img src={playbutton} />
                     </button>
                 </div>
                 {showCoupon && (
                     <div className="mt-6 p-4 bg-white rounded-lg shadow-md text-center">
                         <h3 className="text-lg font-bold">Congratulations!</h3>
                         <p className="text-gray-700">You won: {wonOffer}!</p>
-                        <button
-                            onClick={handleClaimOffer}
-                            className="mt-3 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-                        >
-                            Claim Offer
-                        </button>
                     </div>
                 )}
             </div>
