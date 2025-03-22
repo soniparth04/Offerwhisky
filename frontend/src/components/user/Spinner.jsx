@@ -87,7 +87,6 @@ const Spinner = () => {
 
         let startAngle = 0;
         const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000;
-        console.log(`Spin duration: ${duration}ms`);
         const startTime = Date.now();
 
         const animateSpin = () => {
@@ -126,7 +125,7 @@ const Spinner = () => {
             }
 
             const response = await axios.post(
-                `http://localhost:5000/api/user/claim-offer/${ownerId}`,
+                `https://offerwhisky.onrender.com/api/user/claim-offer/${ownerId}`,
                 { offerLabel },
                 { withCredentials: true }
             );
