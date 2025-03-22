@@ -86,7 +86,7 @@ router.post('/login/:shopName/:ownerId', async (req, res) => {
         }
 
         // 🔹 Store user session
-        req.session.user = { phone: user.phone, ownerId: user.ownerId };
+        req.session.user = {userId: user._id, phone: user.phone, ownerId: user.ownerId };
         await req.session.save();
         console.log("User logged in, session updated:", req.session.user);
 
