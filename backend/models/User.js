@@ -17,5 +17,14 @@ const UserSchema = new mongoose.Schema({
     { timestamps: true }
 );
 
+UserSchema.pre("save", function (next) {
+    this.claimedOffers.forEach((offer) => {
+      if (!offer.expiry) {
+        offer.expiry = new Date(offer.claimedAt.getTime() + 24 * 60 * 60 * 1000); // Set expiry 24 hours later
+      }
+    });
+    next();
+  });
+
 const User = mongoose.model('User', UserSchema);
 export default User;
