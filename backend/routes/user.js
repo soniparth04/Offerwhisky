@@ -238,12 +238,6 @@ router.post("/claim-offer/:ownerId", async (req, res) => {
             return res.status(404).json({ message: "Offer not found for this owner" });
         }
 
-        // Check if the user already claimed this offer (only based on label)
-        const alreadyClaimed = user.claimedOffers.some(offer => offer.label === coupon.label);
-        if (alreadyClaimed) {
-            console.log("Offer already claimed:", coupon.label);
-            return res.status(400).json({ message: "Offer already claimed" });
-        }
 
         user.claimedOffers.push({
             label: coupon.label,
