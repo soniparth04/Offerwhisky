@@ -18,6 +18,8 @@ const Spinner = () => {
     const [currentOffer, setCurrentOffer] = useState("Spin the wheel!");
     const [showCoupon, setShowCoupon] = useState(false);
     const [wonOffer, setWonOffer] = useState("");
+    const [canSpin, setCanSpin] = useState(true);
+    const [timeLeft, setTimeLeft] = useState(0); // Time left in seconds
     const wheelRef = useRef(null);
     const navigate = useNavigate();
 
@@ -95,45 +97,112 @@ const Spinner = () => {
         }
     };
 
-    const handleSpin = () => {
-        if (segments.length === 0) return alert("No offers available!");
+    useEffect(() => {
+        const checkCooldown = async () => {
+            try {
+                const response = await fetch("https://offerwhisky.onrender.com/api/user/spin", {
+                    method: "POST",
+                    credentials: "include"
+                });
 
-        const totalSegments = segmentLabels.length;
-        const segmentAngle = 360 / totalSegments;
-        const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
-        const randomOffset = Math.random() * segmentAngle;
-        const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800;
-
-        let startAngle = 0;
-        const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000;
-        const startTime = Date.now();
-
-        const animateSpin = () => {
-            const elapsedTime = Date.now() - startTime;
-            const progress = Math.min(elapsedTime / duration, 1);
-            const easing = (1 - Math.pow(1 - progress, 3));
-            const currentAngle = startAngle + easing * (winningAngle - startAngle);
-
-            if (wheelRef.current) {
-                wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
-            }
-
-            if (progress < 1) {
-                requestAnimationFrame(animateSpin);
-            } else {
-                const finalAngle = (winningAngle % 360);
-                const correctedIndex = Math.floor((360 - finalAngle) / segmentAngle) % totalSegments;
-                const selectedOffer = segmentLabels[correctedIndex];
-
-                setWonOffer(selectedOffer);
-                setShowCoupon(true);
-
-                // Automatically claim the offer
-                claimOffer(selectedOffer);
+                const data = await response.json();
+                if (data.cooldown) {
+                    setCanSpin(false);
+                    startCountdown(data.timeLeftMs);
+                }
+            } catch (err) {
+                console.error("Cooldown check failed:", err);
             }
         };
+        checkCooldown();
+    }, []);
 
-        requestAnimationFrame(animateSpin);
+    const startCountdown = (initialTimeLeftMs) => {
+        let timeLeftMs = initialTimeLeftMs;
+
+        const interval = setInterval(() => {
+            timeLeftMs -= 1000;
+            setTimeLeft(Math.ceil(timeLeftMs / 1000));
+
+            if (timeLeftMs <= 0) {
+                clearInterval(interval);
+                setCanSpin(true);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    };
+
+    
+    const handleSpin = async () => {
+        try {
+            // 1. Check if spinning is allowed
+            const checkResponse = await fetch('https://offerwhisky.onrender.com/api/user/spin', {
+                method: 'POST',
+                credentials: 'include'
+            });
+            
+            const checkData = await checkResponse.json();
+    
+            if (checkResponse.status === 403) {
+                const secondsLeft = Math.ceil(checkData.timeLeftMs / 1000);
+                alert(`Please wait ${secondsLeft} seconds`);
+                return;
+            }
+    
+            if (segments.length === 0) return alert("No offers available!");
+    
+            // 2. Start spin animation
+            const totalSegments = segmentLabels.length;
+            const segmentAngle = 360 / totalSegments;
+            const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
+            const randomOffset = Math.random() * segmentAngle;
+            const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800;
+    
+            let startAngle = 0;
+            const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000;
+            const startTime = Date.now();
+    
+            const animateSpin = () => {
+                const elapsedTime = Date.now() - startTime;
+                const progress = Math.min(elapsedTime / duration, 1);
+                const easing = 1 - Math.pow(1 - progress, 3);
+                const currentAngle = startAngle + easing * (winningAngle - startAngle);
+    
+                if (wheelRef.current) {
+                    wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
+                }
+    
+                if (progress < 1) {
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    // 3. When animation completes:
+                    const finalAngle = (winningAngle % 360);
+                    const correctedIndex = Math.floor((360 - finalAngle) / segmentAngle) % totalSegments;
+                    const selectedOffer = segmentLabels[correctedIndex];
+    
+                    setWonOffer(selectedOffer);
+                    setShowCoupon(true);
+                    
+                    // 4. Only NOW confirm the spin
+                    fetch('https://offerwhisky.onrender.com/api/user/confirm-spin', {
+                        method: 'POST',
+                        credentials: 'include'
+                    }).then(() => {
+                        setCanSpin(false);
+                        startCountdown(60 * 1000); // Start 1 minute countdown
+                    });
+    
+                    claimOffer(selectedOffer);
+                }
+            };
+    
+            requestAnimationFrame(animateSpin);
+    
+        } catch (error) {
+            console.error("Spin error:", error);
+            alert("Failed to spin. Please try again.");
+        }
     };
 
     const claimOffer = async (offerLabel) => {
@@ -171,7 +240,6 @@ const Spinner = () => {
                     <Pie ref={chartRef} data={data} options={options} />
                     </div>
                     <button
-                        onClick={handleSpin}
                         className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg  transition"
                     >
                         <img src={playbutton} />
@@ -183,6 +251,16 @@ const Spinner = () => {
                         <p className="text-gray-700">You won: {wonOffer}!</p>
                     </div>
                 )}
+                <button
+                    onClick={handleSpin}
+                    disabled={!canSpin}
+                    className={`${canSpin
+                            ? 'bg-blue-500 hover:bg-blue-600'
+                            : 'bg-gray-400 cursor-not-allowed'
+                        } text-white text-2xl font-bold px-8 py-3 rounded-full mt-10`}
+                >
+                    {canSpin ? 'SPIN' : `   ${timeLeft}s `}
+                </button>
             </div>
         </div>
     );

@@ -5,6 +5,8 @@ const UserSchema = new mongoose.Schema({
     phone: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     ownerId: { type: mongoose.Schema.Types.ObjectId, ref: "Owner", required: true }, // 🔹 Link user to owner
+    lastSpinTime: { type: Date }, // Track last spin time
+    spinCooldown: { type: Number, default: 60 },
     claimedOffers: [
         {
             label: String,

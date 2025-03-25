@@ -307,4 +307,46 @@ router.get("/user-offers/:shopName/:ownerId", async (req, res) => {
     }
 });
 
+
+router.post('/spin', async (req, res) => {
+    try {
+        if (!req.session.user?.userId) {
+            return res.status(401).json({ error: "Not logged in" });
+        }
+
+        const user = await User.findById(req.session.user.userId);
+        if (!user) return res.status(404).json({ error: "User not found" });
+
+        // Check cooldown only (don't update lastSpinTime yet)
+        const cooldownMs = 60 * 1000; // 1 minute
+        const now = new Date();
+        
+        if (user.lastSpinTime && (now - user.lastSpinTime) < cooldownMs) {
+            const timeLeftMs = cooldownMs - (now - user.lastSpinTime);
+            return res.status(403).json({
+                cooldown: true,
+                timeLeftMs
+            });
+        }
+
+        // Return permission to spin without saving yet
+        res.json({ canSpin: true });
+
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+router.post('/confirm-spin', async (req, res) => {
+    try {
+        const user = await User.findById(req.session.user.userId);
+        user.lastSpinTime = new Date();
+        await user.save();
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 export default router;
