@@ -236,6 +236,38 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 });
 
 
+router.post('/create-offer', async (req, res) => {
+    const { title, description, discount, validTill, ownerId, isCommon } = req.body;
+  
+    try {
+      const newCommonOffer = new CommonOffer({
+        title,
+        description,
+        validTill,
+        ownerId,
+        isCommon
+      });
+  
+      const savedOffer = await newCommonOffer.save();
+      res.status(201).json(savedOffer);
+    } catch (err) {
+      console.error('Error creating offer:', err);
+      res.status(500).json({ error: 'Failed to create offer' });
+    }
+  });
+
+  // GET all common offers
+router.get('/common-offers', async (req, res) => {
+    try {
+      const offers = await CommonOffer.find({ isCommon: true });
+      res.status(200).json(offers);
+    } catch (err) {
+      console.error("Error fetching common offers:", err);
+      res.status(500).json({ error: "Failed to fetch common offers" });
+    }
+  });
+
+
 // ✅ Fetch Single Offer by ID
 router.get("/view-offer/:id", authenticateOwner, async (req, res) => {
     try {

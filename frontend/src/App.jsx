@@ -19,6 +19,8 @@ import ViewShopOwner from "./components/admin/ViewShopOwner";
 import ViewShopUser from "./components/admin/ViewShopUser";
 import UserOffer from "./components/user/UserOffer";
 import AllShops from "./components/user/AllShop";
+import AddCommonOffer from "./components/owner/AddCommonOffer";
+import ViewAllCommonOffer from "./components/owner/ViewAllCommonOffer";
 
 function App() {
   return (
@@ -41,6 +43,8 @@ function App() {
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/generate-link" element={<GenerateLink />} />
+        <Route path="/shop-owner/add-common-offer" element={<AddCommonOffer />} />
+        <Route path="/shop-owner/view-common-offers" element={<ViewAllCommonOffer />} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />

@@ -72,11 +72,22 @@ const OwnerDashboard = () => {
                             <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Users</h5>
                         </div>
                     </Link>
-                    <Link to="/redeemed" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                    <Link  className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
                         <div className="text-center">
                             <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View Redeemed Offers</h5>
                         </div>
                     </Link>
+                    <Link to="/shop-owner/add-common-offer" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">Add Common Offer</h5>
+                        </div>
+                    </Link>
+                    <Link to="/shop-owner/view-common-offers" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Common Offers</h5>
+                        </div>
+                    </Link>
+
                 </div> 
             </div>
             <div className="mt-6 text-center">
