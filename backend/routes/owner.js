@@ -4,6 +4,7 @@ import User from '../models/User.js';
 import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
+import CommonOffer from '../models/CommonOffer.js';
 const router = express.Router();
 
 
