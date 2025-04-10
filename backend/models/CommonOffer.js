@@ -10,5 +10,3 @@ const offerSchema = new mongoose.Schema({
 
 const CommonOffer = mongoose.model('CommonOffer', offerSchema);
 export default CommonOffer;
-
-module.exports = mongoose.model('CommonOffer', offerSchema);
