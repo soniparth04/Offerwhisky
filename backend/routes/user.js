@@ -198,6 +198,18 @@ router.get("/spinner/:shopName/:ownerId", async (req, res) => {
     }
 });
 
+// Get all available shops (owners)
+router.get("/all-shops", async (req, res) => {
+    try {
+        const owners = await Owner.find({}, "shopName _id city state"); // select only needed fields
+        res.json(owners); // sending array of shop owners
+    } catch (error) {
+        console.error("Error fetching all shops:", error);
+        res.status(500).json({ message: "Failed to fetch shops" });
+    }
+});
+
+
 // Example of clearing session on logout
 router.post('/logout', (req, res) => {
     req.session.destroy(err => {
