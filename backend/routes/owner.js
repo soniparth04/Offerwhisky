@@ -238,7 +238,7 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 
 
 router.post('/create-offer', async (req, res) => {
-    const { title, description, discount, validTill, ownerId, isCommon } = req.body;
+    const { title, description,  validTill, ownerId, isCommon } = req.body;
   
     try {
       const newCommonOffer = new CommonOffer({
