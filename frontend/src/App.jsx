@@ -21,7 +21,7 @@ import UserOffer from "./components/user/UserOffer";
 import AllShops from "./components/user/AllShop";
 import AddCommonOffer from "./components/owner/AddCommonOffer";
 import ViewAllCommonOffer from "./components/owner/ViewAllCommonOffer";
-import CommonOffer from "../../backend/models/CommonOffer";
+import CommonOffer from "./components/user/CommonOffer";
 
 function App() {
   return (
