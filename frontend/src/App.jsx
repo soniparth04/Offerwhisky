@@ -21,6 +21,7 @@ import UserOffer from "./components/user/UserOffer";
 import AllShops from "./components/user/AllShop";
 import AddCommonOffer from "./components/owner/AddCommonOffer";
 import ViewAllCommonOffer from "./components/owner/ViewAllCommonOffer";
+import CommonOffer from "../../backend/models/CommonOffer";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/spinner/:shopName/:ownerId" element={<Spinner />} />
         <Route path="/user-offers/:shopName/:ownerId" element={<UserOffer />} />
         <Route path="/All-shops" element={<AllShops />} />
+        <Route path="/common-offers/:ownerId" element={<CommonOffer />} />
         
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>

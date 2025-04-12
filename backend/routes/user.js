@@ -1,8 +1,9 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import User from "../models/User.js"; // ✅ Change require to import
+import User from "../models/User.js"; 
 import Coupon from "../models/Coupon.js";
-import Owner from "../models/Owner.js"; // ✅ Import the Owner model
+import Owner from "../models/Owner.js"; 
+import CommonOffer from "../models/CommonOffer.js"
 
 const router = express.Router();
 
@@ -180,7 +181,26 @@ router.post('/login/:shopName/:ownerId', async (req, res) => {
 //     }
 // });
 
+// Get all available shops (owners)
+router.get("/all-shops", async (req, res) => {
+    try {
+        const owners = await Owner.find({}, "shopName _id city state"); // select only needed fields
+        res.json(owners); // sending array of shop owners
+    } catch (error) {
+        console.error("Error fetching all shops:", error);
+        res.status(500).json({ message: "Failed to fetch shops" });
+    }
+});
 
+router.get("/common-offers/:ownerId", async (req, res) => {
+    try {
+      const offers = await CommonOffer.find({ ownerId: req.params.ownerId, isCommon: true });
+      res.status(200).json(offers);
+    } catch (error) {
+      console.error("Error fetching common offers:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
 
 // Fetch offers for a specific owner
 router.get("/spinner/:shopName/:ownerId", async (req, res) => {
@@ -197,18 +217,6 @@ router.get("/spinner/:shopName/:ownerId", async (req, res) => {
         res.status(500).json({ message: "Server error fetching offers." });
     }
 });
-
-// Get all available shops (owners)
-router.get("/all-shops", async (req, res) => {
-    try {
-        const owners = await Owner.find({}, "shopName _id city state"); // select only needed fields
-        res.json(owners); // sending array of shop owners
-    } catch (error) {
-        console.error("Error fetching all shops:", error);
-        res.status(500).json({ message: "Failed to fetch shops" });
-    }
-});
-
 
 // Example of clearing session on logout
 router.post('/logout', (req, res) => {
