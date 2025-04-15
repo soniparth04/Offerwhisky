@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import LocationCard from "./CurrentLocation";
 
 const AllShops = () => {
   const [shops, setShops] = useState([]);
@@ -33,6 +34,7 @@ const AllShops = () => {
 
   return (
     <div className="p-4">
+      <LocationCard/>
       <h2 className="text-xl font-bold mb-4">Available Shops</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {shops.map((shop) => (
