@@ -3,7 +3,7 @@ import Header from './Header';
 import SearchBar from './SearchBar';
 import Category from './Category';
 import CarouselDefault from './Slider';
-import LatestOffers from './LatestOffers';
+import LatestOffers from './LatestOffer';
 
 
 const Home = () => (
