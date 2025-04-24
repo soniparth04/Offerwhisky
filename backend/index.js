@@ -54,9 +54,7 @@ app.use(session({
     }
 }));
 
-app.get("/", (req, res) => {
-    res.send("app is running")
-})
+
 // ✅ Add the test session route here
 app.get('/api/test-session', (req, res) => {
     console.log('Session data:', req.session);
