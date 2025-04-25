@@ -25,7 +25,7 @@ const LatestOffers = () => {
   }, []);  // Empty dependency array means this runs only once on component mount
 
   return (
-    <div className="bg-gray-50 p-3 max-w-7xl mx-auto mb-20">
+    <div className="bg-gray-50 p-3 max-w-7xl mx-auto ">
       <div className="flex justify-between items-center mb-3" >
         <h2 className="text-l font-bold text-gray-900">Latest Offers Nearby</h2>
         <div className="flex space-x-2">
