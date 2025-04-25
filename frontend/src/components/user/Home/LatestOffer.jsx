@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Filter from "../../../assets/Home/Filter.png"
 import { Heart } from "lucide-react";
-
+import Filter from "../../../assets/Home/filter.png";
 const LatestOffers = () => {
   const [offers, setOffers] = useState([]);  // State to hold the fetched offers
   const [loading, setLoading] = useState(true);  // Loading state to show spinner while fetching
