@@ -5,27 +5,28 @@ import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
-import multer from "multer";
-import CloudinaryStorage from "multer-storage-cloudinary";
+import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
+import pkg from 'multer-storage-cloudinary';
 const router = express.Router();
 
+const { CloudinaryStorage } = pkg; // ✅ Correct way to get CloudinaryStorage
+
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-        folder: 'common-offers',
-        allowed_formats: ['jpg', 'png', 'jpeg'],
-    },
+  cloudinary: cloudinary,
+  params: {
+    folder: 'common-offers',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
 });
 
 const upload = multer({ storage });
-
 
 const authenticateOwner = (req, res, next) => {
     console.log("Session Data:", req.session); // Debugging: Check if session exists
