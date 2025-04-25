@@ -283,9 +283,9 @@ router.post('/create-offer', upload.single('image'), async (req, res) => {
 
 
   // GET all common offers
-router.get('/common-offers', async (req, res) => {
+router.get('/common-offers',authenticateOwner, async (req, res) => {
     try {
-      const offers = await CommonOffer.find();
+      const offers = await CommonOffer.find({ownerId: req.ownerId});
       res.status(200).json(offers);
     } catch (err) {
       console.error("Error fetching common offers:", err);
