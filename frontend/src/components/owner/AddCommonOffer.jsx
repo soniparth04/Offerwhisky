@@ -8,6 +8,8 @@ const AddCommonOffer = () => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [validTill, setValidTill] = useState("");
+    const [imageFile, setImageFile] = useState(null);
+    const [category, setCategory] = useState(""); // New state
 
     useEffect(() => {
         const fetchOwnerInfo = async () => {
@@ -27,20 +29,25 @@ const AddCommonOffer = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !description || !validTill) {
-            alert("Please fill in all fields");
+        if (!title || !description || !validTill || !imageFile || !category) {
+            alert("Please fill in all fields including category and image");
             return;
         }
 
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+        formData.append("validTill", validTill);
+        formData.append("ownerId", ownerId);
+        formData.append("image", imageFile);
+        formData.append("category", category); formData
+
         try {
-            await axios.post("https://offerwhisky.onrender.com/api/owner/create-offer", {
-                title,
-                description,
-                validTill,
-                ownerId,
-                isCommon: true // <== Key part
-            }, {
-                withCredentials: true
+            await axios.post("https://offerwhisky.onrender.com/api/owner/create-offer", formData, {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             });
 
             alert("Common offer added successfully!");
@@ -81,6 +88,29 @@ const AddCommonOffer = () => {
                         type="date"
                         value={validTill}
                         onChange={(e) => setValidTill(e.target.value)}
+                        className="w-full border border-gray-300 px-4 py-2 rounded-md"
+                    />
+                </div>
+                <div>
+                    <label className="block mb-1 font-medium">Category</label>
+                    <select
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="w-full border border-gray-300 px-4 py-2 rounded-md"
+                    >
+                        <option value="">Select category</option>
+                        <option value="Food">Food</option>
+                        <option value="Salon">Salon</option>
+                        <option value="Property">Property</option>
+                        <option value="Vehicle">Vehicle</option>
+                    </select>
+                </div>
+                <div>
+                    <label className="block mb-1 font-medium">Upload Image</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImageFile(e.target.files[0])}
                         className="w-full border border-gray-300 px-4 py-2 rounded-md"
                     />
                 </div>

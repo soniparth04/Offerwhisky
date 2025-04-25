@@ -5,7 +5,26 @@ import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
+const multer = require('multer');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const cloudinary = require('cloudinary').v2;
 const router = express.Router();
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'common-offers',
+        allowed_formats: ['jpg', 'png', 'jpeg'],
+    },
+});
+
+const upload = multer({ storage });
 
 
 const authenticateOwner = (req, res, next) => {
@@ -237,25 +256,30 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 });
 
 
-router.post('/create-offer', async (req, res) => {
-    const { title, description,  validTill, ownerId, isCommon } = req.body;
-  
+
+router.post('/create-offer', upload.single('image'), async (req, res) => {
+    const { title, description, validTill, ownerId, category } = req.body;
+
     try {
-      const newCommonOffer = new CommonOffer({
-        title,
-        description,
-        validTill,
-        ownerId,
-        isCommon
-      });
-  
-      const savedOffer = await newCommonOffer.save();
-      res.status(201).json(savedOffer);
+        const imagePath = req.file ? req.file.path : null;
+
+        const newOffer = new CommonOffer({
+            title,
+            description,
+            validTill,
+            ownerId,
+            image: imagePath, 
+            category
+        });
+
+        const savedOffer = await newOffer.save();
+        res.status(201).json(savedOffer);
     } catch (err) {
-      console.error('Error creating offer:', err);
-      res.status(500).json({ error: 'Failed to create offer' });
+        console.error('Error creating offer:', err);
+        res.status(500).json({ error: 'Failed to create offer' });
     }
-  });
+});
+
 
   // GET all common offers
 router.get('/common-offers', async (req, res) => {

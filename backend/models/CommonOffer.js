@@ -5,7 +5,12 @@ const offerSchema = new mongoose.Schema({
   description: String,
   validTill: Date,
   ownerId: { type: mongoose.Schema.Types.ObjectId, ref: 'Owner', required: true },
-  isCommon: { type: Boolean, default: false }  // this marks if the offer is for all users
+  image: { type: String },
+  category: { 
+    type: String, 
+    enum: ['Food', 'Salon', 'Property', 'Vehicle'], 
+    required: true 
+  },
 }, { timestamps: true });
 
 const CommonOffer = mongoose.model('CommonOffer', offerSchema);
