@@ -5,9 +5,9 @@ import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
-const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('cloudinary').v2;
+import multer from "multer";
+import CloudinaryStorage from "multer-storage-cloudinary";
+import { v2 as cloudinary } from 'cloudinary';
 const router = express.Router();
 
 cloudinary.config({
