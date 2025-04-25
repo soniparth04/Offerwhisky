@@ -202,6 +202,17 @@ router.get("/common-offers/:ownerId", async (req, res) => {
     }
   });
 
+  router.get('/latest-offers', async (req, res) => {
+    try {
+      const offers = await CommonOffer.find()
+        .populate('ownerId', 'shopName') // Populating the 'shopName' field from the 'Owner' model
+      res.status(200).json(offers);
+    } catch (err) {
+      console.error("Error fetching common offers:", err);
+      res.status(500).json({ error: "Failed to fetch offers" });
+    }
+  });
+
 // Fetch offers for a specific owner
 router.get("/spinner/:shopName/:ownerId", async (req, res) => {
     const { ownerId } = req.params;
