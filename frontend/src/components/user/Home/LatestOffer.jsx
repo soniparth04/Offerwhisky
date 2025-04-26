@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Heart } from "lucide-react";
 import Filter from "../../../assets/Home/filter.png";
+import { Link } from "react-router-dom";
+
 const LatestOffers = () => {
   const [offers, setOffers] = useState([]);  // State to hold the fetched offers
   const [loading, setLoading] = useState(true);  // Loading state to show spinner while fetching
@@ -43,32 +45,27 @@ const LatestOffers = () => {
           // Display the offers in a responsive grid
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-5 lg:gap-5">
             {offers.map((offer) => (
-              <div key={offer._id} className="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-[180px] mx-auto ">
-                {/* Display the offer image if it exists */}
+              <Link to={`/offer/${offer._id}`} key={offer._id} className="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-[180px] mx-auto">
                 {offer.image && (
-                  <img
-                    src={offer.image}
-                    alt={offer.title}
-                    className="w-full object-cover "
-                  />
+                  <img src={offer.image} alt={offer.title} className="w-full object-cover" />
                 )}
                 <div className="m-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-gray-600 text-xs">
-                    {offer.ownerId?.shopName}
-                    </p>
+                    <p className="text-gray-600 text-xs">{offer.ownerId?.shopName}</p>
                     <Heart className="w-4 h-4 text-gray-400 cursor-pointer hover:text-red-500" />
                   </div>
-                  <h3 className="text-lg font-bold text-blue-900 mt-">{offer.title}</h3>
+                  <h3 className="text-lg font-bold text-blue-900">{offer.title}</h3>
                   <div className="flex items-center mt-1">
-                  <span className="inline-flex items-center px-1.5 py-0.5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full">
-                    {offer.category}
-                  </span>
+                    <span className="inline-flex items-center px-1.5 py-0.5 bg-gray-200 text-gray-700 text-xs font-medium rounded-full">
+                      {offer.category}
+                    </span>
                   </div>
                   <p className="text-sm">{offer.description}</p>
-                  <p className="text-gray-500 text-xs mt-1">Valid Till: {new Date(offer.validTill).toLocaleDateString()}</p>
+                  <p className="text-gray-500 text-xs mt-1">
+                    Valid Till: {new Date(offer.validTill).toLocaleDateString()}
+                  </p>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )

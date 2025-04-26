@@ -213,6 +213,25 @@ router.get("/common-offers/:ownerId", async (req, res) => {
     }
   });
 
+  router.get('/offer/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      const offer = await CommonOffer.findById(id)
+        .populate('ownerId', 'shopName') // populate shopName from owner
+        .exec();
+  
+      if (!offer) {
+        return res.status(404).json({ message: "Offer not found" });
+      }
+  
+      res.status(200).json(offer);
+    } catch (error) {
+      console.error('Error fetching offer by ID:', error);
+      res.status(500).json({ message: "Server error while fetching offer" });
+    }
+  });
+
 // Fetch offers for a specific owner
 router.get("/spinner/:shopName/:ownerId", async (req, res) => {
     const { ownerId } = req.params;

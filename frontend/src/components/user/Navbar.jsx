@@ -25,7 +25,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li className="flex-1 text-center">
-          <NavLink to="/special-offers" className="flex flex-col items-center text-[10px]">
+          <NavLink to="" className="flex flex-col items-center text-[10px]">
             {({ isActive }) => (
               <span
                 className={`flex flex-col items-center gap-0.5 ${
@@ -39,7 +39,7 @@ const Navbar = () => {
           </NavLink>
         </li>
         <li className="flex-1 text-center">
-          <NavLink to="/hourly-offers" className="flex flex-col items-center text-[10px]">
+          <NavLink to="" className="flex flex-col items-center text-[10px]">
             {({ isActive }) => (
               <span
                 className={`flex flex-col items-center gap-0.5 ${

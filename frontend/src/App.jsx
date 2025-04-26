@@ -24,7 +24,7 @@ import ViewAllCommonOffer from "./components/owner/ViewAllCommonOffer";
 import CommonOffer from "./components/user/CommonOffer";
 import Home from "./components/user/Home/Home";
 import UserProfile from "./components/user/Profile/Profile";
-
+import OfferDetail from "./components/user/OfferD";
 
 function App() {
   return (
@@ -40,6 +40,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/youraccount" element={<UserProfile />} />
+        <Route path="/offer/:id" element={<OfferDetail />} />
         
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
