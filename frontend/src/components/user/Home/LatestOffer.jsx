@@ -45,7 +45,7 @@ const LatestOffers = () => {
           // Display the offers in a responsive grid
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-5 lg:gap-5">
             {offers.map((offer) => (
-              <Link to={`/offer/${offer._id}`} key={offer._id} className="bg-white rounded-lg shadow-md overflow-hidden w-full max-w-[180px] mx-auto">
+              <Link to={`/offer/${offer._id}`} key={offer._id} className=" rounded-lg  overflow-hidden w-full max-w-[180px] mx-auto">
                 {offer.image && (
                   <img src={offer.image} alt={offer.title} className="w-full object-cover" />
                 )}
