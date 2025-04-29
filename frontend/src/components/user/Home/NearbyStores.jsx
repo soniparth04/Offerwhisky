@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
 import axios from "axios";
 import { ChevronRight } from "lucide-react";
 import "../../../../src/index.css";
@@ -7,6 +8,12 @@ const NearbyStores = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate(); // Initialize navigate function
+  
+      const handleViewClick = () => {
+          navigate("/All-shops"); // Navigate to /notification
+      };
 
   useEffect(() => {
     const fetchShops = async () => {
@@ -31,7 +38,7 @@ const NearbyStores = () => {
     <div className="bg-white px-4 py-4">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-lg font-bold text-gray-900">Nearby Stores</h2>
-        <button className="flex items-center text-sm text-gray-500 hover:text-black">
+        <button onClick={handleViewClick} className="flex items-center text-sm text-gray-500 hover:text-black">
           View all <ChevronRight className="ml-1 w-4 h-4" />
         </button>
       </div>

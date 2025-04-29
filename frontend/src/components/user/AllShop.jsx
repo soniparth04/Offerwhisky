@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import LocationCard from "./CurrentLocation";
+import Header from "./Home/Header"
+import Navbar from "./Navbar"
+import { Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AllShops = () => {
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchShops = async () => {
@@ -25,30 +26,40 @@ const AllShops = () => {
     fetchShops();
   }, []);
 
-  const handleShopClick = (ownerId) => {
-    navigate(`/common-offers/${ownerId}`);
-  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="p-4">
-      <LocationCard/>
-      <h2 className="text-xl font-bold mb-4">Available Shops</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {shops.map((shop) => (
-          <li
-            key={shop._id}
-            onClick={() => handleShopClick(shop._id)}
-            className="p-4 bg-white shadow rounded-lg cursor-pointer hover:bg-gray-100 transition"
-          >
-            <h3 className="text-lg font-semibold">{shop.shopName}</h3>
-            <p className="text-gray-600">{shop.city}, {shop.state}</p>
-          </li>
-        ))}
-      </ul>
+    <div >
+    <Header />
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-1 lg:gap-5 mt-6">
+      {shops.map((shop) => (
+        <Link
+          key={shop._id || shop.id} // use a unique identifier
+          className="bg-white rounded-lg overflow-hidden w-full max-w-[195px] mx-auto"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180&h=192&fit=crop"
+            alt={shop.shopName}
+            className="w-full object-cover"
+          />
+          <div className="m-2">
+            <div className="flex items-center justify-between">
+              <p className="text-gray-600 text-xs">{shop.shopName}</p>
+              <Heart className="w-4 h-4 text-gray-400 cursor-pointer hover:text-red-500" />
+            </div>
+            <p className="text-sm">
+              {shop.city}, {shop.state}
+            </p>
+           
+          </div>
+        </Link>
+      ))}
     </div>
+    <Navbar />
+
+  </div>
   );
 };
 
