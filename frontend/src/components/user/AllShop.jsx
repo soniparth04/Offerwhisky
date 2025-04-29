@@ -36,7 +36,8 @@ const AllShops = () => {
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-1 lg:gap-5 mt-6">
       {shops.map((shop) => (
         <Link
-          key={shop._id || shop.id} // use a unique identifier
+        to={`/shop/${shop._id}`} 
+        key={shop._id}
           className="bg-white rounded-lg overflow-hidden w-full max-w-[195px] mx-auto"
         >
           <img

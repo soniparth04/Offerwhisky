@@ -192,6 +192,16 @@ router.get("/all-shops", async (req, res) => {
     }
 });
 
+router.get('/shop/:id', async (req, res) => {
+    try {
+      const shop = await Owner.findById(req.params.id);
+      if (!shop) return res.status(404).json({ message: "Shop not found" });
+      res.json(shop);
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
 router.get("/common-offers/:ownerId", async (req, res) => {
     try {
       const offers = await CommonOffer.find({ ownerId: req.params.ownerId, isCommon: true });

@@ -26,6 +26,7 @@ import Home from "./components/user/Home/Home";
 import UserProfile from "./components/user/Profile/Profile";
 import OfferDetail from "./components/user/OfferD";
 import Notification from "./components/user/Notification";
+import ShopDetails from "./components/user/Shop";
 
 
 function App() {
@@ -44,7 +45,8 @@ function App() {
         <Route path="/youraccount" element={<UserProfile />} />
         <Route path="/offer/:id" element={<OfferDetail />} />
         <Route path="/notification" element={<Notification />} />
-        
+        <Route path="/shop/:id" element={<ShopDetails />} /> 
+
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
         <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
