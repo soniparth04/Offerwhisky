@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaHome, FaBriefcase, FaMapMarkerAlt } from "react-icons/fa";
 import { HiChevronRight } from "react-icons/hi";
+import { motion } from "framer-motion"; // ✅ import motion
 
 const LocationSelection = () => {
   const navigate = useNavigate();
@@ -35,7 +36,12 @@ const LocationSelection = () => {
   };
 
   return (
-    <div className="h-screen bg-white p-4">
+    <motion.div
+      className="h-screen bg-white p-4"
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <h2 className="text-lg font-medium mb-4">Location selection</h2>
 
       <div className="mb-4">
@@ -85,7 +91,7 @@ const LocationSelection = () => {
       <p className="mt-4 text-sm text-blue-500 cursor-pointer">View More</p>
 
       <div className="mt-6 text-sm text-gray-500">Recent Searches</div>
-    </div>
+    </motion.div>
   );
 };
 
