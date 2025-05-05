@@ -184,7 +184,7 @@ router.post('/login/:shopName/:ownerId', async (req, res) => {
 // Get all available shops (owners)
 router.get("/all-shops", async (req, res) => {
     try {
-        const owners = await Owner.find({}, "shopName _id city state"); // select only needed fields
+        const owners = await Owner.find({}, "shopName _id city state profileImage "); // select only needed fields
         res.json(owners); // sending array of shop owners
     } catch (error) {
         console.error("Error fetching all shops:", error);

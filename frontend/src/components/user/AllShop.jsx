@@ -41,7 +41,7 @@ const AllShops = () => {
           className="bg-white rounded-lg overflow-hidden w-full max-w-[195px] mx-auto"
         >
           <img
-            src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180&h=192&fit=crop"
+            src={shop.profileImage}
             alt={shop.shopName}
             className="w-full object-cover"
           />

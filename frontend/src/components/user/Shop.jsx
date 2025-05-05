@@ -28,13 +28,13 @@ const ShopDetails = () => {
     return (
         <div >
             <div className="relative">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180&h=192&fit=crop"
+                <img src={shop.profileImage}
                     alt={shop.shopName} className="w-full  object-cover" />
             </div>
             <div className="bg-white  rounded-t-3xl shadow-lg -mt-40 p-6 relative">
                 <div className="flex justify-center absolute -top-10 left-1/2 transform -translate-x-1/2">
-                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180&h=192&fit=crop"
-                        alt={shop.shopName} className="w-20 h-20 rounded-full border-4 border-white shadow-md" />
+                {shop.shopImage && <img src={shop.shopImage} alt={shop.shopName} className="w-20 h-20 rounded-full border-4 border-white shadow-md" />}
+
                 </div>
                 <h2 className="text-center text-xl font-bold mb-2 pt-12">
                     {shop.shopName}

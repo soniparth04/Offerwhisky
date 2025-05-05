@@ -50,8 +50,8 @@ const NearbyStores = () => {
             className="min-w-[180px] max-w-[180px] flex-shrink-0 rounded-xl overflow-hidden"
           >
             <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=180&h=192&fit=crop" // ✅ default salon image
+            <img
+                src={shop.profileImage} 
                 alt={shop.shopName}
                 className="w-full h-48 object-cover rounded-xl"
                 onError={(e) => {
