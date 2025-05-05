@@ -15,6 +15,8 @@ const OwnerRegistration = () => {
         pinCode: ""
     });
 
+    const [shopImage, setShopImage] = useState(null);
+    const [profileImage, setProfileImage] = useState(null);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const navigate = useNavigate(); 
@@ -29,9 +31,16 @@ const OwnerRegistration = () => {
         setSuccess("");
 
         try {
-            const response = await axios.post("https://offerwhisky.onrender.com/api/owner/owner-registration", formData, {
-                headers: { "Content-Type": "application/json" }
+            const data = new FormData();
+            Object.entries(formData).forEach(([key, value]) => {
+                data.append(key, value);
             });
+            if (shopImage) data.append("shopImage", shopImage);
+            if (profileImage) data.append("profileImage", profileImage);
+
+            const response = await axios.post("https://offerwhisky.onrender.com/api/owner/owner-registration", data, {
+                headers: { "Content-Type": "multipart/form-data" }
+            } ,  { withCredentials: true });
 
             setSuccess("Owner registered successfully!");
             setTimeout(() => navigate("/shop-owner-dashboard"), 1000);
@@ -56,6 +65,15 @@ const OwnerRegistration = () => {
                 <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="pinCode" placeholder="Pin Code" value={formData.pinCode} onChange={handleChange} className="w-full p-2 border rounded" required />
+
+                <div>
+                    <label className="block text-sm font-medium mb-1">Shop Image:</label>
+                    <input type="file" accept="image/*" onChange={(e) => setShopImage(e.target.files[0])} className="w-full p-2 border rounded" required />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium mb-1">Profile Image:</label>
+                    <input type="file" accept="image/*" onChange={(e) => setProfileImage(e.target.files[0])} className="w-full p-2 border rounded" required />
+                </div>
 
                 <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded">Register</button>
             </form>

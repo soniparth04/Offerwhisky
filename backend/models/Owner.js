@@ -9,7 +9,9 @@ const OwnerSchema = new mongoose.Schema({
     city: { type: String, required: true },
     state: { type: String, required: true },
     country: { type: String, required: true },
-    pinCode: { type: String, required: true }
+    pinCode: { type: String, required: true },
+    shopImage: { type: String },
+    profileImage: { type: String },
 }, { timestamps: true });
 
 const Owner = mongoose.model('Owner', OwnerSchema);

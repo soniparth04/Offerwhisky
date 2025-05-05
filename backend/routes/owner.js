@@ -49,7 +49,10 @@ const defaultOffers = [
 ];
 
 // Owner Registration Route
-router.post("/owner-registration", async (req, res) => {
+router.post("/owner-registration", upload.fields([
+    { name: 'shopImage', maxCount: 1 },
+    { name: 'profileImage', maxCount: 1 }
+]), async (req, res) => {
     try {
         const { name, phone, email, shopName, password, city, state, country, pinCode } = req.body;
 
@@ -57,7 +60,6 @@ router.post("/owner-registration", async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // Check if owner already exists
         const existingOwner = await Owner.findOne({ email });
         if (existingOwner) {
             return res.status(400).json({ message: "Owner already exists" });
@@ -65,7 +67,10 @@ router.post("/owner-registration", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Save new owner
+        // ✅ Extract uploaded image URLs from Cloudinary
+        const shopImage = req.files['shopImage'] ? req.files['shopImage'][0].path : null;
+        const profileImage = req.files['profileImage'] ? req.files['profileImage'][0].path : null;
+
         const newOwner = new Owner({
             name,
             phone,
@@ -75,30 +80,34 @@ router.post("/owner-registration", async (req, res) => {
             city,
             state,
             country,
-            pinCode
+            pinCode,
+            shopImage,
+            profileImage
         });
 
         await newOwner.save();
-
-        // Store owner ID in session
         req.session.ownerId = newOwner._id;
 
-          // ✅ Insert Default Offers for New Owner
-          const defaultOffersWithOwner = defaultOffers.map(offer => ({
-            ...offer, ownerId: newOwner._id
+        // ✅ Insert Default Offers for New Owner
+        const defaultOffersWithOwner = defaultOffers.map(offer => ({
+            ...offer,
+            ownerId: newOwner._id
         }));
         await Coupon.insertMany(defaultOffersWithOwner);
 
         res.status(201).json({
             message: "Owner registered successfully",
-            ownerId: newOwner._id
+            ownerId: newOwner._id,
+            shopImage,
+            profileImage
         });
 
     } catch (error) {
-        console.error("Registration error:", error);
+        console.error("[Owner Registration] Error:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
+
 
 router.post('/owner-login', async (req, res) => {
     try {
