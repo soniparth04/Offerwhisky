@@ -53,7 +53,7 @@ const ShopDetails = () => {
                 </div>
 
             </div>
-            <SwitchOffer/>
+            <SwitchOffer shopId={shop._id} />
         </div>
     );
 };

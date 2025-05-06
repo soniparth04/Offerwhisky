@@ -212,6 +212,17 @@ router.get("/common-offers/:ownerId", async (req, res) => {
     }
   });
 
+  // Get all offers for a specific owner/shop
+router.get('/owner/:ownerId', async (req, res) => {
+    try {
+      const offers = await CommonOffer.find({ ownerId: req.params.ownerId });
+      res.json(offers);
+    } catch (error) {
+      console.error('Error fetching offers:', error);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+
   router.get('/latest-offers', async (req, res) => {
     try {
       const offers = await CommonOffer.find()
