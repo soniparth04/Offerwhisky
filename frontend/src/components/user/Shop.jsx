@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import SwitchOffer from "./SwitchOffer";
 
 const ShopDetails = () => {
     const { id } = useParams();
@@ -31,7 +32,7 @@ const ShopDetails = () => {
                 <img src={shop.profileImage}
                     alt={shop.shopName} className="w-full  object-cover" />
             </div>
-            <div className="bg-white  rounded-t-3xl shadow-lg -mt-40 p-6 relative">
+            <div className="bg-white  rounded-t-3xl  -mt-40 p-6 relative">
                 <div className="flex justify-center absolute -top-10 left-1/2 transform -translate-x-1/2">
                 {shop.shopImage && <img src={shop.shopImage} alt={shop.shopName} className="w-20 h-20 rounded-full border-4 border-white shadow-md" />}
 
@@ -52,6 +53,7 @@ const ShopDetails = () => {
                 </div>
 
             </div>
+            <SwitchOffer/>
         </div>
     );
 };
