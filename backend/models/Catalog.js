@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const CatalogSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -8,4 +8,6 @@ const CatalogSchema = new mongoose.Schema({
   price: { type: String}
 }, { timestamps: true });
 
-module.exports = mongoose.model('Catalog', CatalogSchema);
+const Catalog = mongoose.model("Catalog", CatalogSchema);
+
+export default Catalog;
