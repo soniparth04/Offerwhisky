@@ -87,6 +87,16 @@ const OwnerDashboard = () => {
                             <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View All Common Offers</h5>
                         </div>
                     </Link>
+                    <Link to="/shop-owner/view-catalogs" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View Catalogs</h5>
+                        </div>
+                    </Link>
+                    <Link to="/shop-owner/add-catalogs" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
+                        <div className="text-center">
+                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">Add Catalogs</h5>
+                        </div>
+                    </Link>
 
                 </div> 
             </div>

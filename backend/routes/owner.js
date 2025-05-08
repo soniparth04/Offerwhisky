@@ -5,6 +5,7 @@ import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
+import Catalog from '../models/Catalog';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import pkg from 'multer-storage-cloudinary';
@@ -351,6 +352,44 @@ router.delete("/delete-offer/:id", async (req, res) => {
         res.status(500).json({ message: "Error deleting offer" });
     }
 });
+
+
+// add catalog
+router.post("/add-catalog" , upload.single('image'), async (req, res) => {
+    const { title , description , ownerId, price } = req.body;
+    
+    try {
+        const imagePath = req.file ? req.file.path : null;
+        
+        const newCatalog = new Catalog({
+            title,
+            description,
+            ownerId,
+            price,
+            image: imagePath, 
+        });
+
+        const savedCatalogs = await newCatalog.save();
+        res.status(201).json(savedCatalogs);
+
+    } catch (err) {
+        console.error('Error Add catalogs:', err);
+        res.status(500).json({ error: 'Failed to add catalog' });
+    } 
+
+})
+
+// get catalog 
+router.get('/view-catalog', authenticateOwner, async(req, res) => {
+    try{
+        const catalogs = await Catalog.find({ ownerId: req.ownerId});
+        res.status(200).json(catalogs);
+    } catch (err) {
+        console.error("Error fetching catalog:", err);
+        res.status(500).json({ error: "Failed to fetch  catalog" });
+    }
+})
+
 
 router.get('/users/:userId/claimed-offers', async (req, res) => {
     const { userId } = req.params; // `userId` is actually `_id` in MongoDB

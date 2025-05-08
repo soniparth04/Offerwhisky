@@ -28,6 +28,8 @@ import OfferDetail from "./components/user/OfferD";
 import Notification from "./components/user/Notification";
 import ShopDetails from "./components/user/Shop";
 import LocationSelection from "./components/user/Home/LocationSelection";
+import AddCatalogs from "./components/owner/AddCatalog";
+import ViewCatalog from "./components/owner/ViewCatalog";
 
 function App() {
   return (
@@ -60,6 +62,8 @@ function App() {
         <Route path="/generate-link" element={<GenerateLink />} />
         <Route path="/shop-owner/add-common-offer" element={<AddCommonOffer />} />
         <Route path="/shop-owner/view-common-offers" element={<ViewAllCommonOffer />} />
+        <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
+        <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
