@@ -5,7 +5,7 @@ import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
-import Catalog from '../models/Catalog';
+import Catalog from '../models/Catalog.js';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import pkg from 'multer-storage-cloudinary';
