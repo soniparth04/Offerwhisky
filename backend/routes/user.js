@@ -4,6 +4,7 @@ import User from "../models/User.js";
 import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"; 
 import CommonOffer from "../models/CommonOffer.js"
+import Catalog from '../models/Catalog.js';
 
 const router = express.Router();
 
@@ -222,6 +223,16 @@ router.get('/owner/:ownerId', async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });
+
+  // Get all catalog items for a specific owner
+router.get('/catalog/:ownerId', async (req, res) => {
+  try {
+    const items = await Catalog.find({ ownerId: req.params.ownerId });
+    res.json(items);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching catalog items' });
+  }
+});
 
   router.get('/latest-offers', async (req, res) => {
     try {
