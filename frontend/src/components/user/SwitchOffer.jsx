@@ -24,7 +24,7 @@ const SwitchOffer = ({ shopId }) => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await axios.get(`hhttps://offerwhisky.onrender.com/api/user/owner/${shopId}`);
+        const res = await axios.get(`https://offerwhisky.onrender.com/api/user/owner/${shopId}`);
         setOffers(res.data);
       } catch (error) {
         console.error('Error fetching offers:', error);
