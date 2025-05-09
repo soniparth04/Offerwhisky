@@ -11,7 +11,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import pkg from 'multer-storage-cloudinary';
 const router = express.Router();
 
-const { CloudinaryStorage } = pkg; // ✅ Correct way to get CloudinaryStorage
+const { CloudinaryStorage } = pkg; 
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -20,12 +20,13 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'common-offers',
-    allowed_formats: ['jpg', 'png', 'jpeg'],
-  },
-});
+    cloudinary: cloudinary,
+    params: {
+      folder: 'common-offers',
+      allowed_formats: ['jpg', 'png', 'jpeg'],
+      transformation: [{ width: 800, height: 800, crop: 'limit' }],
+    },
+  });
 
 const upload = multer({ storage });
 
@@ -355,29 +356,33 @@ router.delete("/delete-offer/:id", async (req, res) => {
 
 
 // add catalog
-router.post("/add-catalog" , upload.single('image'), async (req, res) => {
-    const { title , description , ownerId, price } = req.body;
-    
+router.post("/add-catalog", upload.array('images', 5), async (req, res) => {
+    const { title, description, ownerId, price } = req.body;
+  
     try {
-        const imagePath = req.file ? req.file.path : null;
-        
-        const newCatalog = new Catalog({
-            title,
-            description,
-            ownerId,
-            price,
-            image: imagePath, 
-        });
-
-        const savedCatalogs = await newCatalog.save();
-        res.status(201).json(savedCatalogs);
-
+      // Check if images were uploaded and log the result
+      console.log('Uploaded Files:', req.files);
+  
+      // Extract URLs from uploaded files
+      const imageUrls = req.files.map(file => file.path);
+  
+      console.log('Image URLs:', imageUrls);
+  
+      const newCatalog = new Catalog({
+        title,
+        description,
+        ownerId,
+        price,
+        image: imageUrls, // Store array of URLs
+      });
+  
+      const savedCatalog = await newCatalog.save();
+      res.status(201).json(savedCatalog);
     } catch (err) {
-        console.error('Error Add catalogs:', err);
-        res.status(500).json({ error: 'Failed to add catalog' });
-    } 
-
-})
+      console.error("Error adding catalog:", err);
+      res.status(500).json({ error: "Failed to add catalog" });
+    }
+  });
 
 // get catalog 
 router.get('/view-catalog', authenticateOwner, async(req, res) => {
