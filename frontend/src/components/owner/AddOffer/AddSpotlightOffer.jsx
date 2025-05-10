@@ -9,12 +9,12 @@ const AddCommonOffer = () => {
     const [description, setDescription] = useState("");
     const [validTill, setValidTill] = useState("");
     const [imageFile, setImageFile] = useState(null);
-    const [category, setCategory] = useState(""); // New state
+    const [category, setCategory] = useState(""); 
 
     useEffect(() => {
         const fetchOwnerInfo = async () => {
             try {
-                const response = await axios.get("https://offerwhisky.onrender.com/api/owner/owner-info", {
+                const response = await axios.get("http://localhost:5000/api/owner/owner-info", {
                     withCredentials: true,
                 });
                 setOwnerId(response.data.ownerId);
@@ -59,9 +59,8 @@ const AddCommonOffer = () => {
     };
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add Common Offer</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="p-6 bg-white ">
+            <form onSubmit={handleSubmit} className="space-y-4 mb-20">
                 <div>
                     <label className="block mb-1 font-medium">Offer Title</label>
                     <input

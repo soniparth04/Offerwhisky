@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import BackButtonNav from './BackButton';
 
 const AddOffer = () => {
     const navigate = useNavigate();
@@ -31,9 +30,7 @@ const AddOffer = () => {
 
     // ✅ Ensure the return is inside the function
     return (
-        <div className="container mx-auto">
-            <BackButtonNav/>
-            <h2 className="text-2xl font-bold mb-4">Add New Offer</h2>
+        <div className=" p-6 bg-white container mx-auto">
             {error && <p className="text-red-500">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <input type="text" name="label" value={formData.label} onChange={handleChange} placeholder="Offer Label" required className="border p-2 w-full"/>

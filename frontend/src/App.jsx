@@ -4,9 +4,7 @@ import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
 import Spinner from "./components/user/Spinner";
 import OwnerDashboard from "./components/owner/OwnerDashboard"; 
-import ViewUser from "./components/owner/ViewUser";
 import ViewOffers from "./components/owner/ViewOffer";
-import AddOffer from "./components/owner/AddOffer";
 import EditOffer from "./components/owner/EditOffer";
 import ViewClaim from "./components/owner/ViewClaim";
 import VerifyOtp from "./components/user/VerifyOtp";
@@ -19,7 +17,6 @@ import ViewShopOwner from "./components/admin/ViewShopOwner";
 import ViewShopUser from "./components/admin/ViewShopUser";
 import UserOffer from "./components/user/UserOffer";
 import AllShops from "./components/user/AllShop";
-import AddCommonOffer from "./components/owner/AddCommonOffer";
 import ViewAllCommonOffer from "./components/owner/ViewAllCommonOffer";
 import CommonOffer from "./components/user/CommonOffer";
 import Home from "./components/user/Home/Home";
@@ -30,6 +27,9 @@ import ShopDetails from "./components/user/Shop";
 import LocationSelection from "./components/user/Home/LocationSelection";
 import AddCatalogs from "./components/owner/AddCatalog";
 import ViewCatalog from "./components/owner/ViewCatalog";
+import CreateOfferPage from "./components/owner/AddOffer/CreateOfferPage";
+import AccountPage from "./components/owner/Account/AccountPage";
+
 
 function App() {
   return (
@@ -53,18 +53,18 @@ function App() {
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
         <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
-        <Route path="/shop-owner/add-offer" element={<AddOffer />} />
         <Route path="/edit-offer/:offerId" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
         <Route path = "/shop-owner-registration" element={<OwnerRegistration/>}/>
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/generate-link" element={<GenerateLink />} />
-        <Route path="/shop-owner/add-common-offer" element={<AddCommonOffer />} />
         <Route path="/shop-owner/view-common-offers" element={<ViewAllCommonOffer />} />
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
         <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
-
+       <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
+        <Route path="/shop-owner/account" element={<AccountPage />} />
+         
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
         <Route path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId" element={<ViewShopUser />} />
