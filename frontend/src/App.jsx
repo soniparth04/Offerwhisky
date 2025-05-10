@@ -51,7 +51,6 @@ function App() {
         <Route path="/location" element={<LocationSelection />} />
 
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
-        <Route path="/shop-owner/view-users" element={ <ViewUser/>}/>
         <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
         <Route path="/edit-offer/:offerId" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
