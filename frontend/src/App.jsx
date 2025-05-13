@@ -29,7 +29,7 @@ import AddCatalogs from "./components/owner/AddCatalog";
 import ViewCatalog from "./components/owner/ViewCatalog";
 import CreateOfferPage from "./components/owner/AddOffer/CreateOfferPage";
 import AccountPage from "./components/owner/Account/AccountPage";
-
+import YourOffer from "./components/owner/Offers/YourOffer";
 
 function App() {
   return (
@@ -51,19 +51,18 @@ function App() {
         <Route path="/location" element={<LocationSelection />} />
 
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
-        <Route path="/shop-owner/view-offers" element={ <ViewOffers />} />
         <Route path="/edit-offer/:offerId" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
         <Route path = "/shop-owner-registration" element={<OwnerRegistration/>}/>
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/generate-link" element={<GenerateLink />} />
-        <Route path="/shop-owner/view-common-offers" element={<ViewAllCommonOffer />} />
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
         <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
        <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
         <Route path="/shop-owner/account" element={<AccountPage />} />
-         
+        <Route path="/shop-owner/your-offer" element={<YourOffer />} />
+
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
         <Route path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId" element={<ViewShopUser />} />

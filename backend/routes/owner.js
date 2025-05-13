@@ -192,7 +192,7 @@ router.get("/owner-info", async (req, res) => {
             return res.status(404).json({ message: "Owner not found" });
         }
 
-        res.json({ shopName: owner.shopName, ownerId: owner._id });
+        res.json({ shopName: owner.shopName, shopImage: owner.shopImage, ownerId: owner._id });
     } catch (error) {
         console.error("[Owner Info] Error:", error);
         res.status(500).json({ message: "Internal Server Error" });
