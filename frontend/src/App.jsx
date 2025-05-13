@@ -58,7 +58,6 @@ function App() {
         <Route path = "/shop-owner-registration" element={<OwnerRegistration/>}/>
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
-        <Route path="/generate-link" element={<GenerateLink />} />
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
         <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
         <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
