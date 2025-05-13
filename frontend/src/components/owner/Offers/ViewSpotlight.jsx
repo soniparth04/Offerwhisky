@@ -20,7 +20,7 @@ const ViewSpotlightOffer = () => {
     }, []);
 
     return (
-        <div className="max-w-6xl  px-4 py-8">
+        <div className="max-w-6xl  px-4 py-8 mb-20">
             {offers.length === 0 ? (
                 <p className="text-center text-gray-500">No Spotlight offers added by you.</p>
             ) : (

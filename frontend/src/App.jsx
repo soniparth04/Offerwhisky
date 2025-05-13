@@ -4,14 +4,13 @@ import Login from "./components/user/Login";
 import Signup from "./components/user/Signup";
 import Spinner from "./components/user/Spinner";
 import OwnerDashboard from "./components/owner/OwnerDashboard"; 
-import EditOffer from "./components/owner/EditOffer";
+import EditOffer from "./components/owner/Offers/EditOffer";
 import ViewClaim from "./components/owner/ViewClaim";
 import VerifyOtp from "./components/user/VerifyOtp";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import OwnerRegistration from "./components/owner/OwnerRegistration";
 import OwnerLogin from "./components/owner/OwnerLogin";
 import ForgotPassword from "./components/owner/ForgotPassword";
-import GenerateLink from "./components/owner/GnerateLink";
 import ViewShopOwner from "./components/admin/ViewShopOwner";
 import ViewShopUser from "./components/admin/ViewShopUser";
 import UserOffer from "./components/user/UserOffer";
@@ -28,6 +27,11 @@ import ViewCatalog from "./components/owner/ViewCatalog";
 import CreateOfferPage from "./components/owner/AddOffer/CreateOfferPage";
 import AccountPage from "./components/owner/Account/AccountPage";
 import YourOffer from "./components/owner/Offers/YourOffer";
+import ScanQRPage from "./components/owner/NavComponent/ScanQr";
+import MyAds from "./components/owner/NavComponent/MyAds";
+import BookingHistory from "./components/owner/DashComp/BookingHistory";
+import RedemptionTracker from "./components/owner/DashComp/RedemptionTracker";
+import SponsoredAds from "./components/owner/DashComp/SponsoredAds";
 
 function App() {
   return (
@@ -57,9 +61,14 @@ function App() {
         <Route path="/generate-link" element={<GenerateLink />} />
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
         <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
-       <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
+        <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
         <Route path="/shop-owner/account" element={<AccountPage />} />
         <Route path="/shop-owner/your-offer" element={<YourOffer />} />
+        <Route path="/shop-owner/scan-qr" element={<ScanQRPage />} />
+        <Route path="/shop-owner/my-ads" element={<MyAds />} />
+        <Route path="/shop-owner/booking-hostory" element={<BookingHistory/>} />
+        <Route path="/shop-owner/redemption-tracker" element={<RedemptionTracker/>} />
+        <Route path="/shop-owner/active-sponsored-Ads" element={<SponsoredAds/>} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />

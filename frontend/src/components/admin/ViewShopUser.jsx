@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import BackButtonNav from "../owner/BackButton";
 
 const ViewShopUser = () => {
     const { ownerId } = useParams();
@@ -23,7 +22,6 @@ const ViewShopUser = () => {
 
     return (
         <div className="container max-auto">
-            <BackButtonNav />
             <div className="px-4">
                 <h2 className="text-2xl font-bold my-4">{shopName} Users</h2>
                 <table className="w-full border-collapse border border-gray-300">

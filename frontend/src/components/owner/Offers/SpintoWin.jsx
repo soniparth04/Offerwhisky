@@ -46,7 +46,7 @@ const SpinToWin = () => {
   if (error) return <p className="text-center text-red-500">{error}</p>;
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 mb-20">
       {offers.length > 0 ? (
         offers.map((offer) => (
           <div key={offer._id} className="relative  p-4 mb-4 bg-white">

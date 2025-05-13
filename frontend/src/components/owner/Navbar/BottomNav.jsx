@@ -24,7 +24,7 @@ const BottomNavigation = () => {
         </NavLink>
 
         <NavLink
-          to="/my-ads"
+          to="/shop-owner/my-ads"
           className={({ isActive }) =>
             `flex flex-col items-center justify-center w-16 h-full ${
               isActive ? 'text-blue-800' : 'text-gray-600'
@@ -47,7 +47,7 @@ const BottomNavigation = () => {
         )}
 
         <NavLink
-          to="/scan-qr"
+          to="/shop-owner/scan-qr"
           className={({ isActive }) =>
             `flex flex-col items-center justify-center w-16 h-full ${
               isActive ? 'text-blue-800' : 'text-gray-600'

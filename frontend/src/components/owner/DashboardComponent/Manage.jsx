@@ -16,21 +16,21 @@ const Management = () => {
             </div>
             <div
                 className="flex justify-between items-center py-2 cursor-pointer"
-                onClick={() => navigate('/booking-history')}
+                onClick={() => navigate('/shop-owner/booking-hostory')}
             >
                 <h2 className="text-l font-medium text-gray-700">Booking History</h2>
                 <ChevronRight size={20} className="text-gray-500" />
             </div>
             <div
                 className="flex justify-between items-center py-2 cursor-pointer"
-                onClick={() => navigate('/redemption')}
+                onClick={() => navigate('/shop-owner/redemption-tracker')}
             >
                 <h2 className="text-l font-medium text-gray-700">{'Redemption Tracker'}</h2>
                 <ChevronRight size={20} className="text-gray-500" />
             </div>
             <div
                 className="flex justify-between items-center py-2 cursor-pointer"
-                onClick={() => navigate('/sponsored-ads')}
+                onClick={() => navigate('/shop-owner/active-sponsored-Ads')}
             >
                 <h2 className="text-l font-medium text-gray-700">{'Active Sponsored Ads'}</h2>
                 <ChevronRight size={20} className="text-gray-500" />
