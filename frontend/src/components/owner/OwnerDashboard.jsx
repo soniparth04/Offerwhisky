@@ -31,7 +31,7 @@ const OwnerDashboard = () => {
             <div className="flex items-center p-4 border-b border-gray-100">
                 <div
                     className="flex items-center space-x-2 cursor-pointer"
-                    onClick={() => navigate('')}
+                    onClick={() => navigate('/shop-owner/my-store')}
                 >
                     <div className="w-10 h-10 rounded-full overflow-hidden">
                         <img

@@ -32,6 +32,7 @@ import MyAds from "./components/owner/NavComponent/MyAds";
 import BookingHistory from "./components/owner/DashComp/BookingHistory";
 import RedemptionTracker from "./components/owner/DashComp/RedemptionTracker";
 import SponsoredAds from "./components/owner/DashComp/SponsoredAds";
+import MyStore from "./components/owner/MyStore/MyStore";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
         <Route path="/shop-owner/booking-hostory" element={<BookingHistory/>} />
         <Route path="/shop-owner/redemption-tracker" element={<RedemptionTracker/>} />
         <Route path="/shop-owner/active-sponsored-Ads" element={<SponsoredAds/>} />
+        <Route path="/shop-owner/my-store" element={<MyStore/>} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard/>}/>
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
