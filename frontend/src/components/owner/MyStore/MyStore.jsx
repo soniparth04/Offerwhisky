@@ -10,7 +10,7 @@ const MyStore = () => {
     useEffect(() => {
         const fetchOwnerInfo = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/owner/owner-info", {
+                const response = await axios.get("https://offerwhisky.onrender.com/api/owner/owner-info", {
                     withCredentials: true,
                 });
                 setShop(response.data);

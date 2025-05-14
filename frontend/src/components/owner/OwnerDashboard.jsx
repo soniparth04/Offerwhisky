@@ -20,7 +20,7 @@ const OwnerDashboard = () => {
 
             } catch (error) {
                 console.error("Error fetching owner info:", error);
-                navigate("/owner-login"); // Redirect to login if unauthorized
+                navigate("/shop-owner-login"); 
             }
         };
         fetchOwnerInfo();
