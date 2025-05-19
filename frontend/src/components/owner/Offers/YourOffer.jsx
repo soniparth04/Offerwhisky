@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import ViewSpotlightOffer from './ViewSpotlight';
 import SpinToWin from './SpintoWin';
 import BottomNavigation from '../Navbar/BottomNav';
+import GetAllHappyHours from './ViewHappy';
 
 const YourOffer = () => {
 
@@ -60,7 +61,7 @@ const YourOffer = () => {
 
                 {/* Happy Hours Offer Form */}
                 {selectedOfferType === 'happyhours' && (
-                    <div> houly offer </div>
+                    <GetAllHappyHours/>
                 )}
 
                

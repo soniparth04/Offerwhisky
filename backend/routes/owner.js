@@ -6,6 +6,7 @@ import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
 import CommonOffer from '../models/CommonOffer.js';
 import Catalog from '../models/Catalog.js';
+import HappyHoursOffer from '../models/Hourlyoffer.js'
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import pkg from 'multer-storage-cloudinary';
@@ -290,6 +291,42 @@ router.post('/create-offer', upload.single('image'), async (req, res) => {
         console.error('Error creating offer:', err);
         res.status(500).json({ error: 'Failed to create offer' });
     }
+});
+
+router.post('/create-happy-hours', upload.single('offerImage'), async (req, res) => {
+  const { offerTitle, description, category, startTime, endTime, Date, ownerId } = req.body;
+
+  try {
+    const imagePath = req.file ? req.file.path : null;
+
+    const newhappyoffer = new HappyHoursOffer({
+      offerTitle,
+      description, // <-- Added
+      category,
+      startTime,
+      endTime,
+      offerImage: imagePath,
+      Date,
+      ownerId
+    });
+
+    const savedhappyoffers = await newhappyoffer.save();
+    res.status(201).json(savedhappyoffers);
+  } catch (err) {
+    console.error('Error creating offer:', err);
+    res.status(500).json({ error: 'Failed to create offer' });
+  }
+});
+
+
+router.get('/get-all-happy-hours', async (req, res) => {
+  try {
+    const offers = await HappyHoursOffer.find().sort({ Date: -1 }); // newest first
+    res.status(200).json(offers);
+  } catch (error) {
+    console.error('Error fetching happy hour offers:', error);
+    res.status(500).json({ error: 'Failed to fetch happy hour offers' });
+  }
 });
 
 

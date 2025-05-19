@@ -6,6 +6,7 @@ import HappyhoursOfferIcon from '../../../assets/OwnerDash/hourlyoffer.png';
 import SpintoWinIcon from '../../../assets/OwnerDash/spintowin.png';
 import AddCommonOffer from './AddSpotlightOffer';
 import AddOffer from './AddSpinOffer';
+import CreateHappyOffer from './AddHappyOffer';
 import BottomNavigation from '../Navbar/BottomNav';
 
 const offerTypes = [
@@ -61,7 +62,7 @@ const CreateOfferPage = () => {
 
       {/* Happy Hours Offer Form */}
       {selectedOfferType === 'happyhours' && (
-         <div> houly offer </div>
+         <CreateHappyOffer/>
       )}
 
       <BottomNavigation/>
