@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const happyHoursOfferSchema = new mongoose.Schema({
   offerTitle: {
@@ -37,4 +37,5 @@ const happyHoursOfferSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('HappyHoursOffer', happyHoursOfferSchema);
+const HappyHoursOffer =  mongoose.model('HappyHoursOffer', happyHoursOfferSchema);
+export default HappyHoursOffer;
