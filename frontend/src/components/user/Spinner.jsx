@@ -24,7 +24,7 @@ const Spinner = () => {
     const chartRef = useRef(null); // Chart reference
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/user/spinner/${ownerId}`, { withCredentials: true })
+        axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${ownerId}`, { withCredentials: true })
             .then(response => {
                 setSegments(response.data);
                 setTimeout(() => {
