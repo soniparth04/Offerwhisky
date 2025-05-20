@@ -34,7 +34,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/spinner/:shopName/:ownerId" element={<Spinner />} />
+        <Route path="/spinner/:ownerId" element={<Spinner />} />
         <Route path="/user-offers/:shopName/:ownerId" element={<UserOffer />} />
         <Route path="/All-shops" element={<AllShops />} />
         <Route path="/common-offers/:ownerId" element={<CommonOffer />} />
