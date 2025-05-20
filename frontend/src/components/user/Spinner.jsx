@@ -18,15 +18,13 @@ const Spinner = () => {
     const [currentOffer, setCurrentOffer] = useState("Spin the wheel!");
     const [showCoupon, setShowCoupon] = useState(false);
     const [wonOffer, setWonOffer] = useState("");
-    const [canSpin, setCanSpin] = useState(true);
-    const [timeLeft, setTimeLeft] = useState(0); // Time left in seconds
     const wheelRef = useRef(null);
     const navigate = useNavigate();
 
     const chartRef = useRef(null); // Chart reference
 
     useEffect(() => {
-        axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${shopName}/${ownerId}`, { withCredentials: true })
+        axios.get(`http://localhost:5000/api/user/spinner/${ownerId}`, { withCredentials: true })
             .then(response => {
                 setSegments(response.data);
                 setTimeout(() => {
@@ -38,24 +36,10 @@ const Spinner = () => {
             .catch(error => console.error("Error fetching spinner data", error));
     }, [ownerId, shopName]);
 
-    useEffect(() => {
-        axios.get("https://offerwhisky.onrender.com/api/user/test-session", { withCredentials: true })
-            .then(response => {
-                if (!response.data.user) {
-                    navigate(`/login/${shopName}/${ownerId}`, { state: { flashMessage: "Please log in first!" } });
-                } else {
-                    axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${shopName}/${ownerId}`, { withCredentials: true })
-                        .then(response => setSegments(response.data))
-                        .catch(error => console.error("Error fetching spinner data", error));
-                }
-            })
-            .catch(error => {
-                console.error("Error checking session:", error);
-                navigate(`/login/${shopName}/${ownerId}`, { state: { flashMessage: "Session check failed. Please log in." } });
-            });
-    }, [ownerId]);
 
-    const handleViewOffers = () => {
+
+
+    const handleViewOffers = () => {x
         navigate(`/user-offers/${shopName}/${ownerId}`);
     };
 
@@ -78,44 +62,48 @@ const Spinner = () => {
             legend: { display: false },
             datalabels: {
                 color: "#000",
-                font: { size: 10 }, // 🔹 Decreased font size
+                font: { size: 10 },
                 formatter: (value, context) => {
                     const label = context.chart.data.labels[context.dataIndex];
-                    return label.length > 14 ? label.substring(0, 15) + "..." : label; // Truncate long labels
+                    return label.length > 14 ? label.substring(0, 15) + "..." : label;
                 },
                 anchor: "center",
                 align: "center",
                 rotation: (context) => {
                     let angle = context.chart.getDatasetMeta(0).data[context.dataIndex].startAngle +
                         context.chart.getDatasetMeta(0).data[context.dataIndex].endAngle;
-                    angle = (angle / 2) * (180 / Math.PI); // Convert to degrees
-                    return angle > 90 && angle < 270 ? angle + 180 : angle; // Flip if upside down
+                    angle = (angle / 2) * (180 / Math.PI);
+                    return angle > 90 && angle < 270 ? angle + 180 : angle;
                 },
                 textAlign: "center",
-
             }
         }
     };
 
-    useEffect(() => {
-        const checkCooldown = async () => {
-            try {
-                const response = await fetch("https://offerwhisky.onrender.com/api/user/spin", {
-                    method: "POST",
-                    credentials: "include"
-                });
 
-                const data = await response.json();
-                if (data.cooldown) {
-                    setCanSpin(false);
-                    startCountdown(data.timeLeftMs);
-                }
-            } catch (err) {
-                console.error("Cooldown check failed:", err);
-            }
-        };
-        checkCooldown();
-    }, []);
+    const [canSpin, setCanSpin] = useState(true);
+    const [timeLeft, setTimeLeft] = useState(0); 
+
+    // // Check cooldown on mount
+    // useEffect(() => {
+    //     const checkCooldown = async () => {
+    //         try {
+    //             const response = await fetch("http://localhost:5000/api/user/spin", {
+    //                 method: "POST",
+    //                 credentials: "include"
+    //             });
+
+    //             const data = await response.json();
+    //             if (data.cooldown) {
+    //                 setCanSpin(false);
+    //                 startCountdown(data.timeLeftMs);
+    //             }
+    //         } catch (err) {
+    //             console.error("Cooldown check failed:", err);
+    //         }
+    //     };
+    //     checkCooldown();
+    // }, []);
 
     const startCountdown = (initialTimeLeftMs) => {
         let timeLeftMs = initialTimeLeftMs;
@@ -133,22 +121,22 @@ const Spinner = () => {
         return () => clearInterval(interval);
     };
 
-    
+
     const handleSpin = async () => {
         try {
-            // 1. Check if spinning is allowed
-            const checkResponse = await fetch('https://offerwhisky.onrender.com/api/user/spin', {
-                method: 'POST',
-                credentials: 'include'
-            });
+            // // 1. Check if spinning is allowed
+            // const checkResponse = await fetch('http://localhost:5000/api/user/spin', {
+            //     method: 'POST',
+            //     credentials: 'include'
+            // });
             
-            const checkData = await checkResponse.json();
+            // const checkData = await checkResponse.json();
     
-            if (checkResponse.status === 403) {
-                const secondsLeft = Math.ceil(checkData.timeLeftMs / 1000);
-                alert(`Please wait ${secondsLeft} seconds`);
-                return;
-            }
+            // if (checkResponse.status === 403) {
+            //     const secondsLeft = Math.ceil(checkData.timeLeftMs / 1000);
+            //     alert(`Please wait ${secondsLeft} seconds`);
+            //     return;
+            // }
     
             if (segments.length === 0) return alert("No offers available!");
     
@@ -185,13 +173,13 @@ const Spinner = () => {
                     setShowCoupon(true);
                     
                     // 4. Only NOW confirm the spin
-                    fetch('https://offerwhisky.onrender.com/api/user/confirm-spin', {
-                        method: 'POST',
-                        credentials: 'include'
-                    }).then(() => {
-                        setCanSpin(false);
-                        startCountdown(60 * 1000); // Start 1 minute countdown
-                    });
+                    // fetch('http://localhost:5000/api/user/confirm-spin', {
+                    //     method: 'POST',
+                    //     credentials: 'include'
+                    // }).then(() => {
+                    //     setCanSpin(false);
+                    //     startCountdown(60 * 1000); // Start 1 minute countdown
+                    // });
     
                     claimOffer(selectedOffer);
                 }
@@ -205,24 +193,24 @@ const Spinner = () => {
         }
     };
 
-    const claimOffer = async (offerLabel) => {
-        try {
-            if (!ownerId) {
-                alert("Owner ID is missing. Please use the correct link.");
-                return;
-            }
+    // const claimOffer = async (offerLabel) => {
+    //     try {
+    //         if (!ownerId) {
+    //             alert("Owner ID is missing. Please use the correct link.");
+    //             return;
+    //         }
 
-            const response = await axios.post(
-                `https://offerwhisky.onrender.com/api/user/claim-offer/${ownerId}`,
-                { offerLabel },
-                { withCredentials: true }
-            );
+    //         const response = await axios.post(
+    //             `http://localhost:5000/api/user/claim-offer/${ownerId}`,
+    //             { offerLabel },
+    //             { withCredentials: true }
+    //         );
 
-        } catch (error) {
-            console.error("Error claiming offer:", error);
-            alert("Failed to claim the offer. Please try again.");
-        }
-    };
+    //     } catch (error) {
+    //         console.error("Error claiming offer:", error);
+    //         alert("Failed to claim the offer. Please try again.");
+    //     }
+    // };
 
     return (
         <div>
@@ -237,10 +225,12 @@ const Spinner = () => {
                 <div className="relative w-72 h-72 flex items-center justify-center">
                     <img src={arrow} className="rotate-180 h-16 absolute top-[-30px] z-10" />
                     <div ref={wheelRef} className="relative w-full h-full">
-                    <Pie ref={chartRef} data={data} options={options} />
+                        <Pie ref={chartRef} data={data} options={options} />
+
                     </div>
                     <button
-                        className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg  transition"
+
+                        className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg transition"
                     >
                         <img src={playbutton} />
                     </button>
@@ -251,6 +241,7 @@ const Spinner = () => {
                         <p className="text-gray-700">You won: {wonOffer}!</p>
                     </div>
                 )}
+
                 <button
                     onClick={handleSpin}
                     disabled={!canSpin}

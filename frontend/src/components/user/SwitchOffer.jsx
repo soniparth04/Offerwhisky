@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
+import spinnerimage from "../../assets/spinner/spinner.png"
+import { Link } from 'react-router-dom';
 
 const Tabs = ({ children }) => <div>{children}</div>;
 const TabsList = ({ children }) => <div className="flex border-b mb-4">{children}</div>;
@@ -100,6 +101,19 @@ const SwitchOffer = ({ shopId }) => {
                 </p>
               </div>
             ))}
+            <Link  to={`/spinner/${shopId}`}>
+              <div className="rounded-lg overflow-hidden w-full max-w-[180px] mx-auto">
+                <div className="bg-blue-700 w-full h-40 rounded-xl overflow-hidden">
+                  <img
+                    src={spinnerimage}
+                    alt="Spin to Win"
+                    className="w-full h-60 object-cover -mt-5"
+                  />
+                </div>
+                <p className="text-sm text-center">Spin to win</p>
+                <p className="text-sm text-center text-gray-600">Try your luck & win surprises!</p>
+              </div>
+            </Link>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-4">

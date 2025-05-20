@@ -43,7 +43,7 @@ const AllShops = () => {
           <img
             src={shop.profileImage}
             alt={shop.shopName}
-            className="w-full object-cover"
+            className="w-full h-44 object-cover"
           />
           <div className="m-2">
             <div className="flex items-center justify-between">

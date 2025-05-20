@@ -1,12 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/user/Login";
-import Signup from "./components/user/Signup";
 import Spinner from "./components/user/Spinner";
 import OwnerDashboard from "./components/owner/OwnerDashboard"; 
 import EditOffer from "./components/owner/Offers/EditOffer";
 import ViewClaim from "./components/owner/ViewClaim";
-import VerifyOtp from "./components/user/VerifyOtp";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import OwnerRegistration from "./components/owner/OwnerRegistration";
 import OwnerLogin from "./components/owner/OwnerLogin";
@@ -37,9 +34,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login/:shopName/:ownerId" element={<Login />} />
-        <Route path="/signup/:shopName/:ownerId" element={<Signup />} />
-        <Route path="/verify-otp" element={<VerifyOtp />} />
         <Route path="/spinner/:shopName/:ownerId" element={<Spinner />} />
         <Route path="/user-offers/:shopName/:ownerId" element={<UserOffer />} />
         <Route path="/All-shops" element={<AllShops />} />
