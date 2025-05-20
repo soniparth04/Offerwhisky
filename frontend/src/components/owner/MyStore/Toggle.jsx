@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Offers from './Offers';
+import Catalogs from './Catalogs';
 
 const Tabs = ({ children }) => <div>{children}</div>;
 const TabsList = ({ children }) => <div className="flex border-b mb-4">{children}</div>;
@@ -29,13 +31,9 @@ const Toggle = () => {
                 </TabsList>
 
                 {activeTab === 'available' ? (
-                    <div className="grid grid-cols-2 gap-4">
-                        available offers
-                    </div>
+                     <Offers/>
                 ) : (
-                    <div className="grid grid-cols-2 gap-4">
-                        store catalog
-                    </div>
+                    <Catalogs/>
                 )}
             </Tabs>
         </div>

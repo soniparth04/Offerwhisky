@@ -54,21 +54,6 @@ const OwnerDashboard = () => {
 
             <StatGrid/>
             <Management/>
-           
-            <div className="container mx-auto mt-10 mb-40">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <Link to="/shop-owner/view-catalogs" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
-                        <div className="text-center">
-                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">View Catalogs</h5>
-                        </div>
-                    </Link>
-                    <Link to="/shop-owner/add-catalogs" className="group block p-6 bg-blue-200 rounded-lg shadow-md hover:shadow-lg transition">
-                        <div className="text-center">
-                            <h5 className="text-xl font-semibold text-gray-800 group-hover:text-blue-600">Add Catalogs</h5>
-                        </div>
-                    </Link>
-                </div>
-            </div>
             <BottomNavigation />
         </div>
     );

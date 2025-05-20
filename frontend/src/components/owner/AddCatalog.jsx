@@ -59,9 +59,16 @@ const AddCatalogs = () => {
       
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-2xl font-bold mb-6 text-center">Add Catalog</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+            <div className="flex items-center mb-6 p-4">
+                <button onClick={() => navigate(-1)} className="mr-2">
+                    <ArrowLeft size={20} />
+                </button>
+                <h1 className="text-xl font-bold">Upload Catalog</h1>
+                <div className="ml-auto">
+                </div>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4 mx-6">
                 <div>
                     <label className="block mb-1 font-medium">Catalog Title</label>
                     <input

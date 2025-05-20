@@ -23,7 +23,6 @@ import Notification from "./components/user/Notification";
 import ShopDetails from "./components/user/Shop";
 import LocationSelection from "./components/user/Home/LocationSelection";
 import AddCatalogs from "./components/owner/AddCatalog";
-import ViewCatalog from "./components/owner/ViewCatalog";
 import CreateOfferPage from "./components/owner/AddOffer/CreateOfferPage";
 import AccountPage from "./components/owner/Account/AccountPage";
 import YourOffer from "./components/owner/Offers/YourOffer";
@@ -60,7 +59,6 @@ function App() {
         <Route path="/shop-owner-login" element={<OwnerLogin/>}/>
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
-        <Route path="/shop-owner/view-catalogs" element={<ViewCatalog />} />
         <Route path="/shop-owner/create-offers" element={<CreateOfferPage />} />
         <Route path="/shop-owner/account" element={<AccountPage />} />
         <Route path="/shop-owner/your-offer" element={<YourOffer />} />
