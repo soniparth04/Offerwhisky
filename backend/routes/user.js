@@ -98,21 +98,26 @@ router.get('/catalog/:ownerId', async (req, res) => {
     }
   });
 
-// Fetch offers for a specific owner
 router.get("/spinner/:ownerId", async (req, res) => {
     const { ownerId } = req.params;
 
     try {
-        const coupons = await Coupon.find({ ownerId });
+        const coupons = await SpinToWin.find({ ownerId });
+
+        const canSpin = coupons.length >= 6; // Check if there are at least 6 offers
+
         if (!coupons.length) {
             return res.status(404).json({ message: "No offers found for this owner." });
         }
-        res.json(coupons);
+
+        res.json({ coupons, canSpin }); // Send both offers and spinner availability
     } catch (error) {
         console.error("Error fetching spinner data:", error);
         res.status(500).json({ message: "Server error fetching offers." });
     }
 });
+
+
 
 // Example of clearing session on logout
 router.post('/logout', (req, res) => {
