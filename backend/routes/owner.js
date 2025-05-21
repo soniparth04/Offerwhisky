@@ -40,17 +40,6 @@ const authenticateOwner = (req, res, next) => {
     next();
 };
 
-// ✅ Default Offers
-const defaultOffers = [
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-    { label: "Best of Luck", description: "Wishing you success in your new journey!", expiryDate: "2025-12-31" },
-];
-
 // Owner Registration Route
 router.post("/owner-registration", upload.fields([
     { name: 'shopImage', maxCount: 1 },
@@ -91,12 +80,6 @@ router.post("/owner-registration", upload.fields([
         await newOwner.save();
         req.session.ownerId = newOwner._id;
 
-        // ✅ Insert Default Offers for New Owner
-        const defaultOffersWithOwner = defaultOffers.map(offer => ({
-            ...offer,
-            ownerId: newOwner._id
-        }));
-        await Coupon.insertMany(defaultOffersWithOwner);
 
         res.status(201).json({
             message: "Owner registered successfully",
@@ -216,23 +199,6 @@ router.get("/owner-dashboard", authenticateOwner, async (req, res) => {
 });
 
 
-router.get('/view-users', async (req, res) => {
-    console.log("Session data on /view-users:", req.session);  // Debugging log
-
-    if (!req.session.ownerId) {
-        return res.status(401).json({ message: "Owner not logged in" });
-    }
-
-    try {
-        const users = await User.find({ ownerId: req.session.ownerId });
-        res.json(users);
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ message: 'Error fetching users' });
-    }
-});
-
-
 // Example backend route
 router.get("/view-offers", authenticateOwner, async (req, res) => {
     try {
@@ -243,6 +209,7 @@ router.get("/view-offers", authenticateOwner, async (req, res) => {
         res.status(500).json({ message: "Error fetching offers" });
     }
 });
+
 // ✅ Create a new offer
 router.post("/add-offer", authenticateOwner, async (req, res) => {
     try {
@@ -433,30 +400,6 @@ router.get('/view-catalog', authenticateOwner, async(req, res) => {
 })
 
 
-router.get('/users/:userId/claimed-offers', async (req, res) => {
-    const { userId } = req.params; // `userId` is actually `_id` in MongoDB
-
-
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).json({ message: "Invalid user ID format" });
-    }
-
-    try {
-        const user = await User.findById(userId); // Find by `_id`, not `userId`
-        if (!user) {
-            console.log("User not found in DB:", userId); // Debugging log
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        // Ensure `claimedOffers` exists in the response
-        const claimedOffers = user.claimedOffers || [];
-
-        res.status(200).json({ claimedOffers });
-    } catch (error) {
-        console.error("Error fetching claimed offers:", error);
-        res.status(500).json({ message: "Server error", error });
-    }
-});
 
 router.get("/offers/:ownerId", async (req, res) => {
     try {
@@ -479,42 +422,7 @@ router.get("/offers/:ownerId", async (req, res) => {
     }
 });
 
-// ✅ Get Users Managed by a Specific Owner
-router.get("/users/:ownerId", async (req, res) => {
-    try {
-        const { ownerId } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(ownerId)) {
-            return res.status(400).json({ message: "Invalid owner ID format" });
-        }
-
-        const users = await User.find({ ownerId });
-
-        if (!users.length) {
-            return res.status(404).json({ message: "No users found for this owner" });
-        }
-
-        res.status(200).json(users);
-    } catch (err) {
-        console.error("Error fetching users:", err);
-        res.status(500).json({ message: "Internal server error" });
-    }
-});
-
-router.delete("/users/:userId/claimed-offers/:offerId", async (req, res) => {
-    const { userId, offerId } = req.params;
-    try {
-        const user = await User.findById(userId);
-        if (!user) return res.status(404).json({ message: "User not found" });
-
-        user.claimedOffers = user.claimedOffers.filter(offer => offer._id.toString() !== offerId);
-        await user.save();
-
-        res.json({ message: "Offer deleted successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Server error", error });
-    }
-});
 
 
 export default router;

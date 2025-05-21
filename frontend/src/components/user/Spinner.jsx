@@ -8,7 +8,6 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 import { Bell } from "lucide-react";
 import arrow from "../../assets/spinner/arrow.png";
 import playbutton from "../../assets/spinner/playbutton.png";
-import Navbar from "./Navbar";
 
 Chart.register(ArcElement, ChartDataLabels);
 
@@ -26,20 +25,19 @@ const Spinner = () => {
     useEffect(() => {
         axios.get(`https://offerwhisky.onrender.com/api/user/spinner/${ownerId}`, { withCredentials: true })
             .then(response => {
-                setSegments(response.data);
+                setSegments(response.data.coupons);
+                setCanSpin(response.data.canSpin); // 🔹 Set spinner active/inactive
                 setTimeout(() => {
                     if (chartRef.current) {
-                        chartRef.current.update(); // 🔄 Force a chart update
+                        chartRef.current.update();
                     }
-                }, 500); // Delay to let Chart.js fully initialize
+                }, 500);
             })
             .catch(error => console.error("Error fetching spinner data", error));
     }, [ownerId, shopName]);
 
 
-
-
-    const handleViewOffers = () => {x
+    const handleViewOffers = () => {
         navigate(`/user-offers/${shopName}/${ownerId}`);
     };
 
@@ -82,7 +80,7 @@ const Spinner = () => {
 
 
     const [canSpin, setCanSpin] = useState(true);
-    const [timeLeft, setTimeLeft] = useState(0); 
+    const [timeLeft, setTimeLeft] = useState(0);
 
     // // Check cooldown on mount
     // useEffect(() => {
@@ -129,38 +127,38 @@ const Spinner = () => {
             //     method: 'POST',
             //     credentials: 'include'
             // });
-            
+
             // const checkData = await checkResponse.json();
-    
+
             // if (checkResponse.status === 403) {
             //     const secondsLeft = Math.ceil(checkData.timeLeftMs / 1000);
             //     alert(`Please wait ${secondsLeft} seconds`);
             //     return;
             // }
-    
+
             if (segments.length === 0) return alert("No offers available!");
-    
+
             // 2. Start spin animation
             const totalSegments = segmentLabels.length;
             const segmentAngle = 360 / totalSegments;
             const randomSegmentIndex = Math.floor(Math.random() * totalSegments);
             const randomOffset = Math.random() * segmentAngle;
             const winningAngle = (randomSegmentIndex * segmentAngle) + randomOffset + 1800;
-    
+
             let startAngle = 0;
             const duration = Math.floor(Math.random() * (8000 - 4000 + 1)) + 4000;
             const startTime = Date.now();
-    
+
             const animateSpin = () => {
                 const elapsedTime = Date.now() - startTime;
                 const progress = Math.min(elapsedTime / duration, 1);
                 const easing = 1 - Math.pow(1 - progress, 3);
                 const currentAngle = startAngle + easing * (winningAngle - startAngle);
-    
+
                 if (wheelRef.current) {
                     wheelRef.current.style.transform = `rotate(${currentAngle}deg)`;
                 }
-    
+
                 if (progress < 1) {
                     requestAnimationFrame(animateSpin);
                 } else {
@@ -168,10 +166,10 @@ const Spinner = () => {
                     const finalAngle = (winningAngle % 360);
                     const correctedIndex = Math.floor((360 - finalAngle) / segmentAngle) % totalSegments;
                     const selectedOffer = segmentLabels[correctedIndex];
-    
+
                     setWonOffer(selectedOffer);
                     setShowCoupon(true);
-                    
+
                     // 4. Only NOW confirm the spin
                     // fetch('http://localhost:5000/api/user/confirm-spin', {
                     //     method: 'POST',
@@ -180,13 +178,13 @@ const Spinner = () => {
                     //     setCanSpin(false);
                     //     startCountdown(60 * 1000); // Start 1 minute countdown
                     // });
-    
+
                     claimOffer(selectedOffer);
                 }
             };
-    
+
             requestAnimationFrame(animateSpin);
-    
+
         } catch (error) {
             console.error("Spin error:", error);
             alert("Failed to spin. Please try again.");
@@ -214,45 +212,57 @@ const Spinner = () => {
 
     return (
         <div>
-            <Navbar />
-            <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
-                <button onClick={handleViewOffers} className="absolute top-5 right-5 text-white text-3xl">
-                    <Bell size={28} />
-                </button>
-                <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">
-                    {currentOffer}
+            {segments.length < 6 ? (
+                <div className="mt-4 p-4 bg-yellow-100 text-yellow-800 rounded-lg shadow text-center text-lg">
+                    Spinner is deactivated by shop owner.
                 </div>
-                <div className="relative w-72 h-72 flex items-center justify-center">
-                    <img src={arrow} className="rotate-180 h-16 absolute top-[-30px] z-10" />
-                    <div ref={wheelRef} className="relative w-full h-full">
-                        <Pie ref={chartRef} data={data} options={options} />
-
-                    </div>
-                    <button
-
-                        className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg transition"
-                    >
-                        <img src={playbutton} />
+            ) : (
+                <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-800">
+                    <button onClick={handleViewOffers} className="absolute top-5 right-5 text-white text-3xl">
+                        <Bell size={28} />
                     </button>
-                </div>
-                {showCoupon && (
-                    <div className="mt-6 p-4 bg-white rounded-lg shadow-md text-center">
-                        <h3 className="text-lg font-bold">Congratulations!</h3>
-                        <p className="text-gray-700">You won: {wonOffer}!</p>
+                    <div className="text-3xl md:text-5xl font-bold text-gray-900 mb-[40px]">
+                        {currentOffer}
                     </div>
-                )}
+                    <div className="relative w-72 h-72 flex items-center justify-center">
+                        <img src={arrow} className="rotate-180 h-16 absolute top-[-30px] z-10" />
+                        <div ref={wheelRef} className="relative w-full h-full">
+                            <Pie ref={chartRef} data={data} options={options} />
 
-                <button
-                    onClick={handleSpin}
-                    disabled={!canSpin}
-                    className={`${canSpin
+                        </div>
+                        <button
+
+                            className="absolute w-16 h-16  font-bold uppercase rounded-full shadow-lg transition"
+                        >
+                            <img src={playbutton} />
+                        </button>
+                    </div>
+                    {showCoupon && (
+                        <div className="mt-6 p-4 bg-white rounded-lg shadow-md text-center">
+                            <h3 className="text-lg font-bold">Congratulations!</h3>
+                            <p className="text-gray-700">You won: {wonOffer}!</p>
+                        </div>
+                    )}
+
+                    {!canSpin && (
+                        <div className="mt-4 p-3 bg-yellow-100 text-yellow-800 rounded-lg shadow">
+                            Spinner is inactive. Minimum 6 offers are required to activate it.
+                        </div>
+                    )}
+
+                    <button
+                        onClick={handleSpin}
+                        disabled={!canSpin}
+                        className={`${canSpin
                             ? 'bg-blue-500 hover:bg-blue-600'
                             : 'bg-gray-400 cursor-not-allowed'
-                        } text-white text-2xl font-bold px-8 py-3 rounded-full mt-10`}
-                >
-                    {canSpin ? 'SPIN' : `   ${timeLeft}s `}
-                </button>
-            </div>
+                            } text-white text-2xl font-bold px-8 py-3 rounded-full mt-10`}
+                    >
+                        {canSpin ? 'SPIN' : 'Not Enough Offers'}
+                    </button>
+
+                </div>
+            )}
         </div>
     );
 };
