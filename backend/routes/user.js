@@ -102,7 +102,7 @@ router.get("/spinner/:ownerId", async (req, res) => {
     const { ownerId } = req.params;
 
     try {
-        const coupons = await SpinToWin.find({ ownerId });
+        const coupons = await Coupon.find({ ownerId });
 
         const canSpin = coupons.length >= 6; // Check if there are at least 6 offers
 
