@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OfferTimer from './OfferTimer';
+import { Pencil, Trash2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const GetAllHappyHours = () => {
   const [offers, setOffers] = useState([]);
   const [offerStatuses, setOfferStatuses] = useState({}); // Track status for each offer
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -20,6 +23,26 @@ const GetAllHappyHours = () => {
 
     fetchOffers();
   }, []);
+
+  // Handle DELETE
+  const handleDelete = async (offerId) => {
+    if (!window.confirm("Are you sure you want to delete this offer?")) return;
+
+    try {
+      await axios.delete(`https://offerwhisky.onrender.com/api/owner/delete-happy-hour/${offerId}`, {
+        withCredentials: true,
+      });
+      // Refresh the list
+      fetchOffers();
+    } catch (error) {
+      console.error("Error deleting offer:", error);
+    }
+  };
+
+  // Navigate to Edit Page
+  const handleEdit = (offerId) => {
+    navigate(`/edit-happy-hour/${offerId}`);
+  };
 
   const handleStatusChange = (offerId, status) => {
     setOfferStatuses((prev) => ({ ...prev, [offerId]: status }));
@@ -58,13 +81,37 @@ const GetAllHappyHours = () => {
                     date={offer.Date}
                     onStatusChange={(status) => handleStatusChange(offer._id, status)}
                   />
-                   {/* Show Start or End time based on status */}
-                    {status === 'Starts In' && (
-                      <p className="text-xs -mt-2 text-red-700 font-semibold">{offer.startTime}</p>
-                    )}
-                    {status === 'Time Remaining' && (
-                      <p className="text-xs text-red-800">end time {offer.endTime}</p>
-                    )}
+
+                  {/* Conditional Status Display */}
+                  {status === 'Starts In' && (
+                    <p className="text-xs -mt-2 text-red-700 font-semibold">
+                      {offer.startTime}
+                    </p>
+                  )}
+                  {status === 'Time Remaining' && (
+                    <p className="text-xs text-green-700 font-semibold">
+                      Ends at {offer.endTime}
+                    </p>
+                  )}
+                  {status === 'Expired' && (
+                    <p className="text-xs text-gray-500 text-red-700 font-semibold">Expired</p>
+                  )}
+                  {/* Action Icons */}
+                  <div className="flex mt-4 space-x-3  mr-3">
+                    <Pencil
+                      size={18}
+                      className="text-blue-600 hover:text-blue-800 cursor-pointer"
+                      onClick={() => handleEdit(offer._id)}
+                      title="Edit Offer"
+                    />
+                    <Trash2
+                      size={18}
+                      className="text-red-600 hover:text-red-800 cursor-pointer"
+                      onClick={() => handleDelete(offer._id)}
+                      title="Delete Offer"
+                    />
+                  </div>
+
                 </div>
               </div>
             );

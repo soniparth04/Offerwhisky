@@ -29,6 +29,7 @@ import BookingHistory from "./components/owner/DashComp/BookingHistory";
 import RedemptionTracker from "./components/owner/DashComp/RedemptionTracker";
 import SponsoredAds from "./components/owner/DashComp/SponsoredAds";
 import MyStore from "./components/owner/MyStore/MyStore";
+import EditHappyHourPage from "./components/owner/Offers/Edit/EditHappyOffer";
 
 function App() {
   return (
