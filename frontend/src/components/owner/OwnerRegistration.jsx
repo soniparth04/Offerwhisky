@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -21,6 +21,12 @@ const OwnerRegistration = () => {
     const [success, setSuccess] = useState("");
     const navigate = useNavigate(); 
 
+    const [address, setAddress] = useState(localStorage.getItem("selectedAddress") || "");
+
+    const handleOpenLocation = () => {
+        navigate('/select-location');
+    };
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -35,6 +41,7 @@ const OwnerRegistration = () => {
             Object.entries(formData).forEach(([key, value]) => {
                 data.append(key, value);
             });
+            data.append("address", address);
             if (shopImage) data.append("shopImage", shopImage);
             if (profileImage) data.append("profileImage", profileImage);
 
@@ -43,11 +50,28 @@ const OwnerRegistration = () => {
             } ,  { withCredentials: true });
 
             setSuccess("Owner registered successfully!");
+            localStorage.removeItem("selectedAddress");
             setTimeout(() => navigate("/shop-owner-dashboard"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
+            console.log
+            (err.response?.data?.message);
         }
     };
+
+     useEffect(() => {
+    const storedDetails = JSON.parse(localStorage.getItem("selectedAddressDetails"));
+    if (storedDetails) {
+        setAddress(storedDetails.address);
+        setFormData(prev => ({
+            ...prev,
+            city: storedDetails.city || "",
+            state: storedDetails.state || "",
+            country: storedDetails.country || "",
+            pinCode: storedDetails.pinCode || ""
+        }));
+    }
+}, []);
 
     return (
         <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
@@ -60,7 +84,14 @@ const OwnerRegistration = () => {
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="shopName" placeholder="Shop Name" value={formData.shopName} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} className="w-full p-2 border rounded" required />
-                
+                <input
+                    type="text"
+                    value={address}
+                    placeholder="Click to select location"
+                    readOnly
+                    onClick={handleOpenLocation}
+                    className="w-full p-2 border rounded"
+                />
                 <input type="text" name="city" placeholder="City" value={formData.city} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="state" placeholder="State" value={formData.state} onChange={handleChange} className="w-full p-2 border rounded" required />
                 <input type="text" name="country" placeholder="Country" value={formData.country} onChange={handleChange} className="w-full p-2 border rounded" required />

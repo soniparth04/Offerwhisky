@@ -10,6 +10,7 @@ const OwnerSchema = new mongoose.Schema({
     state: { type: String, required: true },
     country: { type: String, required: true },
     pinCode: { type: String, required: true },
+    address: { type: String }, 
     shopImage: { type: String },
     profileImage: { type: String },
 }, { timestamps: true });
