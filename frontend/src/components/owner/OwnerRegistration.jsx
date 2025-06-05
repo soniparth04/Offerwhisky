@@ -50,7 +50,7 @@ const OwnerRegistration = () => {
             } ,  { withCredentials: true });
 
             setSuccess("Owner registered successfully!");
-            localStorage.removeItem("selectedAddress");
+             localStorage.removeItem("selectedAddressDetails");
             setTimeout(() => navigate("/shop-owner-dashboard"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
