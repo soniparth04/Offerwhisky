@@ -1,32 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import Markerpin from "../../../assets/Home/marker.png";
 import ChevronDown from "../../../assets/Home/chevrondown.png";
-import Heart from "../../../assets/Home/heart.png"
+import Heart from "../../../assets/Home/heart.png";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
-
-  const getCityFromComponents = (components) => {
-    return (
-      components.city ||
-      components.town ||
-      components.village ||
-      components.municipality ||
-      components.county ||
-      components.state ||
-      components.country
-    );
-  };
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   useEffect(() => {
+    const manualData = sessionStorage.getItem("selectedAddressDetails");
+    const cachedAddress = sessionStorage.getItem('userAddress');
+    const cachedCity = sessionStorage.getItem('userCity');
+
+    if (manualData) {
+      // Priority 1: Use manual address if present
+      const parsed = JSON.parse(manualData);
+      setAddress(parsed.address || "Manual address");
+      setCity(parsed.city || "Manual city");
+      // Sync to userAddress/userCity sessionStorage keys so they remain consistent
+      sessionStorage.setItem("userAddress", parsed.address);
+      sessionStorage.setItem("userCity", parsed.city);
+      setLoading(false);
+      return;
+    } 
+
+    if (cachedAddress && cachedCity) {
+      // Priority 2: Use cached current location address
+      setAddress(cachedAddress);
+      setCity(cachedCity);
+      setLoading(false);
+      return;
+    }
+
+    // Priority 3: Fetch location using Geolocation API
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser");
       setLoading(false);
@@ -35,18 +47,17 @@ const Header = () => {
 
     const geoOptions = {
       enableHighAccuracy: true,
-      timeout: 10000, // 10 seconds
-      maximumAge: 0 // Don't use cached position
+      timeout: 10000,
+      maximumAge: 0
     };
 
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        console.log("Geo Coordinates:", latitude, longitude);
 
         try {
           const response = await fetch(
-            `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}&no_annotations=1`
+            `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
           );
 
           if (!response.ok) {
@@ -54,17 +65,26 @@ const Header = () => {
           }
 
           const data = await response.json();
-          console.log("OpenCage result:", data);
 
-          if (data.results?.length > 0) {
+          if (data.results && data.results.length > 0) {
             const result = data.results[0];
-            setAddress(result.formatted || 'Address not available');
+            const fullAddress = result.formatted_address || 'Address not available';
 
-            const cityName = getCityFromComponents(result.components);
-            setCity(cityName || 'City not available');
+            const cityComponent = result.address_components.find(component =>
+              component.types.includes("locality") || component.types.includes("administrative_area_level_2")
+            );
+
+            const cityName = cityComponent?.long_name || 'City not available';
+
+            setAddress(fullAddress);
+            setCity(cityName);
+
+            // Cache current location address separately so manual address can override it
+            sessionStorage.setItem('userAddress', fullAddress);
+            sessionStorage.setItem('userCity', cityName);
           } else {
-            setAddress('No address found for this location');
-            setCity('No city found for this location');
+            setAddress('No address found');
+            setCity('No city found');
           }
         } catch (err) {
           console.error('Error:', err);
@@ -83,10 +103,10 @@ const Header = () => {
             errorMessage = "Location permission denied";
             break;
           case error.POSITION_UNAVAILABLE:
-            errorMessage = "Location information unavailable";
+            errorMessage = "Location unavailable";
             break;
           case error.TIMEOUT:
-            errorMessage = "Location request timed out";
+            errorMessage = "Request timed out";
             break;
           default:
             errorMessage = "Unknown location error";
@@ -100,32 +120,41 @@ const Header = () => {
     );
   }, [apiKey]);
 
+  // Trim long addresses
+  const trimmedAddress = address.length > 60 ? address.slice(0, 60) + '...' : address;
+
   return (
     <div className="bg-gradient-to-b from-orange-100 to-white px-4 pt-10 pb-2">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div>
-            <p className=" flex items-center">
+            <p className="flex items-center">
               <span className="font-bold flex items-center">
                 <img src={Markerpin} alt="Marker Icon" className="w-6 h-6 mr-2" />
-                Current Location
+                {city || "Current Location"}
                 <img
                   src={ChevronDown}
                   alt="chevron down"
                   className="w-4 h-4 ml-1 cursor-pointer"
-                  onClick={() => navigate("/location")}
+                  onClick={() => {
+                    // Clear manual address first so geolocation or cached location shows up
+                    sessionStorage.removeItem('selectedAddressDetails');
+                    // Optionally clear userAddress and userCity or keep cached current location
+                    sessionStorage.removeItem('userAddress');
+                    sessionStorage.removeItem('userCity');
+                    navigate("/location");
+                  }}
                 />
               </span>
             </p>
-            <p className="text-xs  text-gray-500 ml-2 ">
-              {loading ? 'Fetching location...' : error || address}
+            <p className="text-xs text-gray-500 ml-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-[250px]">
+              {loading ? 'Fetching location...' : error || trimmedAddress}
             </p>
           </div>
-
         </div>
-        {/* Gift Icon */}
+
         <div className="text-xl text-gray-700">
-          <img src={Heart} alt="heart" className="w-6 h-6 " />
+          <img src={Heart} alt="heart" className="w-6 h-6" />
         </div>
       </div>
     </div>
