@@ -19,11 +19,12 @@ const OwnerRegistration = () => {
     const [profileImage, setProfileImage] = useState(null);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const [address, setAddress] = useState(localStorage.getItem("selectedAddress") || "");
 
     const handleOpenLocation = () => {
+        localStorage.setItem("ownerFormData", JSON.stringify(formData));
         navigate('/select-location');
     };
 
@@ -47,31 +48,44 @@ const OwnerRegistration = () => {
 
             const response = await axios.post("https://offerwhisky.onrender.com/api/owner/owner-registration", data, {
                 headers: { "Content-Type": "multipart/form-data" }
-            } ,  { withCredentials: true });
+            }, { withCredentials: true });
 
             setSuccess("Owner registered successfully!");
-             localStorage.removeItem("selectedAddressDetails");
+            localStorage.removeItem("selectedAddressDetails");
+            localStorage.removeItem("ownerFormData");
             setTimeout(() => navigate("/shop-owner-dashboard"), 1000);
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
             console.log
-            (err.response?.data?.message);
+                (err.response?.data?.message);
         }
     };
 
-     useEffect(() => {
-    const storedDetails = JSON.parse(localStorage.getItem("selectedAddressDetails"));
-    if (storedDetails) {
-        setAddress(storedDetails.address);
-        setFormData(prev => ({
-            ...prev,
-            city: storedDetails.city || "",
-            state: storedDetails.state || "",
-            country: storedDetails.country || "",
-            pinCode: storedDetails.pinCode || ""
-        }));
-    }
-}, []);
+    useEffect(() => {
+
+        const storedDetails = JSON.parse(localStorage.getItem("selectedAddressDetails"));
+        const storedForm = JSON.parse(localStorage.getItem("ownerFormData"));
+
+        if (storedDetails) {
+            setAddress(storedDetails.address);
+            setFormData(prev => ({
+                ...prev,
+                city: storedDetails.city || "",
+                state: storedDetails.state || "",
+                country: storedDetails.country || "",
+                pinCode: storedDetails.pinCode || ""
+            }));
+        }
+
+
+        if (storedForm) {
+            setFormData(prev => ({
+                ...prev,
+                ...storedForm
+            }));
+        }
+
+    }, []);
 
     return (
         <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
