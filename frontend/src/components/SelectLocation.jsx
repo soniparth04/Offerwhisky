@@ -4,14 +4,13 @@ import PinLocation from "../assets/locationpin.png";
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-
 const containerStyle = {
   width: "100%",
   height: "400px",
 };
 
 const defaultCenter = {
-  lat: 22.3072, // Vadodara
+  lat: 22.3072,
   lng: 73.1812,
 };
 
@@ -26,41 +25,48 @@ function SelectLocation() {
     libraries: ["places"],
   });
 
- const fetchAddress = useCallback((lat, lng) => {
-  const geocoder = new window.google.maps.Geocoder();
-  geocoder.geocode({ location: { lat, lng } }, (results, status) => {
-    if (status === "OK" && results[0]) {
-      const addressComponents = results[0].address_components;
+  const fetchAddress = useCallback((lat, lng) => {
+    const geocoder = new window.google.maps.Geocoder();
+    geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+      if (status === "OK" && results.length > 0) {
+        console.log("Geocoder Results:", results);
 
-      let city = "", state = "", country = "", pinCode = "";
+        // Helper function to find component by type across all results
+        function getComponent(type) {
+          for (const result of results) {
+            for (const component of result.address_components) {
+              if (component.types.includes(type)) {
+                return component.long_name;
+              }
+            }
+          }
+          return "";
+        }
 
-      for (const component of addressComponents) {
-        const types = component.types;
-        if (types.includes("locality")) city = component.long_name;
-        if (types.includes("administrative_area_level_1")) state = component.long_name;
-        if (types.includes("country")) country = component.long_name;
-        if (types.includes("postal_code")) pinCode = component.long_name;
+        const city = getComponent("locality") || getComponent("sublocality") || "";
+        const state = getComponent("administrative_area_level_1") || "";
+        const country = getComponent("country") || "";
+        const pinCode = getComponent("postal_code") || "";
+
+        const formattedAddress = results[0].formatted_address;
+
+        const locationData = {
+          address: formattedAddress,
+          city,
+          state,
+          country,
+          pinCode,
+          latitude: lat,
+          longitude: lng,
+        };
+
+        localStorage.setItem("selectedAddressDetails", JSON.stringify(locationData));
+        setAddress(formattedAddress);
+      } else {
+        setAddress("Address not found");
       }
-
-      const formattedAddress = results[0].formatted_address;
-
-      const locationData = {
-        address: formattedAddress,
-        city,
-        state,
-        country,
-        pinCode,
-      };
-
-      localStorage.setItem("selectedAddressDetails", JSON.stringify(locationData));
-      setAddress(formattedAddress);
-    } else {
-      setAddress("Address not found");
-    }
-  });
-}, []);
-
-
+    });
+  }, []);
 
   const handleDragEnd = () => {
     if (mapRef.current) {
@@ -85,16 +91,15 @@ function SelectLocation() {
     }
   };
 
- const handleConfirm = () => {
-  const stored = localStorage.getItem("selectedAddressDetails");
-  if (stored) {
-    alert("Location selected successfully!");
-    window.history.back(); // or useNavigate()
-  } else {
-    alert("Please select a location first.");
-  }
-};
-
+  const handleConfirm = () => {
+    const stored = localStorage.getItem("selectedAddressDetails");
+    if (stored) {
+      alert("Location selected successfully!");
+      window.history.back();
+    } else {
+      alert("Please select a location first.");
+    }
+  };
 
   return isLoaded ? (
     <div className="p-5">

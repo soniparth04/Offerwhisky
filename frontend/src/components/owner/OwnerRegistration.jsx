@@ -12,7 +12,9 @@ const OwnerRegistration = () => {
         city: "",
         state: "",
         country: "",
-        pinCode: ""
+        pinCode: "",
+        latitude: "",
+        longitude: ""
     });
 
     const [shopImage, setShopImage] = useState(null);
@@ -62,21 +64,8 @@ const OwnerRegistration = () => {
     };
 
     useEffect(() => {
-
-        const storedDetails = JSON.parse(localStorage.getItem("selectedAddressDetails"));
         const storedForm = JSON.parse(localStorage.getItem("ownerFormData"));
-
-        if (storedDetails) {
-            setAddress(storedDetails.address);
-            setFormData(prev => ({
-                ...prev,
-                city: storedDetails.city || "",
-                state: storedDetails.state || "",
-                country: storedDetails.country || "",
-                pinCode: storedDetails.pinCode || ""
-            }));
-        }
-
+        const storedDetails = JSON.parse(localStorage.getItem("selectedAddressDetails"));
 
         if (storedForm) {
             setFormData(prev => ({
@@ -85,6 +74,18 @@ const OwnerRegistration = () => {
             }));
         }
 
+        if (storedDetails) {
+            setAddress(storedDetails.address || "");
+            setFormData(prev => ({
+                ...prev,
+                city: storedDetails.city || "",
+                state: storedDetails.state || "",
+                country: storedDetails.country || "",
+                pinCode: storedDetails.pinCode || "",
+                latitude: storedDetails.latitude || "",
+                longitude: storedDetails.longitude || ""
+            }));
+        }
     }, []);
 
     return (
