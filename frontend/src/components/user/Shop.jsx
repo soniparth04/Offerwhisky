@@ -23,6 +23,20 @@ const ShopDetails = () => {
         fetchShop();
     }, [id]);
 
+     const handleGetDirections = () => {
+        if (shop) {
+            let mapUrl = '';
+            if (shop.latitude && shop.longitude) {
+                mapUrl = `https://www.google.com/maps/search/?api=1&query=${shop.latitude},${shop.longitude}`;
+            } else {
+                const address = `${shop.shopName}, ${shop.city}, ${shop.state}, ${shop.country}`;
+                const encodedAddress = encodeURIComponent(address);
+                mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+            }
+            window.open(mapUrl, '_blank');
+        }
+    };
+
     if (loading) return <p>Loading...</p>;
     if (!shop) return <p>Shop not found</p>;
 
@@ -47,7 +61,10 @@ const ShopDetails = () => {
                     <span className="text-xl">★★★★★</span>
                 </div>
                 <div className="text-center mt-4">
-                    <button className="bg-blue-800 text-white font-semibold py-2 px-28 rounded-full">
+                      <button
+                        onClick={handleGetDirections}
+                        className="bg-blue-800 text-white font-semibold py-2 px-28 rounded-full"
+                    >
                         Get Directions
                     </button>
                 </div>
