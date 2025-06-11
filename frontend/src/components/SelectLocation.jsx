@@ -94,8 +94,8 @@ function SelectLocation() {
   const handleConfirm = () => {
     const stored = localStorage.getItem("selectedAddressDetails");
     if (stored) {
-      alert("Location selected successfully!");
-      window.history.back();
+     localStorage.setItem("locationSelected", "true");
+      navigate("/shop-owner-registration");
     } else {
       alert("Please select a location first.");
     }

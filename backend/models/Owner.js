@@ -13,6 +13,33 @@ const OwnerSchema = new mongoose.Schema({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
     address: { type: String }, 
+     category: {
+        type: String,
+        enum: [
+            'Restaurant',
+            'Salon',
+            'Retail',
+            'Cafe',
+            'Gym',
+            'Spa',
+            'Electronics',
+            'Fashion',
+            'Grocery',
+            'Bakery',
+            'Pharmacy',
+            'Other'
+        ],
+        required: true
+    },
+    openingHours: {
+        type: String,
+        required: true,
+    },
+    closingHours: {
+        type: String,
+        required: true,
+    },
+    openingDays: { type: [String], required: true },
     shopImage: { type: String },
     profileImage: { type: String },
 }, { timestamps: true });

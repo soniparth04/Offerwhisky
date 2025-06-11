@@ -5,7 +5,7 @@ import OwnerDashboard from "./components/owner/OwnerDashboard";
 import EditOffer from "./components/owner/Offers/EditOffer";
 import ViewClaim from "./components/owner/ViewClaim";
 import AdminDashboard from "./components/admin/AdminDashboard";
-import OwnerRegistration from "./components/owner/OwnerRegistration";
+import OwnerRegistration from "./components/owner/Registration/OwnerRegistration";
 import OwnerLogin from "./components/owner/OwnerLogin";
 import ForgotPassword from "./components/owner/ForgotPassword";
 import ViewShopOwner from "./components/admin/ViewShopOwner";

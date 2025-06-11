@@ -46,9 +46,9 @@ router.post("/owner-registration", upload.fields([
     { name: 'profileImage', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { name, phone, email, shopName, password, city, state, country, pinCode , address, latitude, longitude} = req.body;
+        const { name, phone, email, shopName, password, city, state, country, pinCode , address, latitude, longitude, category , openingHours, closingHours , openingDays} = req.body;
 
-        if (!name || !phone || !email || !shopName || !password || !city || !state || !country || !pinCode|| !address) {
+        if (!name || !phone || !email || !shopName || !password || !city || !state || !country || !pinCode|| !address || !latitude || !longitude || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -76,6 +76,10 @@ router.post("/owner-registration", upload.fields([
             latitude,
             longitude,
             address,
+            category,
+            openingHours,
+            closingHours,
+            openingDays,
             shopImage,
             profileImage
         });
