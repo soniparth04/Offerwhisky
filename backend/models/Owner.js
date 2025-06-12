@@ -13,6 +13,8 @@ const OwnerSchema = new mongoose.Schema({
     latitude: { type: Number, required: true },
     longitude: { type: Number, required: true },
     address: { type: String }, 
+    addressline: { type: String },
+
      category: {
         type: String,
         enum: [

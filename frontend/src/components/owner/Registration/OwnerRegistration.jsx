@@ -21,6 +21,7 @@ const OwnerRegistration = () => {
         category: "",
         openingHours: "",
         closingHours: "",
+        addressline: "",
         openingDays: []
     });
 
@@ -293,6 +294,9 @@ const OwnerRegistration = () => {
                                 </div>
                             )}
                         </div>
+                         <div className="relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+                            <input type="text" name="addressline" placeholder="Address Line" value={formData.addressline} onChange={handleChange} className="w-full p-4 bg-transparent rounded-xl pl-4 pr-12 focus:outline-none focus:ring-2 focus:ring-blue-300 border border-gray-100" required />
+                        </div>
                         <div className="relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
                             <input
                                 type="text"
@@ -328,7 +332,10 @@ const OwnerRegistration = () => {
                 <div className="flex items-center justify-center min-h-screen ">
                     <div className="space-y-4">
                         <div className="text-center mb-8 mt-20">
-                            <p className="text-gray-600 text-2xl font-bold mb-3">You are at Last step.</p>
+                            <h1 className="text-3xl font-bold mb-3 text-gray-800 tracking-tight">Great! You’re Almost There!
+                            </h1>
+                            <p className="text-gray-600 text-l">Let’s complete your business profile.
+                            </p>
                         </div>
                         <div className="relative bg-gray-50 rounded-xl shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
                             <label className="block text-sm font-medium mb-1">Profile Image:</label>
