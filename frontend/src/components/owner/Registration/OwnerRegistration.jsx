@@ -5,6 +5,7 @@ import TimePicker12Hour from "./TimePicker";
 import { Clock, Calendar, User, MapPin, Image, Upload, ChevronDown } from 'lucide-react';
 
 const OwnerRegistration = () => {
+    const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
