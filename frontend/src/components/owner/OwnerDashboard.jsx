@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import BottomNavigation from './Navbar/BottomNav';
 import StatGrid from './DashboardComponent/StateGrid';
 import Management from './DashboardComponent/Manage';
+import { MapPin, HelpCircle } from 'lucide-react';
 
 const OwnerDashboard = () => {
     const navigate = useNavigate();
@@ -26,34 +27,49 @@ const OwnerDashboard = () => {
         fetchOwnerInfo();
     }, [navigate]);
 
-    return (
-       <div>
-            <div className="flex items-center p-4 border-b border-gray-100">
-                <div
-                    className="flex items-center space-x-2 cursor-pointer"
-                    onClick={() => navigate('/shop-owner/my-store')}
-                >
-                    <div className="w-10 h-10 rounded-full overflow-hidden">
-                        <img
-                            src={shopImage}
-                            alt="Store Logo"
-                            className="w-full h-full object-cover"
-                        />
+     return (
+        <div>
+            <div className="bg-gradient-to-b from-indigo-200 to-white pl-2 rounded-b-xl shadow-sm">
+                <div className="flex justify-between items-center">
+                    {/* Left side: Store image + name */}
+                    <div
+                        className="flex items-center space-x-2 cursor-pointer"
+                        onClick={() => navigate('/shop-owner/my-store')}
+                    >
+                        <div className="w-14 h-14 mb-4 rounded-full overflow-hidden shadow-md border-2 border-white transition-all transform group-hover:scale-105 group-hover:shadow-lg">
+                            <img
+                                src={shopImage}
+                                alt="Store Logo"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+
+                        <div className="ml-5 mt-6">
+                            <h2 className="text-2xl ml-2 font-extrabold text-gray-800 tracking-tight group-hover:text-indigo-800 transition-colors">
+                                {shopName ? `${shopName} ` : "Loading..."}
+                            </h2>
+                            <div className="flex items-center text-gray-500 ml-2 mt-1">
+                                <MapPin size={14} className="mr-1" />
+                                <span className="text-sm">Merchant Dashboard</span>
+                            </div>
+                            <p className="-ml-14 pb-4 font-extrabold text-[10px] text-gray-500 leading-none">
+                                My Store
+                            </p>
+                        </div>
                     </div>
 
-                    <div className="ml-5 mt-6">
-                        <h2 className="font-extrabold text-[22px] text-[#252525] w-[150px] h-[29px] whitespace-nowrap ml-4">
-                            {shopName ? `${shopName} ` : "Loading..."}
-                        </h2>
-                        <p className="mt-2 -ml-12 font-extrabold text-[10px] text-gray-500 leading-none">
-                            My Store
-                        </p>
-                    </div>
+                    {/* Right side: Help button */}
+                    <button
+                        className="relative p-2.5 bg-white rounded-full shadow-sm border border-gray-100 hover:bg-gray-50 transition-all hover:shadow-md mr-2"
+                        onClick={() => navigate('/help-support')}
+                    >
+                        <HelpCircle size={20} className="text-gray-600" />
+                        <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
                 </div>
             </div>
-
-            <StatGrid/>
-            <Management/>
+            <StatGrid />
+            <Management />
             <BottomNavigation />
         </div>
     );
