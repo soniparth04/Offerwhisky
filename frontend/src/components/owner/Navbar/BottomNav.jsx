@@ -10,63 +10,60 @@ const BottomNavigation = () => {
 
   return (
     <div className="fixed bottom-0 w-full mx-auto z-50">
-      <nav className="flex items-center justify-between bg-white border-t border-gray-200 px-4 h-16">
+      <nav className="flex items-center justify-between bg-white border-t border-gray-200 px-2 h-14">
         <NavLink
           to="/shop-owner-dashboard"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-16 h-full ${
-              isActive ? 'text-blue-800' : 'text-gray-600'
+            `flex flex-col items-center justify-center w-16 h-full ${isActive ? 'text-blue-800' : 'text-gray-600'
             }`
           }
         >
-          <Home size={25} />
+          <Home size={20} />
           <span className="text-xs mt-1">Home</span>
         </NavLink>
 
         <NavLink
           to="/shop-owner/my-ads"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-16 h-full ${
-              isActive ? 'text-blue-800' : 'text-gray-600'
+            `flex flex-col items-center justify-center w-16 h-full ${isActive ? 'text-blue-800' : 'text-gray-600'
             }`
           }
         >
-          <LayoutDashboard size={25} />
-          <span className="text-xs mt-1">Ads</span>
+          <LayoutDashboard size={20} />
+          <span className="text-xs mt-1">My Ads</span>
         </NavLink>
 
         {!hidePlusButton && (
           <div className="relative -top-5">
             <button
               onClick={() => navigate('/shop-owner/create-offers')}
-              className="flex items-center justify-center w-20 h-20 rounded-full bg-[#001CD3] text-white shadow-lg hover:bg-[#226EDA] transition-colors"
+              className="flex items-center justify-center w-16 h-16 rounded-full bg-[#001CD3] text-white shadow-lg hover:bg-[#226EDA] transition-colors"
             >
-              <Plus size={27} />
+              <Plus size={20} />
             </button>
           </div>
+
         )}
 
         <NavLink
           to="/shop-owner/scan-qr"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-16 h-full ${
-              isActive ? 'text-blue-800' : 'text-gray-600'
+            `flex flex-col items-center justify-center w-16 h-full ${isActive ? 'text-blue-800' : 'text-gray-600'
             }`
           }
         >
-          <img src={QRCodeIcon} alt="Scan QR" className="w-6 h-6" />
+          <img src={QRCodeIcon} alt="Scan QR" className="w-5 h-5" />
           <span className="text-xs mt-1">Scan QR</span>
         </NavLink>
 
         <NavLink
           to="/shop-owner/account"
           className={({ isActive }) =>
-            `flex flex-col items-center justify-center w-16 h-full ${
-              isActive ? 'text-blue-800' : 'text-gray-600'
+            `flex flex-col items-center justify-center w-16 h-full ${isActive ? 'text-blue-800' : 'text-gray-600'
             }`
           }
         >
-          <User size={25} />
+          <User size={20} />
           <span className="text-xs mt-1">Account</span>
         </NavLink>
       </nav>

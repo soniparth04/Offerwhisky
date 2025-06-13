@@ -27,7 +27,7 @@ const OwnerDashboard = () => {
         fetchOwnerInfo();
     }, [navigate]);
 
-     return (
+    return (
         <div>
             <div className="bg-gradient-to-b from-indigo-200 to-white pl-2 rounded-b-xl shadow-sm">
                 <div className="flex justify-between items-center">
