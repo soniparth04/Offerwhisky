@@ -22,6 +22,8 @@ const happyHoursOfferSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  MinimumPurchase: Number,
+  NuRedemption: Number,
   offerImage: {
     type: String,
     default: '',

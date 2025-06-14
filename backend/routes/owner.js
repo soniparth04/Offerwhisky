@@ -12,22 +12,22 @@ import { v2 as cloudinary } from 'cloudinary';
 import pkg from 'multer-storage-cloudinary';
 const router = express.Router();
 
-const { CloudinaryStorage } = pkg; 
+const { CloudinaryStorage } = pkg;
 
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
-      folder: 'common-offers',
-      allowed_formats: ['jpg', 'png', 'jpeg'],
-      transformation: [{ width: 800, height: 800, crop: 'limit' }],
+        folder: 'common-offers',
+        allowed_formats: ['jpg', 'png', 'jpeg'],
+        transformation: [{ width: 800, height: 800, crop: 'limit' }],
     },
-  });
+});
 
 const upload = multer({ storage });
 
@@ -46,9 +46,9 @@ router.post("/owner-registration", upload.fields([
     { name: 'profileImage', maxCount: 1 }
 ]), async (req, res) => {
     try {
-        const { name, phone, email, shopName, password, city, state, country, pinCode , address, latitude, longitude, category , openingHours, closingHours , openingDays , addressline} = req.body;
+        const { name, phone, email, shopName, password, city, state, country, pinCode, address, latitude, longitude, category, openingHours, closingHours, openingDays, addressline } = req.body;
 
-        if (!name || !phone || !email || !shopName || !password || !city || !state || !country || !pinCode|| !address ||!addressline || !latitude || !longitude || !category) {
+        if (!name || !phone || !email || !shopName || !password || !city || !state || !country || !pinCode || !address || !addressline || !latitude || !longitude || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -126,9 +126,11 @@ router.post('/owner-login', async (req, res) => {
 
         console.log("Login Successful, Session Data:", req.session); // Debugging
 
-        res.status(200).json({ message: "Login successful",
+        res.status(200).json({
+            message: "Login successful",
             ownerId: owner._id,
-            shopName: owner.shopName });
+            shopName: owner.shopName
+        });
 
     } catch (error) {
         console.error("Login error:", error);
@@ -179,7 +181,7 @@ router.get("/owner-info", async (req, res) => {
     }
 
     try {
-        const owner = await Owner.findById(req.session.ownerId).lean(); 
+        const owner = await Owner.findById(req.session.ownerId).lean();
         if (!owner) {
             return res.status(404).json({ message: "Owner not found" });
         }
@@ -246,7 +248,7 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 
 
 router.post('/create-offer', upload.single('image'), async (req, res) => {
-    const { title, description, validTill, ownerId, category } = req.body;
+    const { title, description, StartDate, EndDate, MinimumPurchase, NuRedemption, ownerId, category } = req.body;
 
     try {
         const imagePath = req.file ? req.file.path : null;
@@ -254,9 +256,12 @@ router.post('/create-offer', upload.single('image'), async (req, res) => {
         const newOffer = new CommonOffer({
             title,
             description,
-            validTill,
+            StartDate,
+            EndDate,
+            MinimumPurchase,
+            NuRedemption,
             ownerId,
-            image: imagePath, 
+            image: imagePath,
             category
         });
 
@@ -269,116 +274,118 @@ router.post('/create-offer', upload.single('image'), async (req, res) => {
 });
 
 router.post('/create-happy-hours', upload.single('offerImage'), async (req, res) => {
-  const { offerTitle, description, category, startTime, endTime, Date, ownerId } = req.body;
+    const { offerTitle, description, category, startTime, endTime, Date, MinimumPurchase, NuRedemption, ownerId } = req.body;
 
-  try {
-    const imagePath = req.file ? req.file.path : null;
+    try {
+        const imagePath = req.file ? req.file.path : null;
 
-    const newhappyoffer = new HappyHoursOffer({
-      offerTitle,
-      description, // <-- Added
-      category,
-      startTime,
-      endTime,
-      offerImage: imagePath,
-      Date,
-      ownerId
-    });
+        const newhappyoffer = new HappyHoursOffer({
+            offerTitle,
+            description,
+            category,
+            startTime,
+            endTime,
+            MinimumPurchase,
+            NuRedemption,
+            offerImage: imagePath,
+            Date,
+            ownerId
+        });
 
-    const savedhappyoffers = await newhappyoffer.save();
-    res.status(201).json(savedhappyoffers);
-  } catch (err) {
-    console.error('Error creating offer:', err);
-    res.status(500).json({ error: 'Failed to create offer' });
-  }
+        const savedhappyoffers = await newhappyoffer.save();
+        res.status(201).json(savedhappyoffers);
+    } catch (err) {
+        console.error('Error creating offer:', err);
+        res.status(500).json({ error: 'Failed to create offer' });
+    }
 });
 
 
 router.get('/get-all-happy-hours', async (req, res) => {
-  try {
-    const offers = await HappyHoursOffer.find().sort({ Date: -1 }); // newest first
-    res.status(200).json(offers);
-  } catch (error) {
-    console.error('Error fetching happy hour offers:', error);
-    res.status(500).json({ error: 'Failed to fetch happy hour offers' });
-  }
+    try {
+        const offers = await HappyHoursOffer.find().sort({ Date: -1 }); // newest first
+        res.status(200).json(offers);
+    } catch (error) {
+        console.error('Error fetching happy hour offers:', error);
+        res.status(500).json({ error: 'Failed to fetch happy hour offers' });
+    }
 });
 
 // ✅ DELETE Happy Hour Offer
 router.delete('/delete-happy-hour/:id', async (req, res) => {
-  try {
-    const deletedOffer = await HappyHoursOffer.findByIdAndDelete(req.params.id);
-    if (!deletedOffer) {
-      return res.status(404).json({ message: 'Offer not found' });
+    try {
+        const deletedOffer = await HappyHoursOffer.findByIdAndDelete(req.params.id);
+        if (!deletedOffer) {
+            return res.status(404).json({ message: 'Offer not found' });
+        }
+        res.status(200).json({ message: 'Offer deleted successfully' });
+    } catch (err) {
+        console.error('Delete error:', err);
+        res.status(500).json({ message: 'Server error while deleting' });
     }
-    res.status(200).json({ message: 'Offer deleted successfully' });
-  } catch (err) {
-    console.error('Delete error:', err);
-    res.status(500).json({ message: 'Server error while deleting' });
-  }
 });
 
 
 router.put('/update-happy-offer/:id', upload.single('offerImage'), async (req, res) => {
-  try {
-    const offerId = req.params.id;
+    try {
+        const offerId = req.params.id;
 
-    const { offerTitle, description, category, startTime, endTime, Date } = req.body;
+        const { offerTitle, description, category, startTime, endTime, Date } = req.body;
 
-    const updateData = {
-      offerTitle,
-      description,
-      category,
-      startTime,
-      endTime,
-      Date,
-    };
+        const updateData = {
+            offerTitle,
+            description,
+            category,
+            startTime,
+            endTime,
+            Date,
+        };
 
-    // If new image uploaded
-    if (req.file) {
-      updateData.offerImage = `http://localhost:5000/uploads/${req.file.filename}`; // or Cloudinary URL
+        // If new image uploaded
+        if (req.file) {
+            updateData.offerImage = `http://localhost:5000/uploads/${req.file.filename}`; // or Cloudinary URL
+        }
+
+        const updatedOffer = await HappyHoursOffer.findByIdAndUpdate(offerId, updateData, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updatedOffer) {
+            return res.status(404).json({ error: "Offer not found" });
+        }
+
+        return res.status(200).json({ message: "Offer updated", offer: updatedOffer });
+    } catch (error) {
+        console.error("Update error:", error);
+        return res.status(500).json({ error: "Failed to update offer" });
     }
-
-    const updatedOffer = await HappyHoursOffer.findByIdAndUpdate(offerId, updateData, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedOffer) {
-      return res.status(404).json({ error: "Offer not found" });
-    }
-
-    return res.status(200).json({ message: "Offer updated", offer: updatedOffer });
-  } catch (error) {
-    console.error("Update error:", error);
-    return res.status(500).json({ error: "Failed to update offer" });
-  }
 });
 
 // Get single Happy Hour offer by ID
 router.get('/get-happy-hour/:id', async (req, res) => {
-  try {
-    const offer = await HappyHoursOffer.findById(req.params.id);
-    if (!offer) {
-      return res.status(404).json({ message: 'Offer not found' });
+    try {
+        const offer = await HappyHoursOffer.findById(req.params.id);
+        if (!offer) {
+            return res.status(404).json({ message: 'Offer not found' });
+        }
+        res.status(200).json(offer);
+    } catch (err) {
+        console.error('Error fetching offer:', err);
+        res.status(500).json({ message: 'Server error while fetching offer' });
     }
-    res.status(200).json(offer);
-  } catch (err) {
-    console.error('Error fetching offer:', err);
-    res.status(500).json({ message: 'Server error while fetching offer' });
-  }
 });
 
-  // GET all common offers
-router.get('/common-offers',authenticateOwner, async (req, res) => {
+// GET all common offers
+router.get('/common-offers', authenticateOwner, async (req, res) => {
     try {
-      const offers = await CommonOffer.find({ownerId: req.ownerId});
-      res.status(200).json(offers);
+        const offers = await CommonOffer.find({ ownerId: req.ownerId });
+        res.status(200).json(offers);
     } catch (err) {
-      console.error("Error fetching common offers:", err);
-      res.status(500).json({ error: "Failed to fetch common offers" });
+        console.error("Error fetching common offers:", err);
+        res.status(500).json({ error: "Failed to fetch common offers" });
     }
-  });
+});
 
 
 // ✅ Fetch Single Offer by ID
@@ -434,36 +441,36 @@ router.delete("/delete-offer/:id", async (req, res) => {
 // add catalog
 router.post("/add-catalog", upload.array('images', 5), async (req, res) => {
     const { title, description, ownerId, price } = req.body;
-  
+
     try {
-      // Check if images were uploaded and log the result
-      console.log('Uploaded Files:', req.files);
-  
-      // Extract URLs from uploaded files
-      const imageUrls = req.files.map(file => file.path);
-  
-      console.log('Image URLs:', imageUrls);
-  
-      const newCatalog = new Catalog({
-        title,
-        description,
-        ownerId,
-        price,
-        image: imageUrls, // Store array of URLs
-      });
-  
-      const savedCatalog = await newCatalog.save();
-      res.status(201).json(savedCatalog);
+        // Check if images were uploaded and log the result
+        console.log('Uploaded Files:', req.files);
+
+        // Extract URLs from uploaded files
+        const imageUrls = req.files.map(file => file.path);
+
+        console.log('Image URLs:', imageUrls);
+
+        const newCatalog = new Catalog({
+            title,
+            description,
+            ownerId,
+            price,
+            image: imageUrls, // Store array of URLs
+        });
+
+        const savedCatalog = await newCatalog.save();
+        res.status(201).json(savedCatalog);
     } catch (err) {
-      console.error("Error adding catalog:", err);
-      res.status(500).json({ error: "Failed to add catalog" });
+        console.error("Error adding catalog:", err);
+        res.status(500).json({ error: "Failed to add catalog" });
     }
-  });
+});
 
 // get catalog 
-router.get('/view-catalog', authenticateOwner, async(req, res) => {
-    try{
-        const catalogs = await Catalog.find({ ownerId: req.ownerId});
+router.get('/view-catalog', authenticateOwner, async (req, res) => {
+    try {
+        const catalogs = await Catalog.find({ ownerId: req.ownerId });
         res.status(200).json(catalogs);
     } catch (err) {
         console.error("Error fetching catalog:", err);
