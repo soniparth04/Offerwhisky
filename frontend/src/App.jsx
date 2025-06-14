@@ -32,6 +32,7 @@ import MyStore from "./components/owner/MyStore/MyStore";
 import EditHappyHourPage from "./components/owner/Offers/Edit/EditHappyOffer";
 import SelectLocation from "./components/SelectLocation";
 import ManualAddress from "./components/user/Home/ManualAddress";
+import HelpPage from "./components/owner/Help/HelpPage";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
         <Route path="/edit-happy-hour/:id" element={<EditHappyHourPage />} />
         <Route path="/select-location" element={<SelectLocation />} />
         <Route path="/manual-address" element={<ManualAddress />} />
+        <Route path="/help-support" element={<HelpPage />} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard />} />
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
