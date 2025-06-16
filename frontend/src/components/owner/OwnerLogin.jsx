@@ -18,8 +18,15 @@ const OwnerLogin = () => {
                 { withCredentials: true } // ✅ Ensures session is stored
             );
 
-            console.log("Login response:", response.data);
-            navigate("/shop-owner-dashboard");
+             console.log("Login response:", response.data);
+
+        const ownerId = response?.data?.ownerId;
+
+        if (ownerId) {
+            navigate(`/shop-owner-dashboard?ownerId=${ownerId}`);
+        } else {
+            alert("Login successful but owner ID not found in response.");
+        }
         } catch (error) {
             console.error("Login failed:", error);
             alert("Invalid credentials!");

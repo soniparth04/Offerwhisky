@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 
 const BookingHistory = () => {
     const navigate = useNavigate();
+    const ownerId = sessionStorage.getItem("ownerId");
+
     return (
         <div className='mt-4'>
             <div
                 className="flex items-center mb-4 cursor-pointer group"
-                onClick={() => navigate('/shop-owner/booking-hostory')}
+                onClick={() => navigate(`/shop-owner/booking-history?ownerId=${ownerId}`)}
             >
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-md">

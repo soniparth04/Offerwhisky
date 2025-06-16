@@ -62,7 +62,7 @@ function App() {
         <Route path="/shop-owner/your-offer" element={<YourOffer />} />
         <Route path="/shop-owner/scan-qr" element={<ScanQRPage />} />
         <Route path="/shop-owner/my-ads" element={<MyAds />} />
-        <Route path="/shop-owner/booking-hostory" element={<BookingHistory />} />
+        <Route path="/shop-owner/booking-history" element={<BookingHistory />} />
         <Route path="/shop-owner/redemption-tracker" element={<RedemptionTracker />} />
         <Route path="/shop-owner/active-sponsored-Ads" element={<SponsoredAds />} />
         <Route path="/shop-owner/my-store" element={<MyStore />} />

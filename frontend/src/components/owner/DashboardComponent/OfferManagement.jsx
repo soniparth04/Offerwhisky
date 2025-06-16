@@ -2,6 +2,7 @@ import { ChevronRight, Tag, Eye, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const OfferManagement = () => {
+    const ownerId = sessionStorage.getItem("ownerId");
     const navigate = useNavigate();
     return (
         <div>
@@ -10,14 +11,14 @@ const OfferManagement = () => {
             >
                 <div
                     className="flex items-center gap-3 cursor-pointer group"
-                    onClick={() => navigate('/shop-owner/your-offer')}
+                    onClick={() => navigate(`/shop-owner/your-offer?ownerId=${ownerId}`)}
                 >
                     <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center shadow-md">
                         <Tag size={20} className="text-white" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-800 group-hover:text-teal-600 transition-colors">Offer Management</h2>
                 </div>
-                <ChevronRight size={20} className="text-gray-500 group-hover:text-teal-600 transform group-hover:translate-x-1 transition-transform cursor-pointer" onClick={() => navigate('/shop-owner/your-offer')} />
+                <ChevronRight size={20} className="text-gray-500 group-hover:text-teal-600 transform group-hover:translate-x-1 transition-transform cursor-pointer" onClick={() =>  navigate(`/shop-owner/your-offer?ownerId=${ownerId}`)} />
 
             </div>
             <div className="flex bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 h-32">

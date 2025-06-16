@@ -2,12 +2,14 @@ import { Ticket, Megaphone, ChevronRight, Sparkles, Plus, Search, Tag, Eye, Zap 
 import { useNavigate } from 'react-router-dom';
 
 const ActiveAds = () => {
-     const navigate = useNavigate();
+    const navigate = useNavigate();
+    const ownerId = sessionStorage.getItem("ownerId");
+
     return (
         <div>
             <div
                 className="flex justify-between items-center py-3 cursor-pointer group"
-                onClick={() => navigate('/shop-owner/active-sponsored-Ads')}
+                onClick={() => navigate(`/shop-owner/active-sponsored-Ads?ownerId=${ownerId}`)}
             >
                 <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center">

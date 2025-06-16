@@ -247,7 +247,7 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
 
 
 
-router.post('/create-offer', upload.single('image'), async (req, res) => {
+router.post('/create-offer',authenticateOwner,  upload.single('image'), async (req, res) => {
     const { title, description, StartDate, EndDate, MinimumPurchase, NuRedemption, ownerId, category } = req.body;
 
     try {
@@ -273,7 +273,7 @@ router.post('/create-offer', upload.single('image'), async (req, res) => {
     }
 });
 
-router.post('/create-happy-hours', upload.single('offerImage'), async (req, res) => {
+router.post('/create-happy-hours',authenticateOwner,  upload.single('offerImage'), async (req, res) => {
     const { offerTitle, description, category, startTime, endTime, Date, MinimumPurchase, NuRedemption, ownerId } = req.body;
 
     try {
@@ -301,7 +301,7 @@ router.post('/create-happy-hours', upload.single('offerImage'), async (req, res)
 });
 
 
-router.get('/get-all-happy-hours', async (req, res) => {
+router.get('/get-all-happy-hours',authenticateOwner,  async (req, res) => {
     try {
         const offers = await HappyHoursOffer.find().sort({ Date: -1 }); // newest first
         res.status(200).json(offers);
@@ -312,7 +312,7 @@ router.get('/get-all-happy-hours', async (req, res) => {
 });
 
 // ✅ DELETE Happy Hour Offer
-router.delete('/delete-happy-hour/:id', async (req, res) => {
+router.delete('/delete-happy-hour/:id',authenticateOwner,  async (req, res) => {
     try {
         const deletedOffer = await HappyHoursOffer.findByIdAndDelete(req.params.id);
         if (!deletedOffer) {
@@ -326,7 +326,7 @@ router.delete('/delete-happy-hour/:id', async (req, res) => {
 });
 
 
-router.put('/update-happy-offer/:id', upload.single('offerImage'), async (req, res) => {
+router.put('/update-happy-offer/:id', authenticateOwner, upload.single('offerImage'), async (req, res) => {
     try {
         const offerId = req.params.id;
 
@@ -363,7 +363,7 @@ router.put('/update-happy-offer/:id', upload.single('offerImage'), async (req, r
 });
 
 // Get single Happy Hour offer by ID
-router.get('/get-happy-hour/:id', async (req, res) => {
+router.get('/get-happy-hour/:id',authenticateOwner,  async (req, res) => {
     try {
         const offer = await HappyHoursOffer.findById(req.params.id);
         if (!offer) {
@@ -428,7 +428,7 @@ router.put("/edit-offer/:id", authenticateOwner, async (req, res) => {
 });
 
 // ✅ Delete an offer
-router.delete("/delete-offer/:id", async (req, res) => {
+router.delete("/delete-offer/:id",authenticateOwner,  async (req, res) => {
     try {
         await Coupon.findByIdAndDelete(req.params.id);
         res.json({ message: "Offer deleted successfully" });
@@ -439,7 +439,7 @@ router.delete("/delete-offer/:id", async (req, res) => {
 
 
 // add catalog
-router.post("/add-catalog", upload.array('images', 5), async (req, res) => {
+router.post("/add-catalog",authenticateOwner,  upload.array('images', 5), async (req, res) => {
     const { title, description, ownerId, price } = req.body;
 
     try {
@@ -480,7 +480,7 @@ router.get('/view-catalog', authenticateOwner, async (req, res) => {
 
 
 
-router.get("/offers/:ownerId", async (req, res) => {
+router.get("/offers/:ownerId",authenticateOwner,  async (req, res) => {
     try {
         const { ownerId } = req.params;
 

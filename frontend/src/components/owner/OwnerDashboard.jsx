@@ -10,14 +10,18 @@ const OwnerDashboard = () => {
     const navigate = useNavigate();
     const [shopName, setShopName] = useState("");
     const [shopImage, setShopImage] = useState("");
+    const [ownerId, setOwnerId] = useState("");
 
     useEffect(() => {
         // Fetch owner's shop name
         const fetchOwnerInfo = async () => {
             try {
                 const response = await axios.get("https://offerwhisky.onrender.com/api/owner/owner-info", { withCredentials: true });
+               
                 setShopName(response.data.shopName);
                 setShopImage(response.data.shopImage);
+                setOwnerId(response.data._id); 
+                sessionStorage.setItem("ownerId", response.data._id);
 
             } catch (error) {
                 console.error("Error fetching owner info:", error);
@@ -34,13 +38,13 @@ const OwnerDashboard = () => {
                     {/* Left side: Store image + name */}
                     <div
                         className="flex items-center space-x-2 cursor-pointer"
-                        onClick={() => navigate('/shop-owner/my-store')}
+    
                     >
                         <div className="w-14 h-14 mb-4 rounded-full overflow-hidden shadow-md border-2 border-white transition-all transform group-hover:scale-105 group-hover:shadow-lg">
                             <img
                                 src={shopImage}
                                 alt="Store Logo"
-                                className="w-full h-full object-cover"
+                                className="w-full h-full object-cover"  onClick={() => navigate(`/shop-owner/my-store?ownerId=${ownerId}`)}
                             />
                         </div>
 
