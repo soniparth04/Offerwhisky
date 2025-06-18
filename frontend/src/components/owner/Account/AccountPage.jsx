@@ -73,7 +73,7 @@ const AccountPage = () => {
           {/* Store Information */}
           <div
             className="flex items-center justify-between p-4 border-b border-gray-100 cursor-pointer"
-            onClick={() => navigate('/shop-owner/edit/:ownerId')}
+            onClick={() => navigate(`/shop-owner/edit?ownerId=${ownerId}`)}
           >
             <div className="flex items-center">
               <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-4">
@@ -90,7 +90,7 @@ const AccountPage = () => {
           {/* Location & Branch */}
           <div
             className="flex items-center justify-between p-4 border-b border-gray-100 cursor-pointer"
-            onClick={() => navigate('')}
+            onClick={() => navigate(`/shop-owner/Locationandbranch?ownerId=${ownerId}`)}
           >
             <div className="flex items-center">
               <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-4">
