@@ -65,7 +65,7 @@ const OwnerDashboard = () => {
                     {/* Right side: Help button */}
                     <button
                         className="relative p-2.5 bg-white rounded-full shadow-sm border border-gray-100 hover:bg-gray-50 transition-all hover:shadow-md mr-2"
-                        onClick={() => navigate('/help-support')}
+                        onClick={() =>  navigate(`/help-support?ownerId=${ownerId}`)}
                     >
                         <HelpCircle size={20} className="text-gray-600" />
                         <span className="absolute top-0 right-0 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
