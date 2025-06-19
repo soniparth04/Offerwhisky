@@ -193,43 +193,7 @@ router.get("/owner-info", async (req, res) => {
     }
 });
 
-// GET /api/owner/:id - Get owner by ID
-router.get('/:id', async (req, res) => {
-  const ownerId = req.params.id;
 
-  try {
-    const owner = await Owner.findById(ownerId);
-    if (!owner) {
-      return res.status(404).json({ message: 'Owner not found' });
-    }
-    res.status(200).json(owner);
-  } catch (error) {
-    console.error('Error fetching owner:', error);
-    res.status(500).json({ message: 'Error fetching owner', error: error.message });
-  }
-});
-
-// PUT /api/owner/:id - Update owner profile
-router.put('/:id', async (req, res) => {
-  const ownerId = req.params.id;
-  const updateData = req.body;
-
-  try {
-    const existingOwner = await Owner.findById(ownerId);
-    if (!existingOwner) {
-      return res.status(404).json({ message: 'Owner not found' });
-    }
-
-    // Update owner fields
-    Object.assign(existingOwner, updateData);
-
-    const updatedOwner = await existingOwner.save();
-    res.status(200).json({ message: 'Owner updated successfully', owner: updatedOwner });
-  } catch (err) {
-    console.error('Update error:', err);
-    res.status(500).json({ message: 'Failed to update owner', error: err.message });
-  }
-});
 
 // ✅ Protected Route Example (Only Authenticated Owners Can Access)
 router.get("/owner-dashboard", authenticateOwner, async (req, res) => {
@@ -538,7 +502,43 @@ router.get("/offers/:ownerId",authenticateOwner,  async (req, res) => {
     }
 });
 
+// GET /api/owner/:id - Get owner by ID
+router.get('/:id', async (req, res) => {
+  const ownerId = req.params.id;
 
+  try {
+    const owner = await Owner.findById(ownerId);
+    if (!owner) {
+      return res.status(404).json({ message: 'Owner not found' });
+    }
+    res.status(200).json(owner);
+  } catch (error) {
+    console.error('Error fetching owner:', error);
+    res.status(500).json({ message: 'Error fetching owner', error: error.message });
+  }
+});
+
+// PUT /api/owner/:id - Update owner profile
+router.put('/:id', async (req, res) => {
+  const ownerId = req.params.id;
+  const updateData = req.body;
+
+  try {
+    const existingOwner = await Owner.findById(ownerId);
+    if (!existingOwner) {
+      return res.status(404).json({ message: 'Owner not found' });
+    }
+
+    // Update owner fields
+    Object.assign(existingOwner, updateData);
+
+    const updatedOwner = await existingOwner.save();
+    res.status(200).json({ message: 'Owner updated successfully', owner: updatedOwner });
+  } catch (err) {
+    console.error('Update error:', err);
+    res.status(500).json({ message: 'Failed to update owner', error: err.message });
+  }
+});
 
 
 export default router;
