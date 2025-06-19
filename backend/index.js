@@ -65,9 +65,11 @@ app.get('/api/test-session', (req, res) => {
 import userRoutes from './routes/user.js';
 import ownerRoutes from './routes/owner.js';
 import adminRoutes from "./routes/admin.js";
-app.use('/api/user', userRoutes); // Prefix API routes with /api
+import walletRoute from "./routes/wallet.js"
+app.use('/api/user', userRoutes); 
 app.use("/api/owner", ownerRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/wallet', walletRoute);
 
 app.use(express.static(path.join(_dirname, "/frontend/dist")));
 app.get("*", (req, res) => {

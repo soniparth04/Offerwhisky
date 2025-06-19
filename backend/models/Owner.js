@@ -1,5 +1,12 @@
 import mongoose from "mongoose";
 
+const walletTransactionSchema = new mongoose.Schema({
+  type: { type: String, enum: ['credit', 'debit'], required: true },
+  amount: { type: Number, required: true },
+  reason: { type: String },
+  date: { type: Date, default: Date.now }
+});
+
 const OwnerSchema = new mongoose.Schema({
     name: { type: String, required: true },
     phone: { type: String, required: true, unique: true },
@@ -44,6 +51,11 @@ const OwnerSchema = new mongoose.Schema({
     openingDays: { type: [String], required: true },
     shopImage: { type: String },
     profileImage: { type: String },
+     walletBalance: {
+        type: Number,
+        default: 0
+    },
+    walletTransactions: [walletTransactionSchema]
 }, { timestamps: true });
 
 const Owner = mongoose.model('Owner', OwnerSchema);

@@ -35,6 +35,7 @@ import ManualAddress from "./components/user/Home/ManualAddress";
 import HelpPage from "./components/owner/Help/HelpPage";
 import OwnerEditPage from "./components/owner/Account/StoreInfoEdit";
 import LocationAndBranch from "./components/owner/Account/locationbranch";
+import OwnerWallet from "./components/owner/Account/Wallet";
 
 function App() {
   return (
@@ -74,6 +75,8 @@ function App() {
         <Route path="/help-support" element={<HelpPage />} />
         <Route path="/shop-owner/edit" element={<OwnerEditPage />} />
         <Route path="/shop-owner/Locationandbranch" element={<LocationAndBranch />} />
+        <Route path="/shop-owner/Wallet" element={<OwnerWallet />} />
+
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard />} />
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
         <Route path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId" element={<ViewShopUser />} />

@@ -107,10 +107,9 @@ const AccountPage = () => {
             <ChevronRight size={20} className="text-gray-400" />
           </div>
 
-          {/* Switch To User Account */}
           <div
             className="flex items-center justify-between p-4 border-b border-gray-100 cursor-pointer"
-            onClick={() => navigate('')}
+            onClick={() => navigate(`/shop-owner/Wallet?ownerId=${ownerId}`)}
           >
             <div className="flex items-center">
               <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-4">
