@@ -13,6 +13,18 @@ const offerSchema = new mongoose.Schema({
     enum: ['Food', 'Salon', 'Property', 'Vehicle'], 
     required: true 
   },
+  boosted: {
+    type: Boolean,
+    default: false
+  },
+  boostAmount: {
+    type: Number,
+    default: 0
+  },
+  boostReach: {
+    type: Number,
+    default: 0
+  }
 }, { timestamps: true });
 
 const CommonOffer = mongoose.model('CommonOffer', offerSchema);

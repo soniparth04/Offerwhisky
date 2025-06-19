@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { ChevronRight, Tag, Eye, Zap } from 'lucide-react';
 
 const ViewSpotlightOffer = () => {
     const [offers, setOffers] = useState([]);
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         const fetchCommonOffers = async () => {
@@ -18,6 +21,10 @@ const ViewSpotlightOffer = () => {
 
         fetchCommonOffers();
     }, []);
+
+    const handleBoostClick = (offerId) => {
+        navigate(`/shop-owner/boost-spotlight/${offerId}`);
+    };
 
     return (
         <div className="max-w-6xl  px-4 py-8 mb-20">
@@ -48,6 +55,23 @@ const ViewSpotlightOffer = () => {
                                 <p className="text-xs text-gray-500 mt-2">
                                     Valid Till: {new Date(offer.validTill).toLocaleDateString()}
                                 </p>
+                                  <div className="flex items-center justify-between text-xs text-gray-600 p-2">
+                                    <div className="flex items-center gap-1 ">
+                                        <Eye size={18} />
+                                        <span>68</span>
+                                    </div>
+                                    <div className="flex items-center cursor-pointer" onClick={() => handleBoostClick(offer._id)}>
+                                        <Zap size={14} />
+                                        <span className='pl-1'>Boost</span>
+                                    </div>
+                                    <div>
+                                        <label className="relative inline-flex items-center cursor-pointer ml-1">
+                                            <input type="checkbox" defaultChecked className="sr-only peer" />
+                                            <div className="w-9 h-4 bg-gray-200 rounded-full peer-checked:bg-indigo-600 transition"></div>
+                                            <div className="absolute left-0.5 top-0.5 w-3 h-3 bg-white rounded-full shadow peer-checked:translate-x-5 transition-transform"></div>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}

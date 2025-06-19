@@ -502,6 +502,24 @@ router.get("/offers/:ownerId",authenticateOwner,  async (req, res) => {
     }
 });
 
+
+
+router.post('/boost-offer/:offerId', async (req, res) => {
+  const { offerId } = req.params;
+  const { amount } = req.body;
+
+  // Example reach formula: ₹1 = 3 users
+  const reach = amount * 3;
+
+  const offer = await SpotlightOffer.findByIdAndUpdate(offerId, {
+    boosted: true,
+    boostAmount: amount,
+    boostReach: reach
+  }, { new: true });
+
+  res.status(200).json({ success: true, data: offer });
+});
+
 // GET /api/owner/:id - Get owner by ID
 router.get('/:id', async (req, res) => {
   const ownerId = req.params.id;
@@ -539,6 +557,7 @@ router.put('/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to update owner', error: err.message });
   }
 });
+
 
 
 export default router;
