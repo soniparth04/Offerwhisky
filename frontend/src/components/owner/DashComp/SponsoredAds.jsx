@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Plus } from 'lucide-react';
 import BottomNavigation from '../Navbar/BottomNav';
 
 const SponsoredAds = () => {
