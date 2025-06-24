@@ -37,6 +37,7 @@ import OwnerEditPage from "./components/owner/Account/StoreInfoEdit";
 import LocationAndBranch from "./components/owner/Account/locationbranch";
 import OwnerWallet from "./components/owner/Account/Wallet";
 import BoostSpotlightOffer from "./components/owner/Offers/Boost/SpotlightBoost";
+import AdTypeSelectionPage from "./components/owner/Ads/AdTypeSelection";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
         <Route path="/shop-owner/Locationandbranch" element={<LocationAndBranch />} />
         <Route path="/shop-owner/Wallet" element={<OwnerWallet />} />
         <Route path="/shop-owner/boost-spotlight/:offerId" element={<BoostSpotlightOffer />} />
+        <Route path="/shop-owner/Select-ads" element={<AdTypeSelectionPage/>} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard />} />
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />

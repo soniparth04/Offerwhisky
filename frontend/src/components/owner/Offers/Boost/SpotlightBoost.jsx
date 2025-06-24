@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, TrendingUp, Zap, Users, Eye, BarChart3, Calendar, ChevronDown, Info } from 'lucide-react';
 
 const BoostSpotlightOffer = () => {
@@ -8,6 +9,7 @@ const BoostSpotlightOffer = () => {
     const [budget, setBudget] = useState(1200);
     const [agree, setAgree] = useState(false);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const REACH_PER_RUPEE = 3;
     const reach = budget * REACH_PER_RUPEE;
 
