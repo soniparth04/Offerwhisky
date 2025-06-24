@@ -34,7 +34,7 @@ const ViewSpotlightOffer = () => {
 
     const toggleActiveState = async (id) => {
         try {
-            const response = await axios.patch(`http://localhost:5000/api/owner/toggle-offer-status/${id}`, {}, {
+            const response = await axios.patch(`https://offerwhisky.onrender.com/api/owner/toggle-offer-status/${id}`, {}, {
                 withCredentials: true
             });
 
