@@ -24,7 +24,13 @@ const offerSchema = new mongoose.Schema({
   boostReach: {
     type: Number,
     default: 0
+  },
+   status: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'inactive'
   }
+
 }, { timestamps: true });
 
 const CommonOffer = mongoose.model('CommonOffer', offerSchema);
