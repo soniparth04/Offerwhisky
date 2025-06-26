@@ -66,10 +66,10 @@ const OfferTimer = ({ startTime, endTime, date, onStatusChange }) => {
   if (status === 'Expired') return null;
 
   return (
-    <div className="rounded-lg mt-2 w-full max-w-xs">
+    <div className="rounded-lg mt-1 w-full max-w-xs ">
       <div className="flex justify-between items-center mb-1">
-        <span className="text-sm text-red-700 font-semibold">{status}:</span>
-        <span className="text-lg font-bold text-red-600">{timeRemaining}</span>
+        <span className="text-xs text-red-700 font-semibold">{status}:</span>
+        <span className="pl-4 text-sm font-bold text-red-600">{timeRemaining}</span>
       </div>
 
       {status === 'Time Remaining' && (
