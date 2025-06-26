@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import OfferTimer from './OfferTimer';
-import { Pencil, Trash2 } from 'lucide-react';
+import { Eye, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const GetAllHappyHours = () => {
