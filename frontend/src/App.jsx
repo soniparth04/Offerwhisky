@@ -38,6 +38,7 @@ import LocationAndBranch from "./components/owner/Account/locationbranch";
 import OwnerWallet from "./components/owner/Account/Wallet";
 import BoostSpotlightOffer from "./components/owner/Offers/Boost/SpotlightBoost";
 import AdTypeSelectionPage from "./components/owner/Ads/AdTypeSelection";
+import Bag from "./components/user/Bag";
 
 function App() {
   return (
@@ -51,6 +52,10 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/youraccount" element={<UserProfile />} />
         <Route path="/offer/:id" element={<OfferDetail />} />
+        <Route path="/spotlight-offer/:id" element={<OfferDetail />} />
+        <Route path="/happy-hour-offer/:id" element={<OfferDetail />} />
+        <Route path="/spin-to-win/:id" element={<OfferDetail />} />
+        <Route path="/bag" element={<Bag />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/shop/:id" element={<ShopDetails />} />
         <Route path="/location" element={<LocationSelection />} />

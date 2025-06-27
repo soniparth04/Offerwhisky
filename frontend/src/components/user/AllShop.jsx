@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Header from "./Home/Header"
 import Navbar from "./Navbar"
-import { Heart } from "lucide-react";
+import { Heart, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const AllShops = () => {
@@ -31,9 +30,17 @@ const AllShops = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div >
-    <Header />
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-1 lg:gap-5 mt-6">
+    <div className="min-h-screen bg-gray-50 pb-20">
+      {/* Header */}
+      <div className="bg-white shadow-sm p-4">
+        <h1 className="text-xl font-bold text-gray-900 flex items-center">
+          <MapPin className="w-6 h-6 mr-2" />
+          Store Nearby ({shops.length} stores)
+        </h1>
+      </div>
+
+      {/* Stores Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 sm:gap-1 lg:gap-5 mt-6 px-4">
       {shops.map((shop) => (
         <Link
         to={`/shop/${shop._id}`} 
@@ -55,12 +62,11 @@ const AllShops = () => {
             </p>
            
           </div>
-        </Link>
-      ))}
+        </Link>        ))}
+      </div>
+      
+      <Navbar />
     </div>
-    <Navbar />
-
-  </div>
   );
 };
 
