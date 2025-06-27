@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config(); // Load .env variables
-
 import express from "express";
 import session from "express-session";
 import cors from "cors";
@@ -65,7 +64,9 @@ app.get('/api/test-session', (req, res) => {
 import userRoutes from './routes/user.js';
 import ownerRoutes from './routes/owner.js';
 import adminRoutes from "./routes/admin.js";
-import walletRoute from "./routes/wallet.js"
+import walletRoute from "./routes/wallet.js";
+import adRoutes from "./routes/Ads.js";
+app.use('/api/ad', adRoutes);
 app.use('/api/user', userRoutes); 
 app.use("/api/owner", ownerRoutes);
 app.use('/api/admin', adminRoutes);

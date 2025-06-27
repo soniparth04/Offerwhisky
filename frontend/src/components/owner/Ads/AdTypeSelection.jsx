@@ -5,10 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const AdTypeSelectionPage = () => {
   const navigate = useNavigate();
 
-  const handleSelection = (adType) => {
-    navigate('/sponsored-ads', { state: { adType } });
-  };
-
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
@@ -29,7 +25,7 @@ const AdTypeSelectionPage = () => {
         <div className="space-y-6 max-w-md mx-auto">
           {/* Image Ad Option */}
           <div 
-            onClick={() => handleSelection('image')}
+            onClick={() => navigate(`/shop-owner/Create-ads-image`)}
             className="bg-indigo-50 p-6 rounded-xl border border-indigo-100 hover:shadow-md transition-all cursor-pointer"
           >
             <div className="flex items-center mb-4">
@@ -49,7 +45,6 @@ const AdTypeSelectionPage = () => {
           
           {/* Video Ad Option */}
           <div 
-            onClick={() => handleSelection('video')}
             className="bg-purple-50 p-6 rounded-xl border border-purple-100 hover:shadow-md transition-all cursor-pointer"
           >
             <div className="flex items-center mb-4">
