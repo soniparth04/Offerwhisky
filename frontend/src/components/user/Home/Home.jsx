@@ -1,33 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './Header';
 import SearchBar from './SearchBar';
 import Category from './Category';
 import CarouselDefault from './Slider';
+import OfferTypeNavigation from './OfferTypeNavigation';
 import OfferCardSection from './OfferCardSection';
 import VideoAdSection from './VideoAdSection';
+import ImageAdSection from './ImageAdSection';
 import Navbar from '../Navbar';
 
-const Home = () => (
-  <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
-    <div className='mb-20'>
-      <Header />
-      <SearchBar />
-      <Category />
-      <CarouselDefault/>
-      
-      {/* Multiple sections of offer cards alternating with video ads */}
-      <OfferCardSection sectionId={1} />
-      <VideoAdSection adId={1} />
-      <OfferCardSection sectionId={2} />
-      <VideoAdSection adId={2} />
-      <OfferCardSection sectionId={3} />
-      <VideoAdSection adId={3} />
-      <OfferCardSection sectionId={4} />
-      <VideoAdSection adId={4} />
-      <OfferCardSection sectionId={5} />
+const Home = () => {
+  const [currentFilter, setCurrentFilter] = useState('all');
+
+  const handleFilterChange = (filterType) => {
+    setCurrentFilter(filterType);
+  };
+
+  return (
+    <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
+      <div className='mb-20'>
+        <Header />
+        <SearchBar />
+        <Category />
+        <CarouselDefault/>
+        <OfferTypeNavigation onFilterChange={handleFilterChange} />
+        
+        {/* Multiple sections of offer cards alternating with video ads and image ads */}
+        <OfferCardSection sectionId={1} filterType={currentFilter} />
+        <VideoAdSection adId={1} />
+        <OfferCardSection sectionId={2} filterType={currentFilter} />
+        <ImageAdSection adId={1} />
+        <OfferCardSection sectionId={3} filterType={currentFilter} />
+        <VideoAdSection adId={2} />
+        <OfferCardSection sectionId={4} filterType={currentFilter} />
+        <ImageAdSection adId={2} />
+        <OfferCardSection sectionId={5} filterType={currentFilter} />
+      </div>
+      <Navbar/>
     </div>
-    <Navbar/>
-  </div>
-);
+  );
+};
 
 export default Home;

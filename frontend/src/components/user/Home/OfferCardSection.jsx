@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const OfferCardSection = ({ sectionId }) => {
+const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
   // Hard-coded timer data for each offer card to avoid infinite loop issues
   const hardCodedTimers = {
     '1_0': { hours: 1, minutes: 45, seconds: 30 },
@@ -102,21 +102,31 @@ const OfferCardSection = ({ sectionId }) => {
       { available: 17, total: 80 },
     ];
     
-    // Create a deterministic but varied pattern based on sectionId
+    // Filter logic: if filterType is specified, show only that type
     const getTypeIndices = () => {
-      // Create initial indices array
-      const indices = [];
+      if (filterType !== 'all') {
+        // Find the matching offer type
+        const targetTypeIndex = offerTypes.findIndex(type => 
+          type.type === filterType || 
+          (filterType === 'spintowin' && (type.type === 'spintowin' || type.type === 'spintowin2'))
+        );
+        
+        if (targetTypeIndex !== -1) {
+          // Return all positions with the same type
+          return [targetTypeIndex, targetTypeIndex, targetTypeIndex, targetTypeIndex];
+        }
+      }
       
-      // Use a different seed for each section
+      // Original logic for 'all' filter
+      const indices = [];
       const seed = (sectionId * 17) % 100;
       
-      // Assign each position with a different formula to maximize variation
       indices.push((seed + 7) % offerTypes.length);
       indices.push((seed + 13) % offerTypes.length);
       indices.push((seed * 3 + 5) % offerTypes.length);
       indices.push((seed * 5 + 11) % offerTypes.length);
       
-      // Prevent the same type from appearing twice in a section
+      // Prevent the same type from appearing twice in a section (only for 'all' filter)
       const seen = new Set();
       for (let i = 0; i < indices.length; i++) {
         while (seen.has(indices[i])) {
@@ -202,12 +212,12 @@ const OfferCardSection = ({ sectionId }) => {
               {/* Offer type tag - top left */}
               <div className="absolute top-2 left-2 flex">
                 {offer.offerType.type === 'happyhour' ? (
-                  <div className={`${offer.offerType.tagClass} px-2 py-0.5 text-xs font-bold flex items-center rounded-sm shadow-sm`}>
+                  <div className={`${offer.offerType.tagClass} px-1.5 py-0.5 text-[10px] font-bold flex items-center rounded-sm shadow-sm`}>
                     <span className="h-1.5 w-1.5 bg-white rounded-full mr-1 animate-pulse"></span>
                     {offer.offerType.tag}
                   </div>
                 ) : (
-                  <div className={`${offer.offerType.tagClass} px-2 py-0.5 text-xs font-bold rounded-sm shadow-sm`}>
+                  <div className={`${offer.offerType.tagClass} px-1.5 py-0.5 text-[10px] font-bold rounded-sm shadow-sm`}>
                     {offer.offerType.tag}
                   </div>
                 )}
