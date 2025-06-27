@@ -36,4 +36,16 @@ router.post('/create', upload.single('image'), async (req, res) => {
 });
 
 
+// Get all Image Ads
+router.get('/get-image-ads', async (req, res) => {
+  try {
+    const imageAds = await ImageAd.find().sort({ createdAt: -1 }); // Most recent first
+    res.status(200).json(imageAds);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch image ads' });
+  }
+});
+
+
 export default router;
