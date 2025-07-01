@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 import ImageAd from '../models/ImageAd.js';
 import VideoAd from '../models/VideoAd.js';
-import { upload } from '../utils/cloudinary.js';
+import { upload , uploadVideo  } from '../utils/cloudinary.js';
 
 router.post('/create', upload.single('image'), async (req, res) => {
   try {
