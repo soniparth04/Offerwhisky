@@ -18,6 +18,22 @@ const storage = new CloudinaryStorage({
     },
 });
 
+const videoStorage = new CloudinaryStorage({
+  cloudinary,
+  params: async (req, file) => {
+    console.log(file);
+    return ({
+    folder: 'video-ads',
+    resource_type: 'video',
+  })},
+});
+
+const uploadVideo = multer({
+  storage: videoStorage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // limit to 50MB
+});
+
+
 const upload = multer({ storage });
 
-export { cloudinary, upload };
+export { cloudinary, upload , uploadVideo };

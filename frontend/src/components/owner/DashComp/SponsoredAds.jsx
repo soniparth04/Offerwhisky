@@ -7,17 +7,25 @@ import axios from 'axios';
 const SponsoredAds = () => {
   const navigate = useNavigate();
   const ownerId = sessionStorage.getItem("ownerId");
-  const [ads, setAds] = useState([]);
+  const [imageAds, setImageAds] = useState([]);
+  const [videoAds, setVideoAds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const res = await axios.get('https://offerwhisky.onrender.com/api/ad/get-image-ads');
-        const filteredAds = res.data.filter(ad => ad.ownerId === ownerId);
-        setAds(filteredAds);
+        const [imageRes, videoRes] = await Promise.all([
+          axios.get('https://offerwhisky.onrender.com/api/ad/get-image-ads'),
+          axios.get('https://offerwhisky.onrender.com/api/ad/get-video-ads')
+        ]);
+
+        const filteredImages = imageRes.data.filter(ad => ad.ownerId === ownerId);
+        const filteredVideos = videoRes.data.filter(ad => ad.ownerId === ownerId);
+
+        setImageAds(filteredImages);
+        setVideoAds(filteredVideos);
       } catch (err) {
-        console.error('Error fetching image ads:', err);
+        console.error('Error fetching ads:', err);
       } finally {
         setLoading(false);
       }
@@ -28,35 +36,50 @@ const SponsoredAds = () => {
 
   return (
     <div>
-      <div>
-        <div className="flex items-center mb-6 p-4">
-          <button onClick={() => navigate(-1)} className="mr-2">
-            <ArrowLeft size={20} />
-          </button>
-          <h1 className="text-xl font-bold">Active Sponsored Ads</h1>
-        </div>
-
-        {loading ? (
-          <div className="text-center p-4 text-gray-500">Loading ads...</div>
-        ) : ads.length === 0 ? (
-          <div className="text-center p-4 text-gray-500">No Active Sponsored Ads found</div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 pb-24">
-            {ads.map(ad => (
-              <div key={ad._id} className="border rounded-lg p-3 shadow hover:shadow-md transition">
-                <h1 className="text-lg font-semibold">Image Ads</h1>
-                <img src={ad.imageUrl} alt={ad.title} className="w-full h-40 object-cover rounded-md mb-2" />
-                <h3 className="text-lg font-semibold">{ad.title}</h3>
-                <p className="text-sm text-gray-600">{ad.description}</p>
-                <div className="text-sm mt-2">Budget: ₹{ad.budget}</div>
-                <div className="text-sm text-blue-600">Reach: {ad.estimatedReach} users</div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <BottomNavigation />
+      <div className="flex items-center mb-6 p-4">
+        <button onClick={() => navigate(-1)} className="mr-2">
+          <ArrowLeft size={20} />
+        </button>
+        <h1 className="text-xl font-bold">Active Sponsored Ads</h1>
       </div>
+
+      {loading ? (
+        <div className="text-center p-4 text-gray-500">Loading ads...</div>
+      ) : imageAds.length === 0 && videoAds.length === 0 ? (
+        <div className="text-center p-4 text-gray-500">No Active Sponsored Ads found</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 px-4 pb-24">
+          {/* Image Ads */}
+          {imageAds.map(ad => (
+            <div key={ad._id} className="border rounded-lg p-3 shadow hover:shadow-md transition">
+              <h1 className="text-lg font-semibold">Image Ad</h1>
+              <img src={ad.imageUrl} alt={ad.title} className="w-full h-40 object-cover rounded-md mb-2" />
+              <h3 className="text-lg font-semibold">{ad.title}</h3>
+              <p className="text-sm text-gray-600">{ad.description}</p>
+              <div className="text-sm mt-2">Budget: ₹{ad.budget}</div>
+              <div className="text-sm text-blue-600">Reach: {ad.estimatedReach} users</div>
+            </div>
+          ))}
+
+          {/* Video Ads */}
+          {videoAds.map(ad => (
+            <div key={ad._id} className="border rounded-lg p-3 shadow hover:shadow-md transition">
+              <h1 className="text-lg font-semibold">Video Ad</h1>
+              <video
+                src={ad.videoUrl}
+                controls
+                className="w-full h-40 object-cover rounded-md mb-2"
+              />
+              <h3 className="text-lg font-semibold">{ad.title}</h3>
+              <p className="text-sm text-gray-600">{ad.description}</p>
+              <div className="text-sm mt-2">Budget: ₹{ad.budget}</div>
+              <div className="text-sm text-blue-600">Reach: {ad.estimatedReach} users</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <BottomNavigation />
 
       <div className="fixed bottom-24 right-6 z-10">
         <button

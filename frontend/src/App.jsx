@@ -39,6 +39,7 @@ import OwnerWallet from "./components/owner/Account/Wallet";
 import BoostSpotlightOffer from "./components/owner/Offers/Boost/SpotlightBoost";
 import AdTypeSelectionPage from "./components/owner/Ads/AdTypeSelection";
 import CreateImageAds from "./components/owner/Ads/ImageAds";
+import CreateVideoAds from "./components/owner/Ads/CreateVideoAds";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
         <Route path="/shop-owner/boost-spotlight/:offerId" element={<BoostSpotlightOffer />} />
         <Route path="/shop-owner/Select-ads" element={<AdTypeSelectionPage/>} />
         <Route path="/shop-owner/Create-ads-image" element={<CreateImageAds/>} />
+        <Route path="/shop-owner/Create-ads-video" element={<CreateVideoAds/>} />
 
         <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard />} />
         <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
