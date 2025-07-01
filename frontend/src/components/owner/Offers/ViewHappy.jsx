@@ -13,7 +13,7 @@ const GetAllHappyHours = () => {
   useEffect(() => {
     const fetchOffers = async () => {
       try {
-        const res = await axios.get("https://offerwhisky.onrender.com/api/owner/get-all-happy-hours", {
+        const res = await axios.get("https://offerwhisky.onrender.com/api/happyhour/get-all-happy-hours", {
           withCredentials: true,
         });
         setOffers(res.data);

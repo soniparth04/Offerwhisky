@@ -283,15 +283,6 @@ router.post('/create-happy-hours',authenticateOwner,  upload.single('offerImage'
 });
 
 
-router.get('/get-all-happy-hours',authenticateOwner,  async (req, res) => {
-    try {
-        const offers = await HappyHoursOffer.find().sort({ Date: -1 }); // newest first
-        res.status(200).json(offers);
-    } catch (error) {
-        console.error('Error fetching happy hour offers:', error);
-        res.status(500).json({ error: 'Failed to fetch happy hour offers' });
-    }
-});
 
 // ✅ DELETE Happy Hour Offer
 router.delete('/delete-happy-hour/:id',authenticateOwner,  async (req, res) => {
@@ -356,31 +347,6 @@ router.get('/get-happy-hour/:id',authenticateOwner,  async (req, res) => {
         console.error('Error fetching offer:', err);
         res.status(500).json({ message: 'Server error while fetching offer' });
     }
-});
-
-// GET all common offers
-router.get('/common-offers', authenticateOwner, async (req, res) => {
-    try {
-        const offers = await CommonOffer.find({ ownerId: req.ownerId });
-        res.status(200).json(offers);
-    } catch (err) {
-        console.error("Error fetching common offers:", err);
-        res.status(500).json({ error: "Failed to fetch common offers" });
-    }
-});
-
-router.patch('/toggle-offer-status/:id', async (req, res) => {
-  try {
-    const offer = await CommonOffer.findById(req.params.id);
-    if (!offer) return res.status(404).json({ message: 'Offer not found' });
-
-    offer.status = offer.status === 'active' ? 'inactive' : 'active';
-    await offer.save();
-
-    res.json({ message: 'Status updated', status: offer.status });
-  } catch (err) {
-    res.status(500).json({ message: 'Server error', error: err.message });
-  }
 });
 
 

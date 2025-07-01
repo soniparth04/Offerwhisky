@@ -11,7 +11,7 @@ const ViewSpotlightOffer = () => {
     useEffect(() => {
         const fetchCommonOffers = async () => {
             try {
-                const response = await axios.get("https://offerwhisky.onrender.com/api/owner/common-offers", {
+                const response = await axios.get("https://offerwhisky.onrender.com/api/spotlight/common-offers", {
                     withCredentials: true,
                 });
                setOffers(response.data);
@@ -34,7 +34,7 @@ const ViewSpotlightOffer = () => {
 
     const toggleActiveState = async (id) => {
         try {
-            const response = await axios.patch(`https://offerwhisky.onrender.com/api/owner/toggle-offer-status/${id}`, {}, {
+            const response = await axios.patch(`https://offerwhisky.onrender.com/api/spotlight/toggle-offer-status/${id}`, {}, {
                 withCredentials: true
             });
 
