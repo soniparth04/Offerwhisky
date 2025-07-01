@@ -1,5 +1,5 @@
 import express from 'express';
-import CommonOffer from '../models/CommonOffer.js';
+import CommonOffer from '../../models/CommonOffer.js';
 
 const router = express.Router();
 

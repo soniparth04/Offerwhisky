@@ -1,5 +1,5 @@
 import express from 'express';
-import HappyHoursOffer from '../models/Hourlyoffer.js'
+import HappyHoursOffer from '../../models/Hourlyoffer.js'
 
 const router = express.Router();
 
