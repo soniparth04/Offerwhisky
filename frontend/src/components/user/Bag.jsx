@@ -1,115 +1,91 @@
 import React from 'react';
 import Navbar from './Navbar';
-import { ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
+import { QrCode, Star, ChevronRight } from 'lucide-react';
 
 const Bag = () => {
-  // Sample bag items for demonstration
-  const bagItems = [
+  // Sample booked offers for demonstration
+  const bookedOffers = [
     {
       id: 1,
-      name: "Burger Combo",
-      shop: "The Burger Joint",
-      price: 299,
-      originalPrice: 399,
-      discount: "25% OFF",
-      quantity: 2,
-      image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100&h=100&fit=crop"
+      name: "Get 20% OFF your total bill on your next visit!",
+      shop: "Name of store",
+      category: "Category",
+      distance: "2km",
+      rating: 4.3
     },
     {
       id: 2,
-      name: "Pizza Margherita",
-      shop: "Pizza Palace",
-      price: 499,
-      originalPrice: 599,
-      discount: "17% OFF",
-      quantity: 1,
-      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100&h=100&fit=crop"
+      name: "Get 20% OFF your total bill on your next visit!",
+      shop: "Name of store",
+      category: "Category", 
+      distance: "2km",
+      rating: 4.3
+    },
+    {
+      id: 3,
+      name: "Get 20% OFF your total bill on your next visit!",
+      shop: "Name of store",
+      category: "Category",
+      distance: "2km", 
+      rating: 4.3
+    },
+    {
+      id: 4,
+      name: "Get 20% OFF your total bill on your next visit!",
+      shop: "Name of store",
+      category: "Category",
+      distance: "2km",
+      rating: 4.3
     }
   ];
-
-  const total = bagItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const savings = bagItems.reduce((sum, item) => sum + ((item.originalPrice - item.price) * item.quantity), 0);
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       {/* Header */}
       <div className="bg-white shadow-sm p-4">
-        <h1 className="text-xl font-bold text-gray-900 flex items-center">
-          <ShoppingBag className="w-6 h-6 mr-2" />
-          My Bag ({bagItems.length} items)
+        <h1 className="text-xl font-bold text-gray-900">
+          Booked Offers
         </h1>
       </div>
 
-      {/* Bag Items */}
+      {/* Booked Offers */}
       <div className="p-4 space-y-4">
-        {bagItems.map((item) => (
-          <div key={item.id} className="bg-white rounded-lg shadow-sm p-4">
-            <div className="flex items-start space-x-3">
-              {/* Item Image */}
-              <img 
-                src={item.image} 
-                alt={item.name}
-                className="w-16 h-16 rounded-lg object-cover"
-              />
+        {bookedOffers.map((offer) => (
+          <div key={offer.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="flex">
+              {/* QR Code Section */}
+              <div className="bg-gray-100 p-3 flex items-center justify-center" style={{ width: '120px', minHeight: '120px' }}>
+                <QrCode className="w-20 h-20 text-gray-700" />
+              </div>
               
-              {/* Item Details */}
-              <div className="flex-1">
-                <h3 className="font-semibold text-gray-900">{item.name}</h3>
-                <p className="text-sm text-gray-600">{item.shop}</p>
-                
-                {/* Price */}
-                <div className="flex items-center space-x-2 mt-1">
-                  <span className="font-bold text-lg">₹{item.price}</span>
-                  <span className="text-sm text-gray-500 line-through">₹{item.originalPrice}</span>
-                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-                    {item.discount}
-                  </span>
-                </div>
-                
-                {/* Quantity Controls */}
-                <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center space-x-3">
-                    <button className="p-1 rounded-full bg-gray-100 hover:bg-gray-200">
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="font-semibold">{item.quantity}</span>
-                    <button className="p-1 rounded-full bg-gray-100 hover:bg-gray-200">
-                      <Plus className="w-4 h-4" />
-                    </button>
+              {/* Offer Details */}
+              <div className="flex-1 p-4">
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h3 className="font-semibold text-gray-900 text-sm">{offer.shop}</h3>
+                      <span className="text-gray-500 text-xs">({offer.distance})</span>
+                      <div className="flex items-center bg-green-600 text-white px-2 py-0.5 rounded text-xs">
+                        <span className="font-semibold">{offer.rating}</span>
+                        <Star className="w-3 h-3 ml-1 fill-current" />
+                      </div>
+                    </div>
+                    
+                    <div className="inline-block bg-gray-200 text-gray-700 px-2 py-1 rounded text-xs mb-2">
+                      {offer.category}
+                    </div>
+                    
+                    <p className="text-sm font-medium text-gray-900 leading-tight">
+                      {offer.name}
+                    </p>
                   </div>
                   
-                  <button className="text-red-500 p-1">
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <ChevronRight className="w-5 h-5 text-gray-400 flex-shrink-0 ml-2" />
                 </div>
               </div>
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Order Summary */}
-      <div className="mx-4 bg-white rounded-lg shadow-sm p-4 mb-4">
-        <h3 className="font-semibold text-gray-900 mb-3">Order Summary</h3>
-        <div className="space-y-2">
-          <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>₹{(total + savings)}</span>
-          </div>
-          <div className="flex justify-between text-green-600">
-            <span>You Save</span>
-            <span>-₹{savings}</span>
-          </div>
-          <hr />
-          <div className="flex justify-between font-bold text-lg">
-            <span>Total</span>
-            <span>₹{total}</span>
-          </div>
-        </div>
-        
-        <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold mt-4 hover:bg-blue-700">
-          Proceed to Checkout
-        </button>
       </div>
 
       <Navbar />

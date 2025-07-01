@@ -4,22 +4,19 @@ const ImageAdSection = ({ adId = 1 }) => {
   // Different ad variations for the top image section
   const topAds = [
     {
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop",
       title: "OVERSIZED T-SHIRTS",
-      subtitle: "BUY 2 AT ₹999",
-      bgColor: "bg-black bg-opacity-40"
+      subtitle: "BUY 2 AT ₹999"
     },
     {
-      image: "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=400&fit=crop",
       title: "SUMMER COLLECTION",
-      subtitle: "FLAT 50% OFF",
-      bgColor: "bg-purple-900 bg-opacity-50"
+      subtitle: "FLAT 50% OFF"
     },
     {
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=200&fit=crop",
+      image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&h=400&fit=crop",
       title: "FASHION SALE",
-      subtitle: "UP TO 70% OFF",
-      bgColor: "bg-red-900 bg-opacity-50"
+      subtitle: "UP TO 70% OFF"
     }
   ];
 
@@ -62,11 +59,8 @@ const ImageAdSection = ({ adId = 1 }) => {
           <img 
             src={currentTopAd.image}
             alt={currentTopAd.title}
-            className="w-full h-32 object-cover"
+            className="w-full h-64 object-cover"
           />
-          
-          {/* Dark overlay */}
-          <div className={`absolute inset-0 ${currentTopAd.bgColor}`}></div>
           
           {/* AD tag - top right */}
           <div className="absolute top-2 right-2">
@@ -75,8 +69,8 @@ const ImageAdSection = ({ adId = 1 }) => {
             </div>
           </div>
           
-          {/* Content overlay */}
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4">
+          {/* Content overlay - positioned at bottom left */}
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
             <h2 className="text-white text-lg font-bold mb-1 leading-tight">
               {currentTopAd.title}
             </h2>

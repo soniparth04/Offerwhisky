@@ -17,6 +17,7 @@ import Home from "./components/user/Home/Home";
 import UserProfile from "./components/user/Profile/Profile";
 import OfferDetail from "./components/user/OfferD";
 import Notification from "./components/user/Notification";
+import Rewards from "./components/user/Rewards";
 import ShopDetails from "./components/user/Shop";
 import LocationSelection from "./components/user/Home/LocationSelection";
 import AddCatalogs from "./components/owner/AddCatalog";
@@ -57,6 +58,7 @@ function App() {
         <Route path="/spin-to-win/:id" element={<OfferDetail />} />
         <Route path="/bag" element={<Bag />} />
         <Route path="/notification" element={<Notification />} />
+        <Route path="/rewards" element={<Rewards />} />
         <Route path="/shop/:id" element={<ShopDetails />} />
         <Route path="/location" element={<LocationSelection />} />
 
