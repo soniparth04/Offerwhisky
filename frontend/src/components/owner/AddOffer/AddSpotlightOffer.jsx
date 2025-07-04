@@ -52,7 +52,7 @@ const AddCommonOffer = () => {
         formData.append("category", category); formData
 
         try {
-            await axios.post("https://offerwhisky.onrender.com/api/owner/create-offer", formData, {
+            await axios.post("https://offerwhisky.onrender.com/api/spotlight/create-offer", formData, {
                 withCredentials: true,
                 headers: {
                     "Content-Type": "multipart/form-data",

@@ -1,7 +1,34 @@
 import express from 'express';
 import CommonOffer from '../../models/CommonOffer.js';
+import { upload } from '../../utils/cloudinary.js';
 
 const router = express.Router();
+
+router.post('/create-offer', upload.single('image'), async (req, res) => {
+    const { title, description, StartDate, EndDate, MinimumPurchase, NuRedemption, ownerId, category } = req.body;
+
+    try {
+        const imagePath = req.file ? req.file.path : null;
+
+        const newOffer = new CommonOffer({
+            title,
+            description,
+            StartDate,
+            EndDate,
+            MinimumPurchase,
+            NuRedemption,
+            ownerId,
+            image: imagePath,
+            category
+        });
+
+        const savedOffer = await newOffer.save();
+        res.status(201).json(savedOffer);
+    } catch (err) {
+        console.error('Error creating offer:', err);
+        res.status(500).json({ error: 'Failed to create offer' });
+    }
+});
 
 router.get('/common-offers/:ownerId',  async (req, res) => {
     try {

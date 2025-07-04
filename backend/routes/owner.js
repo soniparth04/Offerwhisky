@@ -3,13 +3,9 @@ import bcrypt from "bcryptjs";
 import Coupon from "../models/Coupon.js";
 import Owner from "../models/Owner.js"
 import mongoose from 'mongoose';
-import CommonOffer from '../models/CommonOffer.js';
 import Catalog from '../models/Catalog.js';
-import HappyHoursOffer from '../models/Hourlyoffer.js'
 import { upload } from '../utils/cloudinary.js';
 const router = express.Router();
-
-
 
 const authenticateOwner = (req, res, next) => {
     console.log("Session Data:", req.session); // Debugging: Check if session exists
@@ -173,8 +169,6 @@ router.get("/owner-info", async (req, res) => {
     }
 });
 
-
-
 // ✅ Protected Route Example (Only Authenticated Owners Can Access)
 router.get("/owner-dashboard", authenticateOwner, async (req, res) => {
     try {
@@ -188,7 +182,6 @@ router.get("/owner-dashboard", authenticateOwner, async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 });
-
 
 // Example backend route
 router.get("/view-offers", authenticateOwner, async (req, res) => {
@@ -225,102 +218,6 @@ router.post("/add-offer", authenticateOwner, async (req, res) => {
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
-
-
-
-router.post('/create-offer',authenticateOwner,  upload.single('image'), async (req, res) => {
-    const { title, description, StartDate, EndDate, MinimumPurchase, NuRedemption, ownerId, category } = req.body;
-
-    try {
-        const imagePath = req.file ? req.file.path : null;
-
-        const newOffer = new CommonOffer({
-            title,
-            description,
-            StartDate,
-            EndDate,
-            MinimumPurchase,
-            NuRedemption,
-            ownerId,
-            image: imagePath,
-            category
-        });
-
-        const savedOffer = await newOffer.save();
-        res.status(201).json(savedOffer);
-    } catch (err) {
-        console.error('Error creating offer:', err);
-        res.status(500).json({ error: 'Failed to create offer' });
-    }
-});
-
-router.post('/create-happy-hours',authenticateOwner,  upload.single('offerImage'), async (req, res) => {
-    const { offerTitle, description, category, startTime, endTime, Date, MinimumPurchase, NuRedemption, ownerId } = req.body;
-
-    try {
-        const imagePath = req.file ? req.file.path : null;
-
-        const newhappyoffer = new HappyHoursOffer({
-            offerTitle,
-            description,
-            category,
-            startTime,
-            endTime,
-            MinimumPurchase,
-            NuRedemption,
-            offerImage: imagePath,
-            Date,
-            ownerId
-        }); 
-
-        const savedhappyoffers = await newhappyoffer.save();
-        res.status(201).json(savedhappyoffers);
-    } catch (err) {
-        console.error('Error creating offer:', err);
-        res.status(500).json({ error: 'Failed to create offer' });
-    }
-});
-
-
-
-router.put('/update-happy-offer/:id', authenticateOwner, upload.single('offerImage'), async (req, res) => {
-    try {
-        const offerId = req.params.id;
-
-        const { offerTitle, description, category, startTime, endTime, Date } = req.body;
-
-        const updateData = {
-            offerTitle,
-            description,
-            category,
-            startTime,
-            endTime,
-            Date,
-        };
-
-        // If new image uploaded
-        if (req.file) {
-            updateData.offerImage = `http://localhost:5000/uploads/${req.file.filename}`; // or Cloudinary URL
-        }
-
-        const updatedOffer = await HappyHoursOffer.findByIdAndUpdate(offerId, updateData, {
-            new: true,
-            runValidators: true,
-        });
-
-        if (!updatedOffer) {
-            return res.status(404).json({ error: "Offer not found" });
-        }
-
-        return res.status(200).json({ message: "Offer updated", offer: updatedOffer });
-    } catch (error) {
-        console.error("Update error:", error);
-        return res.status(500).json({ error: "Failed to update offer" });
-    }
-});
-
-
-
 
 
 // ✅ Fetch Single Offer by ID

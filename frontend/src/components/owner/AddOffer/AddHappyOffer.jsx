@@ -64,7 +64,7 @@ const CreateHappyOffer = () => {
     formData.append("ownerId", ownerId);
 
     try {
-      await axios.post("https://offerwhisky.onrender.com/api/owner/create-happy-hours", formData, {
+      await axios.post("https://offerwhisky.onrender.com/api/happyhour/create-happy-hours", formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",

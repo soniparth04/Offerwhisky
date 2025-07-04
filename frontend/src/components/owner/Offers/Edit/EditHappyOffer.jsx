@@ -132,7 +132,7 @@ const EditHappyOffer = () => {
 
     try {
       await axios.put(
-        `https://offerwhisky.onrender.com/api/owner/update-happy-offer/${id}`,
+        `https://offerwhisky.onrender.com/api/happyhour/update-happy-offer/${id}`,
         formData,
         {
           withCredentials: true,
