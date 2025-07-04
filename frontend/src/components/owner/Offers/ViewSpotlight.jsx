@@ -11,6 +11,7 @@ const ViewSpotlightOffer = () => {
 
     useEffect(() => {
         const fetchCommonOffers = async () => {
+            const ownerId = searchParams.get("ownerId");
             try {
                 const response = await axios.get(`https://offerwhisky.onrender.com/api/spotlight/common-offers/${ownerId}`, {
                     withCredentials: true,
