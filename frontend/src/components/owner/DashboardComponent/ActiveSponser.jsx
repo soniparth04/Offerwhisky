@@ -12,7 +12,7 @@ const ActiveAds = () => {
                 onClick={() => navigate(`/shop-owner/active-sponsored-Ads?ownerId=${ownerId}`)}
             >
                 <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-purple-500 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-purple-500 flex items-center justify-center">
                         <Megaphone size={22} className="text-white" />
                     </div>
                     <h2 className="text-xl font-bold text-gray-800 group-hover:text-purple-600 transition-colors">Active Sponsored Ads</h2>
