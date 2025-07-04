@@ -2,7 +2,7 @@ import express from 'express';
 import HappyHoursOffer from '../../models/Hourlyoffer.js'
 
 const router = express.Router();
-
+ 
 // Get All Happy Hours Offers
 router.get('/get-all-happy-hours',   async (req, res) => {
     try {

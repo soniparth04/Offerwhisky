@@ -3,9 +3,9 @@ import CommonOffer from '../../models/CommonOffer.js';
 
 const router = express.Router();
 
-router.get('/common-offers',  async (req, res) => {
+router.get('/common-offers/:ownerId',  async (req, res) => {
     try {
-        const offers = await CommonOffer.find({ ownerId: req.ownerId });
+        const offers = await CommonOffer.find({ ownerId: req.params.ownerId });
         res.status(200).json(offers);
     } catch (err) {
         console.error("Error fetching common offers:", err);

@@ -7,11 +7,12 @@ const ViewSpotlightOffer = () => {
     const [offers, setOffers] = useState([]);
     const [activeStates, setActiveStates] = useState({});
     const navigate = useNavigate(); 
+    const [searchParams] = useSearchParams();
 
     useEffect(() => {
         const fetchCommonOffers = async () => {
             try {
-                const response = await axios.get("https://offerwhisky.onrender.com/api/spotlight/common-offers", {
+                const response = await axios.get(`https://offerwhisky.onrender.com/api/spotlight/common-offers/${ownerId}`, {
                     withCredentials: true,
                 });
                setOffers(response.data);
