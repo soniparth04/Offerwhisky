@@ -30,7 +30,7 @@ const GetAllHappyHours = () => {
     if (!window.confirm("Are you sure you want to delete this offer?")) return;
 
     try {
-      await axios.delete(`https://offerwhisky.onrender.com/api/owner/delete-happy-hour/${offerId}`, {
+      await axios.delete(`https://offerwhisky.onrender.com/api/happyhour/delete-happy-hour/${offerId}`, {
         withCredentials: true,
       });
       fetchOffers();

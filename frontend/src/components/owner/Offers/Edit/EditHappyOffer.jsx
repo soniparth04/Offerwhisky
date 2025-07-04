@@ -100,7 +100,7 @@ const EditHappyOffer = () => {
   useEffect(() => {
     const fetchOffer = async () => {
       try {
-        const res = await axios.get(`https://offerwhisky.onrender.com/api/owner/get-happy-hour/${id}`);
+        const res = await axios.get(`https://offerwhisky.onrender.com/api/happyhour/get-happy-hour/${id}`);
         const data = res.data;
 
         setOfferTitle(data.offerTitle);
