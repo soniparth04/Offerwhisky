@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useSearchParams} from "react-router-dom";
 import { ChevronRight, Tag, Eye, Zap } from 'lucide-react';
 
 const ViewSpotlightOffer = () => {
