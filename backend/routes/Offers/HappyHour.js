@@ -29,7 +29,7 @@ router.delete('/delete-happy-hour/:id', async (req, res) => {
 });
 
 // Get single Happy Hour offer by ID
-router.get('/get-happy-hour/:id',authenticateOwner,  async (req, res) => {
+router.get('/get-happy-hour/:id',  async (req, res) => {
     try {
         const offer = await HappyHoursOffer.findById(req.params.id);
         if (!offer) {
