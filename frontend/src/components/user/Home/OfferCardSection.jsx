@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Heart, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
+const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all' }) => {
   // Hard-coded timer data for each offer card to avoid infinite loop issues
   const hardCodedTimers = {
     '1_0': { hours: 1, minutes: 45, seconds: 30 },
@@ -61,38 +61,68 @@ const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
       buttonText: 'Spin Now',
       buttonClass: 'bg-blue-600 hover:bg-blue-700'
     }
-  ];
-
-  // Generate 4 different offers with randomized types to ensure variety
+  ];    // Generate 4 different offers with randomized types to ensure variety
   const generateOffers = () => {
     let offers = [];
     
     // Sample images from Unsplash
-    const offerImages = [
-      'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
-      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
-      'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38',
-      'https://images.unsplash.com/photo-1563379926898-05f4575a45d8',
-      'https://images.unsplash.com/photo-1529778873920-4da4926a72c2',
-      'https://images.unsplash.com/photo-1593504049359-74330189a345',
-      'https://images.unsplash.com/photo-1509042239860-f550ce710b93',
-      'https://images.unsplash.com/photo-1551782450-a2132b4ba21d'
-    ];
+    const offerImages = {
+      food: [
+        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38',
+        'https://images.unsplash.com/photo-1509042239860-f550ce710b93',
+        'https://images.unsplash.com/photo-1551782450-a2132b4ba21d'
+      ],
+      property: [
+        'https://images.unsplash.com/photo-1560518883-ce09059eeffa',
+        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750',
+        'https://images.unsplash.com/photo-1523217582562-09d0def993a6',
+        'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b'
+      ],
+      vehicle: [
+        'https://images.unsplash.com/photo-1494976388531-d1058494cdd8',
+        'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf',
+        'https://images.unsplash.com/photo-1489824904134-891ab64532f1',
+        'https://images.unsplash.com/photo-1571127236794-81c0bbfe1ce3'
+      ],
+      beauty: [
+        'https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1',
+        'https://images.unsplash.com/photo-1487412912498-0447578fcca8',
+        'https://images.unsplash.com/photo-1470259078422-826894b933aa',
+        'https://images.unsplash.com/photo-1560066984-138dadb4c035'
+      ],
+      all: [
+        'https://images.unsplash.com/photo-1568901346375-23c9450c58cd',
+        'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085',
+        'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38',
+        'https://images.unsplash.com/photo-1563379926898-05f4575a45d8',
+        'https://images.unsplash.com/photo-1529778873920-4da4926a72c2',
+        'https://images.unsplash.com/photo-1593504049359-74330189a345',
+        'https://images.unsplash.com/photo-1509042239860-f550ce710b93',
+        'https://images.unsplash.com/photo-1551782450-a2132b4ba21d'
+      ]
+    };
     
-    // Sample shop names
-    const shopNames = [
-      'Café Bistro', 
-      'The Burger Joint', 
-      'Pizza Palace', 
-      'Taco Bell',
-      'Electronics Mart', 
-      'Fashion Hub', 
-      'Grocery Store', 
-      'Beauty Salon'
-    ];
+    // Sample shop names by category
+    const shopNames = {
+      food: ['Café Bistro', 'The Burger Joint', 'Pizza Palace', 'Taco Bell', 'Spice Garden', 'Sweet Treats'],
+      property: ['Dream Homes', 'Urban Living', 'Mountain View Properties', 'Seaside Rentals', 'City Apartments'],
+      vehicle: ['Motors & More', 'Premium Rides', 'Car Zone', 'Luxury Autos', 'City Rentals'],
+      beauty: ['Beauty Zone', 'Glamour Salon', 'Style Studio', 'Urban Spa', 'Wellness Center'],
+      all: [
+        'Café Bistro', 'The Burger Joint', 'Pizza Palace', 'Taco Bell',
+        'Electronics Mart', 'Fashion Hub', 'Grocery Store', 'Beauty Salon'
+      ]
+    };
     
-    // Sample categories
-    const categories = ['Food', 'Drinks', 'Fashion', 'Electronics', 'Beauty', 'Services', 'Property', 'Vehicle'];
+    // Define category mapping
+    const categoryMapping = {
+      food: ['Food', 'Drinks', 'Cafe', 'Restaurant'],
+      property: ['Property', 'Real Estate', 'Apartments', 'Houses'],
+      vehicle: ['Vehicle', 'Cars', 'Bikes', 'Rentals'],
+      beauty: ['Beauty', 'Spa', 'Salon', 'Wellness'],
+      all: ['Food', 'Drinks', 'Fashion', 'Electronics', 'Beauty', 'Services', 'Property', 'Vehicle']
+    };
 
     // Hardcoded availability counts
     const availabilityCounts = [
@@ -102,7 +132,15 @@ const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
       { available: 17, total: 80 },
     ];
     
-    // Filter logic: if filterType is specified, show only that type
+    // Skip generating offers if filtering by category but not the current section's category
+    if (categoryFilter !== 'all' && sectionId % 5 !== parseInt(Math.random() * 5)) {
+      // Return a limited number of offers for this category to avoid empty sections
+      if (sectionId % 3 === 0) {
+        return [];
+      }
+    }
+    
+    // Filter logic for offer types
     const getTypeIndices = () => {
       if (filterType !== 'all') {
         // Find the matching offer type
@@ -140,6 +178,11 @@ const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
     
     const typeIndices = getTypeIndices();
 
+    // Choose the right category for filtering
+    const currentCategoryImages = offerImages[categoryFilter] || offerImages['all'];
+    const currentShopNames = shopNames[categoryFilter] || shopNames['all'];
+    const currentCategories = categoryMapping[categoryFilter] || categoryMapping['all'];
+
     for (let i = 0; i < 4; i++) {
       const typeIndex = typeIndices[i];
       const type = offerTypes[typeIndex];
@@ -149,7 +192,7 @@ const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
       
       offers.push({
         _id: `${type.type}_${sectionId}_${i}`,
-        image: offerImages[(sectionId + i) % offerImages.length],
+        image: currentCategoryImages[(sectionId + i) % currentCategoryImages.length],
         title: `${type.type === 'spotlight' ? 'Special' : 
                type.type === 'happyhour' ? 'Limited Time' : 
                (type.type === 'spintowin' || type.type === 'spintowin2') ? 'Win Discount' : 'Offer'} Offer`,
@@ -157,8 +200,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all' }) => {
                      type.type === 'happyhour' ? 'Limited time only' : 
                      type.type === 'spintowin' ? 'Spin to win up to 70% off' :
                      type.type === 'spintowin2' ? 'Spin to win exclusive deals' : ''}`,
-        shopName: shopNames[(sectionId + i) % shopNames.length],
-        category: categories[(sectionId + i) % categories.length],
+        shopName: currentShopNames[(sectionId + i) % currentShopNames.length],
+        category: currentCategories[(sectionId + i) % currentCategories.length],
         discountPercent: [20, 30, 40, 50][(sectionId + i) % 4],
         distance: ((sectionId + i) % 4 + 0.5).toFixed(1),
         offerType: type,

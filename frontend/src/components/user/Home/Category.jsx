@@ -5,24 +5,32 @@ import Vehicles from "../../../assets/Home/vehicle.png"
 import Salon from "../../../assets/Home/salon.png"
 import ViewAll from "../../../assets/Home/viewall.png"
 
-const Category = () => {
+const Category = ({ onCategoryChange, activeCategory }) => {
+    const categories = [
+        { id: 'food', image: Food, alt: 'Food' },
+        { id: 'property', image: Property, alt: 'Property' },
+        { id: 'vehicle', image: Vehicles, alt: 'Vehicle' },
+        { id: 'beauty', image: Salon, alt: 'Spa & Salon' },
+        { id: 'all', image: ViewAll, alt: 'View All' }
+    ];
+
+    const handleCategoryClick = (categoryId) => {
+        onCategoryChange(categoryId);
+    };
+
     return (
         <div className="category flex justify-between m-4">
-            <div className="items-center flex flex-col">
-                <img src={Food} alt="food" className="w-14" />
-            </div>
-            <div className="flex flex-col items-center">
-                <img src={Property} alt="property" className="w-14 " />
-            </div>
-            <div className="flex flex-col items-center">
-                <img src={Vehicles} alt="vehicle" className="w-14  " />
-            </div>
-            <div className="flex flex-col items-center">
-               <img src={Salon} alt="salon" className="w-14  mt-2 " />
-            </div>
-            <div className="flex flex-col items-center">
-            <img src={ViewAll} alt="viewall" className="w-14" />
-            </div>
+            {categories.map((category) => (
+                <div 
+                    key={category.id} 
+                    className={`items-center flex flex-col cursor-pointer transition-transform ${activeCategory === category.id ? 'transform scale-110' : ''}`}
+                    onClick={() => handleCategoryClick(category.id)}
+                >
+                    <div className={`p-1 rounded-full ${activeCategory === category.id ? 'bg-blue-100' : ''}`}>
+                        <img src={category.image} alt={category.alt} className={`w-14 ${category.id === 'beauty' ? 'mt-2' : ''}`} />
+                    </div>
+                </div>
+            ))}
         </div>
     );
 };

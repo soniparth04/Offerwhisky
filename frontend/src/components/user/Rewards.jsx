@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, X } from 'lucide-react';
 import './Rewards.css';
 
 // SVG pattern for gift boxes
@@ -46,8 +46,29 @@ const GiftPattern = ({ color }) => {
   );
 };
 
-const RewardCard = ({ color, brand, offer, logo, hiddenOffer, hiddenBrand, hiddenLogo }) => {
-  const [scratched, setScratched] = useState(false);
+const CongratsFlag = () => {
+  return (
+    <div className="absolute top-3 left-0 w-full flex justify-center z-20 congrats-banner">
+      <div className="flex">
+        {'CONGRATS'.split('').map((letter, index) => (
+          <div 
+            key={index} 
+            className="flag-letter" 
+            style={{
+              backgroundColor: ['#7b2cbf', '#ff7b00', '#ff006e', '#3a86ff', '#8ac926', '#fb5607', '#ff595e'][index % 7],
+              animationDelay: `${index * 0.1}s`
+            }}
+          >
+            {letter}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const RewardCard = ({ color, brand, offer, logo, hiddenOffer, hiddenBrand, hiddenLogo, onReveal }) => {
+  const [scratching, setScratching] = useState(false);
   
   let bgColor;
   switch (color) {
@@ -69,7 +90,17 @@ const RewardCard = ({ color, brand, offer, logo, hiddenOffer, hiddenBrand, hidde
 
   const handleScratch = () => {
     if (color !== 'white') {
-      setScratched(true);
+      setScratching(true);
+      setTimeout(() => {
+        setScratching(false);
+        onReveal({
+          color,
+          offer: hiddenOffer,
+          brand: hiddenBrand,
+          logo: hiddenLogo,
+          bgColor
+        });
+      }, 800);
     }
   };
 
@@ -77,52 +108,95 @@ const RewardCard = ({ color, brand, offer, logo, hiddenOffer, hiddenBrand, hidde
     <div 
       className={`reward-card w-full aspect-square rounded-xl overflow-hidden ${color === 'white' ? 'border border-gray-200' : ''} mb-4 relative`}
       style={{ background: bgColor }}
-      onClick={handleScratch}
+      onClick={!scratching ? handleScratch : undefined}
     >
-      {scratched && color !== 'white' ? (
-        <div className="p-4 flex flex-col h-full relative z-10 gift-animation">
-          <div className="text-2xl font-bold text-white">
-            {hiddenOffer || '₹100 Off'}
+      {color === 'white' ? (
+        <div className="p-4 flex flex-col h-full relative z-10">
+          <div className="text-2xl font-bold text-gray-800">
+            {offer}
           </div>
-          <div className="mt-2 text-xl font-semibold text-white">
-            {hiddenBrand || 'Surprise Reward!'}
+          <div className="mt-2 text-xl font-semibold text-gray-800">
+            {brand}
           </div>
           <div className="mt-auto">
             <div className="h-12 w-12 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden">
-              <span className="text-2xl">{hiddenLogo || '🎁'}</span>
+              <img src={logo} alt={brand} className="h-8 w-8 object-contain" />
             </div>
           </div>
         </div>
       ) : (
         <>
-          {color === 'white' ? (
-            <div className="p-4 flex flex-col h-full relative z-10">
-              <div className="text-2xl font-bold text-gray-800">
-                {offer}
-              </div>
-              <div className="mt-2 text-xl font-semibold text-gray-800">
-                {brand}
-              </div>
-              <div className="mt-auto">
-                <div className="h-12 w-12 rounded-full bg-white border border-gray-200 flex items-center justify-center overflow-hidden">
-                  <img src={logo} alt={brand} className="h-8 w-8 object-contain" />
-                </div>
-              </div>
+          <GiftPattern color={color} />
+          <div className={`scratch-banner ${scratching ? 'scratching' : ''}`}>
+            <div className="banner-ribbon">
+              <span>Scratch to reveal</span>
             </div>
-          ) : (
-            <>
-              <div className="scratch-text">Tap to Scratch</div>
-              <GiftPattern color={color} />
-            </>
-          )}
+            {scratching && <div className="scratch-overlay"></div>}
+          </div>
         </>
       )}
     </div>
   );
 };
 
+const RewardModal = ({ isOpen, reward, onClose }) => {
+  const [animating, setAnimating] = useState(true);
+  
+  useEffect(() => {
+    if (isOpen) {
+      // Allow time for entrance animation
+      const timer = setTimeout(() => {
+        setAnimating(false);
+      }, 800);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+  
+  if (!isOpen || !reward) return null;
+  
+  return (
+    <div className={`reward-modal-overlay ${animating ? 'modal-entering' : ''}`}>
+      <div 
+        className={`reward-modal-content rounded-xl overflow-hidden`} 
+        style={{ backgroundColor: reward.bgColor }}
+      >
+        <button 
+          onClick={onClose}
+          className="absolute right-3 top-3 text-white bg-black/30 rounded-full p-1 z-30"
+        >
+          <X size={20} />
+        </button>
+        
+        <GiftPattern color={reward.color} />
+        
+        <CongratsFlag />
+        
+        <div className="reward-revealed p-4 flex flex-col h-full relative z-10 items-center justify-center">
+          <div className="reward-bubble">
+            <div className="text-3xl font-bold text-gray-800 text-center">
+              {reward.offer || 'Flat 20% Off'}
+            </div>
+            {reward.brand && (
+              <div className="mt-2 text-lg font-semibold text-center text-gray-600">
+                at {reward.brand}
+              </div>
+            )}
+          </div>
+          <div className="mt-6">
+            <button className="py-3 px-10 bg-blue-800 text-white font-semibold rounded-lg">
+              Pay & Book
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Rewards() {
   const navigate = useNavigate();
+  const [modalReward, setModalReward] = useState(null);
   
   // Define reward data
   const rewards = [
@@ -156,6 +230,14 @@ export default function Rewards() {
     }
   ];
   
+  const handleRevealReward = (reward) => {
+    setModalReward(reward);
+  };
+  
+  const handleCloseModal = () => {
+    setModalReward(null);
+  };
+  
   return (
     <div className="bg-gray-100 min-h-screen">
       {/* Header */}
@@ -185,10 +267,18 @@ export default function Rewards() {
               hiddenOffer={reward.hiddenOffer}
               hiddenBrand={reward.hiddenBrand}
               hiddenLogo={reward.hiddenLogo}
+              onReveal={handleRevealReward}
             />
           </div>
         ))}
       </div>
+      
+      {/* Reward Modal */}
+      <RewardModal 
+        isOpen={modalReward !== null}
+        reward={modalReward}
+        onClose={handleCloseModal}
+      />
     </div>
   );
 }

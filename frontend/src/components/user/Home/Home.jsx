@@ -11,9 +11,16 @@ import Navbar from '../Navbar';
 
 const Home = () => {
   const [currentFilter, setCurrentFilter] = useState('all');
+  const [currentCategory, setCurrentCategory] = useState('all');
 
   const handleFilterChange = (filterType) => {
     setCurrentFilter(filterType);
+  };
+
+  const handleCategoryChange = (categoryType) => {
+    setCurrentCategory(categoryType);
+    // When a category is selected, reset the offer type filter to show all offers
+    setCurrentFilter('all');
   };
 
   return (
@@ -21,20 +28,20 @@ const Home = () => {
       <div className='mb-20'>
         <Header />
         <SearchBar />
-        <Category />
+        <Category onCategoryChange={handleCategoryChange} activeCategory={currentCategory} />
         <CarouselDefault/>
         <OfferTypeNavigation onFilterChange={handleFilterChange} />
         
         {/* Multiple sections of offer cards alternating with video ads and image ads */}
-        <OfferCardSection sectionId={1} filterType={currentFilter} />
+        <OfferCardSection sectionId={1} filterType={currentFilter} categoryFilter={currentCategory} />
         <VideoAdSection adId={1} />
-        <OfferCardSection sectionId={2} filterType={currentFilter} />
+        <OfferCardSection sectionId={2} filterType={currentFilter} categoryFilter={currentCategory} />
         <ImageAdSection adId={1} />
-        <OfferCardSection sectionId={3} filterType={currentFilter} />
+        <OfferCardSection sectionId={3} filterType={currentFilter} categoryFilter={currentCategory} />
         <VideoAdSection adId={2} />
-        <OfferCardSection sectionId={4} filterType={currentFilter} />
+        <OfferCardSection sectionId={4} filterType={currentFilter} categoryFilter={currentCategory} />
         <ImageAdSection adId={2} />
-        <OfferCardSection sectionId={5} filterType={currentFilter} />
+        <OfferCardSection sectionId={5} filterType={currentFilter} categoryFilter={currentCategory} />
       </div>
       <Navbar/>
     </div>

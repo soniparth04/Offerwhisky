@@ -17,7 +17,7 @@ const OfferTypeNavigation = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="px-4 py-3 bg-gray-50">
+    <div className="px-4 pt-1 pb-3 bg-gray-50">
       <div className="flex space-x-2 overflow-x-auto scrollbar-hide">
         {filterOptions.map((option) => (
           <button
