@@ -23,11 +23,18 @@ const Category = ({ onCategoryChange, activeCategory }) => {
             {categories.map((category) => (
                 <div 
                     key={category.id} 
-                    className={`items-center flex flex-col cursor-pointer transition-transform ${activeCategory === category.id ? 'transform scale-110' : ''}`}
+                    className="items-center flex flex-col cursor-pointer transition-all duration-300"
                     onClick={() => handleCategoryClick(category.id)}
                 >
-                    <div className={`p-1 rounded-full ${activeCategory === category.id ? 'bg-blue-100' : ''}`}>
-                        <img src={category.image} alt={category.alt} className={`w-14 ${category.id === 'beauty' ? 'mt-2' : ''}`} />
+                    <div className="p-1">
+                        <img 
+                            src={category.image} 
+                            alt={category.alt} 
+                            className={`w-14 transition-all duration-300 ${category.id === 'beauty' ? 'mt-2' : ''}`}
+                            style={activeCategory === category.id ? {
+                                filter: 'brightness(0) saturate(100%) invert(31%) sepia(100%) saturate(2000%) hue-rotate(201deg) brightness(99%) contrast(101%)'
+                            } : {}}
+                        />
                     </div>
                 </div>
             ))}

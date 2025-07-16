@@ -27,6 +27,31 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
     '5_3': { hours: 2, minutes: 45, seconds: 50 }
   };
   
+  // Button color variations for each offer type - subtle, comforting gradients
+  const buttonColors = {
+    spotlight: [
+      { bg: 'bg-gradient-to-r from-gray-800 to-black', name: 'gray-black' },
+      { bg: 'bg-gradient-to-r from-slate-700 to-gray-900', name: 'slate-gray' },
+      { bg: 'bg-gradient-to-r from-zinc-700 to-slate-800', name: 'zinc-slate' },
+      { bg: 'bg-gradient-to-r from-gray-700 to-zinc-800', name: 'gray-zinc' },
+      { bg: 'bg-gradient-to-r from-stone-700 to-gray-800', name: 'stone-gray' }
+    ],
+    happyhour: [
+      { bg: 'bg-gradient-to-r from-orange-400 to-red-400', name: 'orange-red' },
+      { bg: 'bg-gradient-to-r from-rose-400 to-orange-400', name: 'rose-orange' },
+      { bg: 'bg-gradient-to-r from-red-400 to-pink-400', name: 'red-pink' },
+      { bg: 'bg-gradient-to-r from-pink-400 to-orange-400', name: 'pink-orange' },
+      { bg: 'bg-gradient-to-r from-orange-300 to-amber-500', name: 'light-orange-amber' }
+    ],
+    spintowin: [
+      { bg: 'bg-gradient-to-r from-purple-400 to-indigo-400', name: 'purple-indigo' },
+      { bg: 'bg-gradient-to-r from-violet-400 to-purple-400', name: 'violet-purple' },
+      { bg: 'bg-gradient-to-r from-indigo-400 to-blue-400', name: 'indigo-blue' },
+      { bg: 'bg-gradient-to-r from-blue-400 to-violet-400', name: 'blue-violet' },
+      { bg: 'bg-gradient-to-r from-purple-300 to-indigo-500', name: 'light-purple-indigo' }
+    ]
+  };
+
   // Different offer types with two spin-to-win variations (removed BOGO)
   const offerTypes = [
     {
@@ -35,7 +60,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
       tagClass: 'bg-gradient-to-r from-amber-500 to-yellow-400 text-black',
       route: 'spotlight-offer',
       buttonText: 'Learn More',
-      buttonClass: 'bg-blue-600 hover:bg-blue-700'
+      buttonClass: 'bg-blue-600 hover:bg-blue-700',
+      buttonColors: buttonColors.spotlight
     },
     {
       type: 'happyhour',
@@ -43,7 +69,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
       tagClass: 'bg-orange-500 text-white',
       route: 'happy-hour-offer',
       buttonText: 'Book Now',
-      buttonClass: 'bg-orange-500 hover:bg-orange-600'
+      buttonClass: 'bg-orange-500 hover:bg-orange-600',
+      buttonColors: buttonColors.happyhour
     },
     {
       type: 'spintowin',
@@ -51,7 +78,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
       tagClass: 'bg-purple-600 text-white',
       route: 'spin-to-win',
       buttonText: 'Spin Now',
-      buttonClass: 'bg-purple-600 hover:bg-purple-700'
+      buttonClass: 'bg-purple-600 hover:bg-purple-700',
+      buttonColors: buttonColors.spintowin
     },
     {
       type: 'spintowin2',
@@ -59,7 +87,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
       tagClass: 'bg-blue-600 text-white', // Using the BOGO blue color scheme
       route: 'spin-to-win',
       buttonText: 'Spin Now',
-      buttonClass: 'bg-blue-600 hover:bg-blue-700'
+      buttonClass: 'bg-blue-600 hover:bg-blue-700',
+      buttonColors: buttonColors.spintowin
     }
   ];    // Generate 4 different offers with randomized types to ensure variety
   const generateOffers = () => {
@@ -190,6 +219,12 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
       // Use a static timerId for referencing hard-coded timer values
       const timerId = `${sectionId}_${i}`;
       
+      // Choose a random button color for this offer
+      const randomButtonColorIndex = Math.floor(Math.random() * (type.buttonColors?.length || 1));
+      const randomButtonColor = type.buttonColors?.[randomButtonColorIndex]?.bg || type.buttonClass;
+      // Add hover brightness effect for gradient buttons
+      const randomButtonHoverClass = randomButtonColor.includes('gradient') ? 'hover:brightness-105' : '';
+      
       offers.push({
         _id: `${type.type}_${sectionId}_${i}`,
         image: currentCategoryImages[(sectionId + i) % currentCategoryImages.length],
@@ -202,6 +237,8 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
                      type.type === 'spintowin2' ? 'Spin to win exclusive deals' : ''}`,
         shopName: currentShopNames[(sectionId + i) % currentShopNames.length],
         category: currentCategories[(sectionId + i) % currentCategories.length],
+        randomButtonColor: randomButtonColor,
+        randomButtonHoverClass: randomButtonHoverClass,
         discountPercent: [20, 30, 40, 50][(sectionId + i) % 4],
         distance: ((sectionId + i) % 4 + 0.5).toFixed(1),
         offerType: type,
@@ -252,15 +289,11 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
                   e.target.src = "https://via.placeholder.com/300x200?text=Image+Not+Found";
                 }}
               />
-              {/* Offer type tag - top left */}
+              {/* Offer type tag - top left (only for happy hour) */}
               <div className="absolute top-2 left-2 flex">
-                {offer.offerType.type === 'happyhour' ? (
+                {offer.offerType.type === 'happyhour' && (
                   <div className={`${offer.offerType.tagClass} px-1.5 py-0.5 text-[10px] font-bold flex items-center rounded-sm shadow-sm`}>
                     <span className="h-1.5 w-1.5 bg-white rounded-full mr-1 animate-pulse"></span>
-                    {offer.offerType.tag}
-                  </div>
-                ) : (
-                  <div className={`${offer.offerType.tagClass} px-1.5 py-0.5 text-[10px] font-bold rounded-sm shadow-sm`}>
                     {offer.offerType.tag}
                   </div>
                 )}
@@ -328,7 +361,7 @@ const OfferCardSection = ({ sectionId, filterType = 'all', categoryFilter = 'all
               
               {/* Action button - fixed position at bottom */}
               <div className="mt-auto">
-                <button className={`w-full ${offer.offerType.buttonClass} text-white text-xs py-1.5 rounded font-medium transition-colors`}>
+                <button className={`w-full ${offer.randomButtonColor || offer.offerType.buttonClass} ${offer.randomButtonHoverClass || ''} text-white text-xs py-1.5 rounded font-medium transition-all duration-300 shadow-sm hover:shadow-md`}>
                   {offer.offerType.buttonText}
                 </button>
               </div>
