@@ -40,6 +40,9 @@ import OwnerWallet from "./components/owner/Account/Wallet";
 import BoostSpotlightOffer from "./components/owner/Offers/Boost/SpotlightBoost";
 import AdTypeSelectionPage from "./components/owner/Ads/AdTypeSelection";
 import Bag from "./components/user/Bag";
+import Login from "./components/auth/Login";
+import Register from "./components/auth/Register";
+import OtpVerification from "./components/auth/OtpVerification";
 
 function App() {
   return (
@@ -51,6 +54,9 @@ function App() {
         <Route path="/common-offers/:ownerId" element={<CommonOffer />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/otp-verification" element={<OtpVerification />} />
         <Route path="/youraccount" element={<UserProfile />} />
         <Route path="/offer/:id" element={<OfferDetail />} />
         <Route path="/spotlight-offer/:id" element={<OfferDetail />} />
