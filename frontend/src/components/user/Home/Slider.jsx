@@ -1,77 +1,79 @@
 import React from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import "./Slider.css";
 
-const CarouselDefault = () => {
-  // Shopping-themed card images
-  const cards = [
+const Slider = () => {
+  const [currentSlide, setCurrentSlide] = React.useState(0);
+  
+  const images = [
     {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      alt: "Fashion sale promotion with 50% discount"
+      src: "https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=1024x1024&w=0&k=20&c=z8_rWaI8x4zApNEEG9DnWlGXyDIXe-OmsAyQ5fGPVV8=",
+      alt: "Mountain Landscape"
     },
     {
-      id: 2,
-      image: "https://images.unsplash.com/photo-1607083206968-13611e3d76db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      alt: "Summer collection special offer"
+      src: "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-souvenirpixels-414612.jpg&fm=jpg",
+      alt: "Ocean View"
     },
     {
-      id: 3,
-      image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      alt: "Shopping bag with today's deals"
-    },
-    {
-      id: 4,
-      image: "https://images.unsplash.com/photo-1580828343064-fde4fc206bc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      alt: "Shopping mall weekend sale"
-    },
-    {
-      id: 5,
-      image: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      alt: "Gift card promotion"
+      src: "https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg",
+      alt: "Tiger in Forest"
     }
   ];
 
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    arrows: false,
-    centerMode: false,
-    centerPadding: '0',
-    dotsClass: "slick-dots",
-    appendDots: dots => (
-      <div style={{ bottom: "-15px" }}>
-        <ul>{dots}</ul>
-      </div>
-    ),
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % images.length);
+    }, 3000);
+    
+    return () => clearInterval(interval);
+  }, [images.length]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
   };
 
   return (
-    <div className="relative px-4 py-0">
-      <div className="card-slider-container">
-        <Slider {...settings}>
-          {cards.map((card) => (
-            <div key={card.id} className="px-1">
-              <div className="card-slide relative rounded-xl overflow-hidden shadow-md">
-                <img
-                  src={card.image}
-                  alt={card.alt}
-                  className="w-full aspect-[16/9] object-cover"
-                />
-              </div>
+    <div className="relative px-4 py-2">
+      {/* Main Carousel Container */}
+      <div className="relative max-w-4xl w-full mx-auto">
+        {/* Image Container */}
+        <div className="relative aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
+          {images.map((image, index) => (
+            <div
+              key={index}
+              className={`absolute inset-0 transition-opacity duration-800 ease-in-out ${
+                index === currentSlide ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+              />
             </div>
           ))}
-        </Slider>
+        </div>
+
+        {/* Enhanced Dots Navigation */}
+        <div className="flex justify-center items-center mt-6 space-x-3">
+          {images.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`relative transition-all duration-300 hover:scale-110 ${
+                index === currentSlide
+                  ? 'w-8 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg'
+                  : 'w-3 h-3 bg-gray-300 hover:bg-gray-400 rounded-full'
+              }`}
+            >
+              {/* Active dot glow effect */}
+              {index === currentSlide && (
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm opacity-50 scale-150"></div>
+              )}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default CarouselDefault;
+export default Slider;

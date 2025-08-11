@@ -1,10 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import Bell from "../../../assets/Home/bell.png"
 import GiftBox from "../../../assets/Home/gift.png"
+import { CiSearch } from "react-icons/ci";
+import { PiMicrophoneLight } from "react-icons/pi";
 
 const SearchBar = () => {
 
@@ -23,17 +22,17 @@ const SearchBar = () => {
             className="flex items-center justify-between w-full px-4 py-3 overflow-x-hidden"
             style={{ backgroundColor: '#ffffff' }} // Explicitly set white background
         >
-            <div className="flex items-center space-x-2 border border-gray-300 rounded px-3 py-2 flex-1 mr-5" style={{ backgroundColor: '#ffffff' }}>
-                <span className="text-gray-600 mr-2">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+            <div className="flex items-center space-x-2 border border-gray-300 px-3 py-2 flex-1 mr-5 rounded-3xl" style={{ backgroundColor: '#ffffff' }}>
+                <span className="text-gray-600">
+                    <CiSearch className="w-5 h-5 cursor-pointer" />
                 </span>
                 <input
                     type="text"
                     placeholder="Search"
                     className="w-full border-none outline-none text-sm bg-transparent text-black"
                 />
-                <button className="text-gray-600 ml-1">
-                    <FontAwesomeIcon icon={faMicrophone} />
+                <button className="text-gray-600">
+                    <PiMicrophoneLight className="w-5 h-5" />
                 </button>
             </div>
 

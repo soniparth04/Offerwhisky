@@ -1,5 +1,4 @@
 import React, { useRef, useState, useCallback } from "react";
-import { GoogleMap, useJsApiLoader, Autocomplete } from "@react-google-maps/api";
 import PinLocation from "../assets/locationpin.png";
 import { useNavigate } from "react-router-dom";
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;

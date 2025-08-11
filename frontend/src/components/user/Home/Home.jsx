@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from './Header';
 import SearchBar from './SearchBar';
 import Category from './Category';
-import CarouselDefault from './Slider';
+import Slider from './Slider';
 import OfferTypeNavigation from './OfferTypeNavigation';
 import OfferCardSection from './OfferCardSection';
 import VideoAdSection from './VideoAdSection';
@@ -29,7 +29,7 @@ const Home = () => {
         <Header />
         <SearchBar />
         <Category onCategoryChange={handleCategoryChange} activeCategory={currentCategory} />
-        <CarouselDefault/>
+        <Slider />
         <OfferTypeNavigation onFilterChange={handleFilterChange} />
         
         {/* Multiple sections of offer cards alternating with video ads and image ads */}

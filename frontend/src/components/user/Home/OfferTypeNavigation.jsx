@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const OfferTypeNavigation = ({ onFilterChange }) => {
-  const [activeFilter, setActiveFilter] = useState('all');
-
+const OfferTypeNavigation = ({ onFilterChange, activeFilter = 'all' }) => {
   const filterOptions = [
     { 
       id: 'all', 
@@ -17,23 +15,21 @@ const OfferTypeNavigation = ({ onFilterChange }) => {
       activeBorder: 'border-amber-300/30'
     },
     { 
-      id: 'happyhour', 
+      id: 'happyHour', 
       label: 'Happy Hours',
       activeGradient: 'from-orange-500/90 to-orange-600/90',
       activeBorder: 'border-orange-300/30'
     },
     { 
-      id: 'spintowin', 
+      id: 'spinToWin', 
       label: 'Spin to Win',
       activeGradient: 'from-purple-500/90 to-purple-600/90',
       activeBorder: 'border-purple-300/30'
     }
   ];
 
-  const handleFilterClick = (filterId, label) => {
-    setActiveFilter(filterId);
+  const handleFilterClick = (filterId) => {
     onFilterChange(filterId);
-    console.log(`Filter selected: ${filterId}`);
   };
 
   return (
@@ -45,7 +41,7 @@ const OfferTypeNavigation = ({ onFilterChange }) => {
           return (
             <button
               key={option.id}
-              onClick={() => handleFilterClick(option.id, option.label)}
+              onClick={() => handleFilterClick(option.id)}
               className={`
                 flex-shrink-0 px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300
                 ${isActive
