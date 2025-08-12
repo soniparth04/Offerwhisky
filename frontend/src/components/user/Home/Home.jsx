@@ -3,11 +3,11 @@ import Header from './Header';
 import SearchBar from './SearchBar';
 import Category from './Category';
 import Slider from './Slider';
-import OfferTypeNavigation from './OfferTypeNavigation';
 import OfferCardSection from './OfferCardSection';
 import VideoAdSection from './VideoAdSection';
 import ImageAdSection from './ImageAdSection';
 import Navbar from '../Navbar';
+import OfferHeader from './OfferHeader';
 
 const Home = () => {
   const [currentFilter, setCurrentFilter] = useState('all');
@@ -30,9 +30,9 @@ const Home = () => {
         <SearchBar />
         <Category onCategoryChange={handleCategoryChange} activeCategory={currentCategory} />
         <Slider />
-        <OfferTypeNavigation onFilterChange={handleFilterChange} />
         
         {/* Multiple sections of offer cards alternating with video ads and image ads */}
+        <OfferHeader />
         <OfferCardSection sectionId={1} filterType={currentFilter} categoryFilter={currentCategory} />
         <VideoAdSection adId={1} />
         <OfferCardSection sectionId={2} filterType={currentFilter} categoryFilter={currentCategory} />
