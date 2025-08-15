@@ -2,27 +2,35 @@ import React from "react";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
-  
+
   const images = [
     {
-      src: "https://media.istockphoto.com/id/517188688/photo/mountain-landscape.jpg?s=1024x1024&w=0&k=20&c=z8_rWaI8x4zApNEEG9DnWlGXyDIXe-OmsAyQ5fGPVV8=",
-      alt: "Mountain Landscape"
+      src: "https://thedrum-media.imgix.net/thedrum-prod/s3/share_a_coke.jpg?w=1020&ar=default&fit=crop&crop=faces&auto=format&q=100",
+      alt: "Coca Cola Ad",
     },
     {
-      src: "https://images.pexels.com/photos/414612/pexels-photo-414612.jpeg?cs=srgb&dl=pexels-souvenirpixels-414612.jpg&fm=jpg",
-      alt: "Ocean View"
+      src: "https://poweradspy.com/wp-content/uploads/2023/10/nike-ads-growth.webp",
+      alt: "Nike Ad",
     },
     {
-      src: "https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg",
-      alt: "Tiger in Forest"
-    }
+      src: "https://i.ytimg.com/vi/_Cf_Thff044/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAoVVWj_RUKPn5ntqrftWWgR6R3DA",
+      alt: "Samsung Ad",
+    },
+    {
+      src: "https://www.krishnajewellers.com/blog/wp-content/uploads/2021/11/gold-jewellery-video-call-shopping-at-krishna-jewellers.jpg",
+      alt: "Krishna Jewellers Ad",
+    },
+    {
+      src: "https://www.adgully.com/img/800/201712/heinz-tomato-ketchup_the-taste-that-grabs-you_pic-2.jpg",
+      alt: "Heinz Ad",
+    },
   ];
 
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % images.length);
     }, 3000);
-    
+
     return () => clearInterval(interval);
   }, [images.length]);
 
@@ -40,7 +48,7 @@ const Slider = () => {
             <div
               key={index}
               className={`absolute inset-0 transition-opacity duration-800 ease-in-out ${
-                index === currentSlide ? 'opacity-100' : 'opacity-0'
+                index === currentSlide ? "opacity-100" : "opacity-0"
               }`}
             >
               <img
@@ -53,22 +61,17 @@ const Slider = () => {
         </div>
 
         {/* Enhanced Dots Navigation */}
-        <div className="flex justify-center items-center mt-6 space-x-3">
+        <div className="flex justify-center items-center mt-4 space-x-3">
           {images.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
               className={`relative transition-all duration-300 hover:scale-110 ${
                 index === currentSlide
-                  ? 'w-8 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg'
-                  : 'w-3 h-3 bg-gray-300 hover:bg-gray-400 rounded-full'
+                  ? "w-8 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"
+                  : "w-2 h-2 bg-gray-300 hover:bg-gray-400 rounded-full"
               }`}
-            >
-              {/* Active dot glow effect */}
-              {index === currentSlide && (
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-sm opacity-50 scale-150"></div>
-              )}
-            </button>
+            ></button>
           ))}
         </div>
       </div>
