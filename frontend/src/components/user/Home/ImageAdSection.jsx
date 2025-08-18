@@ -52,7 +52,7 @@ const ImageAdSection = ({ adId = 1 }) => {
   const currentTopAd = topAds[(adId - 1) % topAds.length];
   
   return (
-    <div className="mt-2 px-4 bg-gray-50 py-3">
+    <div className="mt-2 px-2 bg-gray-50 py-3">
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {/* Top Image Ad Section */}
         <div className="relative">

@@ -261,7 +261,7 @@ const OfferCardSection = () => {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-sm font-bold text-gray-500 mb-2">
+                  <h3 className="text-xs font-bold text-gray-500 mb-2">
                     {offer.title}
                   </h3>
 

@@ -1,12 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Star,
-  Clock,
-} from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Star, Clock } from "lucide-react";
 
 import { FaPlay } from "react-icons/fa";
 
@@ -34,7 +27,6 @@ const VideoAdSection = ({ adId = 1 }) => {
         description:
           "Rule Streets And Trails With The Legendary Range Rover Defender",
         validUntil: "Valid Till : 20th Aug 2025",
-        rating: 4.9,
         reviews: 327,
       },
     },
@@ -49,7 +41,6 @@ const VideoAdSection = ({ adId = 1 }) => {
         discount: "Buy 2 Get 1 FREE",
         description: "Refreshing Natural Cold Drinks - Special Combo Pack",
         validUntil: "Valid Till : 18th Aug 2025",
-        rating: 4.6,
         reviews: 892,
       },
     },
@@ -181,7 +172,7 @@ const VideoAdSection = ({ adId = 1 }) => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden relative">
         {/* Video Container */}
         <div
-          className="relative h-56 sm:h-72 overflow-hidden group"
+          className="relative h-56 overflow-hidden"
           onClick={handleVideoClick}
         >
           {/* Main Video Element */}
@@ -198,7 +189,7 @@ const VideoAdSection = ({ adId = 1 }) => {
             <source src={currentAd.video} type="video/mp4" />
             {/* Fallback image */}
             <div
-              className="w-full h-full bg-cover bg-center bg-no-repeat"
+              className="w-full h-100 bg-cover bg-center bg-no-repeat"
               style={{ backgroundImage: `url(${currentAd.fallbackImage})` }}
             />
           </video>
@@ -274,33 +265,23 @@ const VideoAdSection = ({ adId = 1 }) => {
 
         {/* Enhanced Offer Details Section */}
         <div className="-mt-5 p-4 border-t border-gray-100">
-          {/* Title and Rating */}
+          {/* Title */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1">
-              <h3 className="text-lg sm:text-xl font-bold text-gray-900 my-3">
-                {currentAd.offer.description}
+              <h3 className="text-lg font-bold text-black mt-3">
+                {currentAd.title}
               </h3>
+              <h4 className="text-md text-gray-400 mt-1 mb-2">
+                {currentAd.offer.description}
+              </h4>
 
               {/* Price Section */}
-              <div className="flex items-center space-x-3 mb-3">
+              <div className="flex items-center space-x-3">
                 <div
                   className={`bg-gradient-to-r ${currentAd.accentColor} text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg`}
                 >
                   {currentAd.offer.discount}
                 </div>
-              </div>
-
-              {/* Rating and Reviews */}
-              <div className="flex items-center space-x-1">
-                <div className="flex items-center space-x-1">
-                  <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                  <span className="text-sm font-semibold text-gray-700">
-                    {currentAd.offer.rating}
-                  </span>
-                </div>
-                <span className="text-sm text-gray-500">
-                  ({currentAd.offer.reviews} reviews)
-                </span>
               </div>
             </div>
           </div>
