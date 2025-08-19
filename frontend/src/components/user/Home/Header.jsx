@@ -124,7 +124,7 @@ const Header = () => {
   const trimmedAddress = address.length > 60 ? address.slice(0, 60) + '...' : address;
 
   return (
-    <div className="bg-gradient-to-b from-pink-200 to-white px-4 pt-10 pb-2">
+    <div className="bg-gradient-to-b from-pink-200 to-white px-4 pt-5 pb-2">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
           <div>

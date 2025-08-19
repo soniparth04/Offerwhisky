@@ -172,13 +172,13 @@ const VideoAdSection = ({ adId = 1 }) => {
       <div className="bg-white rounded-xl shadow-lg overflow-hidden relative">
         {/* Video Container */}
         <div
-          className="relative h-56 overflow-hidden"
+          className="relative overflow-hidden aspect-[3/2]"
           onClick={handleVideoClick}
         >
           {/* Main Video Element */}
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill"
             muted
             loop
             autoPlay
@@ -223,7 +223,7 @@ const VideoAdSection = ({ adId = 1 }) => {
                 e.stopPropagation();
                 toggleMute();
               }}
-              className="bg-black bg-opacity-60 backdrop-blur-sm hover:bg-opacity-80 p-2 sm:p-2.5 rounded-full transition-all duration-200 hover:scale-110"
+              className="bg-black bg-opacity-60 backdrop-blur-sm hover:bg-opacity-80 p-2 rounded-full transition-all duration-200 hover:scale-110"
               aria-label={isMuted ? "Unmute video" : "Mute video"}
             >
               {isMuted ? (

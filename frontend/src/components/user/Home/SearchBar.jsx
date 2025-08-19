@@ -19,7 +19,7 @@ const SearchBar = () => {
 
     return (
         <div
-            className="flex items-center justify-between w-full px-4 py-3 overflow-x-hidden"
+            className="flex items-center justify-between w-full px-4 py-1 overflow-x-hidden"
             style={{ backgroundColor: '#ffffff' }} // Explicitly set white background
         >
             <div className="flex items-center space-x-2 border border-gray-300 px-3 py-2 flex-1 mr-5 rounded-3xl" style={{ backgroundColor: '#ffffff' }}>

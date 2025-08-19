@@ -29,7 +29,7 @@ const Slider = () => {
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % images.length);
-    }, 3000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [images.length]);
@@ -43,7 +43,7 @@ const Slider = () => {
       {/* Main Carousel Container */}
       <div className="relative max-w-4xl w-full mx-auto">
         {/* Image Container */}
-        <div className="relative aspect-[16/9] rounded-xl overflow-hidden shadow-lg">
+        <div className="relative aspect-[3/2] rounded-xl overflow-hidden shadow-lg">
           {images.map((image, index) => (
             <div
               key={index}
@@ -54,7 +54,7 @@ const Slider = () => {
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                className="w-full h-full hover:scale-105 transition-transform duration-500"
               />
             </div>
           ))}

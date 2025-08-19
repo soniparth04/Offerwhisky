@@ -1,74 +1,82 @@
-import React from 'react';
+import React from "react";
 
 const ImageAdSection = ({ adId = 1 }) => {
   // Different ad variations for the top image section
   const topAds = [
     {
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=400&fit=crop",
       title: "OVERSIZED T-SHIRTS",
-      subtitle: "BUY 2 AT ₹999"
+      subtitle: "BUY 2 AT ₹999",
     },
     {
-      image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1445205170230-053b83016050?w=800&h=400&fit=crop",
       title: "SUMMER COLLECTION",
-      subtitle: "FLAT 50% OFF"
+      subtitle: "FLAT 50% OFF",
     },
     {
-      image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&h=400&fit=crop",
+      image:
+        "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&h=400&fit=crop",
       title: "FASHION SALE",
-      subtitle: "UP TO 70% OFF"
-    }
+      subtitle: "UP TO 70% OFF",
+    },
   ];
 
   // Sample slider items based on the image
   const sliderItems = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=150&h=200&fit=crop",
-      title: "Cool Snack Tee"
+      image:
+        "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=150&h=200&fit=crop",
+      title: "Cool Snack Tee",
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=150&h=200&fit=crop",
-      title: "Snoopy Pals Tee"
+      image:
+        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=150&h=200&fit=crop",
+      title: "Snoopy Pals Tee",
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=150&h=200&fit=crop",
-      title: "Graphic Tee"
+      image:
+        "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=150&h=200&fit=crop",
+      title: "Graphic Tee",
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1622445275576-721325763afe?w=150&h=200&fit=crop",
-      title: "Batman Tee"
+      image:
+        "https://images.unsplash.com/photo-1622445275576-721325763afe?w=150&h=200&fit=crop",
+      title: "Batman Tee",
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=150&h=200&fit=crop",
-      title: "Vintage Tee"
-    }
+      image:
+        "https://images.unsplash.com/photo-1571945153237-4929e783af4a?w=150&h=200&fit=crop",
+      title: "Vintage Tee",
+    },
   ];
-  
+
   const currentTopAd = topAds[(adId - 1) % topAds.length];
-  
+
   return (
     <div className="mt-2 px-2 bg-gray-50 py-3">
       <div className="bg-white rounded-lg shadow overflow-hidden">
         {/* Top Image Ad Section */}
-        <div className="relative">
-          <img 
+        <div className="relative aspect-[3/2]">
+          <img
             src={currentTopAd.image}
             alt={currentTopAd.title}
             className="w-full h-64 object-cover"
           />
-          
+
           {/* AD tag - top right */}
           <div className="absolute top-2 right-2">
             <div className="bg-black bg-opacity-80 text-white px-2 py-1 text-xs font-medium rounded">
               AD
             </div>
           </div>
-          
+
           {/* Content overlay - positioned at bottom left */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
             <h2 className="text-white text-lg font-bold mb-1 leading-tight">
@@ -84,19 +92,19 @@ const ImageAdSection = ({ adId = 1 }) => {
         <div className="p-3">
           <div className="flex space-x-3 overflow-x-auto scrollbar-hide">
             {sliderItems.map((item) => (
-              <div 
-                key={item.id} 
+              <div
+                key={item.id}
                 className="flex-shrink-0 w-24 cursor-pointer hover:scale-105 transition-transform duration-200"
               >
                 {/* Product Image */}
                 <div className="relative mb-2">
-                  <img 
+                  <img
                     src={item.image}
                     alt={item.title}
                     className="w-24 h-32 object-cover rounded-lg"
                   />
                 </div>
-                
+
                 {/* Product Details */}
                 <div className="text-center">
                   <p className="text-xs text-gray-800 font-medium truncate">

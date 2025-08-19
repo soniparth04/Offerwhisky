@@ -19,7 +19,7 @@ const Category = ({ onCategoryChange, activeCategory }) => {
     };
 
     return (
-        <div className="category flex justify-between m-4">
+        <div className="category flex justify-between mx-4 -mt-2">
             {categories.map((category) => (
                 <div 
                     key={category.id} 
