@@ -64,8 +64,8 @@ const Bag = () => {
                   width="80"
                   height="70"
                   rx="8"
-                  fill="#6B7280"
-                  stroke="#374151"
+                  fill="#9CA3AF" // medium-light gray
+                  stroke="#4B5563" // darker gray for outline
                   strokeWidth="3"
                 />
 
@@ -105,10 +105,8 @@ const Bag = () => {
               No offers in your bag yet.
             </h2>
 
-            <p className="text-gray-600 text-base px-2">
-              Don’t let the savings slip away.
-              <br />
-              <span className="text-pink-600 font-medium truncate">
+            <p className="text-gray-400 text-base px-2">
+              <span className="font-medium truncate">
                 Unlock exclusive deals waiting just for you!
               </span>
             </p>
@@ -123,7 +121,7 @@ const Bag = () => {
                shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] 
                transition-all duration-200 ease-out"
             >
-              See Best Offers
+              Grab Best Deals
             </button>
           </div>
 

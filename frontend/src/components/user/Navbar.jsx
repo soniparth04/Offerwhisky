@@ -38,12 +38,12 @@ const Navbar = () => {
           
           {/* Background fade effect for active state */}
           <div className={`absolute inset-0 transition-all duration-200 rounded-lg ${
-            isActive ? 'bg-pink-50' : 'bg-transparent'
+            isActive ? 'bg-purple-100' : 'bg-transparent'
           }`} />
           
           {/* Icon */}
           <div className={`p-1 relative z-10 transition-all duration-200 ${
-            isActive ? 'text-pink-500 scale-110' : 'text-gray-600'
+            isActive ? 'text-purple-500 scale-110' : 'text-gray-600'
           }`}>
             <Icon className="w-6 h-6" strokeWidth={1.5} />
             {/* Notification Badge for Bag */}
@@ -58,7 +58,7 @@ const Navbar = () => {
           <span className={`text-xs font-medium mt-1 relative z-10 transition-all duration-200 ${
             label === 'Store Nearby' ? 'text-center leading-tight' : ''
           } ${
-            isActive ? 'text-pink-500' : 'text-gray-600'
+            isActive ? 'text-purple-500' : 'text-gray-600'
           }`}>
             {label}
           </span>
