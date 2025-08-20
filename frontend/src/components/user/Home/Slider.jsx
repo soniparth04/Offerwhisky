@@ -68,7 +68,7 @@ const Slider = () => {
               onClick={() => goToSlide(index)}
               className={`relative transition-all duration-300 hover:scale-110 ${
                 index === currentSlide
-                  ? "w-8 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"
+                  ? "w-6 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"
                   : "w-2 h-2 bg-gray-300 hover:bg-gray-400 rounded-full"
               }`}
             ></button>
