@@ -22,10 +22,10 @@ const Bag = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-col items-center justify-center px-10 pt-10 bg-gray-100">
+        <div className="flex-col px-10 pt-20 bg-gray-100">
           {/* Shopping bag */}
           <div className="relative">
-            <img src="chatgpt.png" alt="Empty Bag" className="w-100 h-100" />
+            <img src="chatgpt.png" alt="Empty Bag" className="px-10" />
           </div>
 
           {/* Content */}
