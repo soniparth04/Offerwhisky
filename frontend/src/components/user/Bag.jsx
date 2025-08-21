@@ -1,8 +1,11 @@
 import React from "react";
 import Navbar from "./Navbar";
 import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Bag = () => {
+  const navigate = useNavigate();
+
   const handleBack = () => {
     console.log("Navigate back");
   };
@@ -44,7 +47,7 @@ const Bag = () => {
           {/* CTA Button */}
           <div className="w-full px-20">
             <button
-              onClick={handleStartShopping}
+              onClick={() => navigate("/")}
               className="w-full bg-gradient-to-r from-blue-500 to-purple-500 
                hover:opacity-90 text-white font-semibold py-3 rounded-2xl text-lg 
                shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] 
@@ -53,6 +56,7 @@ const Bag = () => {
               Grab Best Deals
             </button>
           </div>
+
           {/* Extra Spacing For Better View Of Content */}
           <div className="mb-11"></div>
         </div>

@@ -118,8 +118,8 @@ const Slider = () => {
   // Helper function to render card content
   const renderCard = (slide, isMain = false) => {
     const cardClasses = isMain
-      ? "w-80 h-96 shadow-2xl"
-      : "w-56 h-72 shadow-lg opacity-75";
+      ? "w-80 h-96"
+      : "w-56 h-72 opacity-50";
 
     return (
       <div className={`${cardClasses} rounded-2xl overflow-hidden relative`}>
@@ -136,7 +136,7 @@ const Slider = () => {
   };
 
   return (
-    <div className="relative px-4 py-6 mx-auto">
+    <div className="relative">
       {/* Card Container with Side Previews */}
       <div
         className="relative w-full h-96 cursor-grab active:cursor-grabbing overflow-hidden"
@@ -149,14 +149,14 @@ const Slider = () => {
         onTouchEnd={handleTouchEnd}
       >
         <div 
-          className="flex items-center justify-center h-full gap-4 transition-transform duration-150 ease-out"
+          className="flex items-center justify-center h-full gap-2 transition-transform duration-150 ease-out"
           style={{
             transform: `translateX(${translateX}px)`,
             transition: isDragging ? 'none' : 'transform 0.3s ease-out'
           }}
         >
           {/* Left preview */}
-          <div className="transform transition-all duration-500 ease-in-out scale-110 flex-shrink-0">
+          <div className="transform transition-all duration-1000 ease-in-out scale-110 flex-shrink-0">
             {renderCard(
               slides[(currentSlide - 1 + slides.length) % slides.length],
               false
@@ -164,7 +164,7 @@ const Slider = () => {
           </div>
 
           {/* Main slide */}
-          <div className="scale-95">
+          <div className="scale-90">
             {renderCard(slides[currentSlide], true)}
           </div>
 
@@ -176,7 +176,7 @@ const Slider = () => {
       </div>
 
       {/* 3-Dot Navigation */}
-      <div className="flex justify-center items-center mt-8 space-x-2">
+      <div className="flex justify-center items-center mb-4 space-x-2">
         {[0, 1, 2].map((dotIndex) => (
           <button
             key={dotIndex}
