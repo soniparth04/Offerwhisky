@@ -176,14 +176,14 @@ const Slider = () => {
       </div>
 
       {/* 3-Dot Navigation */}
-      <div className="flex justify-center items-center mb-4 space-x-2">
+      <div className="flex justify-center items-center -mt-4 mb-4 space-x-2">
         {[0, 1, 2].map((dotIndex) => (
           <button
             key={dotIndex}
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-12 h-6 rounded-full bg-purple-500 text-white shadow-md text-xs font-medium"
+                ? "w-10 h-5 rounded-full bg-purple-600 text-white shadow-md text-xs font-medium"
                 : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
             }`}
           >
