@@ -36,127 +36,8 @@ import HelpSupport from "./HelpSupport";
 import FAQs from "./FAQs";
 import ContactUs from "./ContactUs";
 import AboutApp from "./AboutApp";
-import {Terms, PrivacyPolicy} from "./Terms"
-
-// Integrated Navbar component
-const Navbar = ({ darkMode }) => {
-  const [rippleEffect, setRippleEffect] = useState(null);
-
-  const handleTap = (index, event) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-
-    setRippleEffect({ index, x, y });
-
-    // Remove ripple effect after animation
-    setTimeout(() => setRippleEffect(null), 500);
-  };
-
-  const NavItem = ({ to, index, icon: Icon, label, isActive = false }) => (
-    <div
-      className="flex flex-col items-center py-1 px-3 min-w-0 relative overflow-hidden cursor-pointer"
-      onClick={(e) => handleTap(index, e)}
-    >
-      {/* Ripple Effect */}
-      {rippleEffect && rippleEffect.index === index && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(circle at ${rippleEffect.x}px ${rippleEffect.y}px, rgba(236, 72, 153, 0.3) 0%, rgba(236, 72, 153, 0.1) 40%, transparent 70%)`,
-            animation: "ripple 0.5s ease-out",
-          }}
-        />
-      )}
-
-      {/* Background fade effect for active state */}
-      <div
-        className={`absolute inset-0 transition-all duration-200 rounded-lg ${
-          isActive ? "bg-pink-50" : "bg-transparent"
-        }`}
-      />
-
-      {/* Icon */}
-      <div
-        className={`p-1 relative z-10 transition-all duration-200 ${
-          isActive
-            ? "text-pink-500 scale-110"
-            : darkMode
-            ? "text-gray-400"
-            : "text-gray-600"
-        }`}
-      >
-        <Icon className="w-6 h-6" strokeWidth={1.5} />
-        {/* Notification Badge for Bag */}
-        {index === 2 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white">
-            3
-          </span>
-        )}
-      </div>
-
-      {/* Label */}
-      <span
-        className={`text-xs font-medium mt-1 relative z-10 transition-all duration-200 ${
-          label === "Store Nearby" ? "text-center leading-tight" : ""
-        } ${
-          isActive
-            ? "text-pink-500"
-            : darkMode
-            ? "text-gray-400"
-            : "text-gray-600"
-        }`}
-      >
-        {label}
-      </span>
-    </div>
-  );
-
-  return (
-    <>
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @keyframes ripple {
-          0% {
-            transform: scale(0);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(4);
-            opacity: 0;
-          }
-        }
-      `,
-        }}
-      />
-
-      <nav
-        className={`fixed bottom-0 left-0 w-full ${
-          darkMode ? "bg-gray-900 border-gray-700" : "bg-white border-gray-200"
-        } border-t px-4 py-2 z-20 backdrop-blur-lg bg-opacity-95`}
-      >
-        <div className="flex justify-between items-center max-w-md mx-auto">
-          <NavItem to="/home" index={0} icon={Home} label="Home" />
-          <NavItem
-            to="/All-shops"
-            index={1}
-            icon={MapPin}
-            label="Store Nearby"
-          />
-          <NavItem to="/bag" index={2} icon={ShoppingBag} label="Bag" />
-          <NavItem
-            to="/youraccount"
-            index={3}
-            icon={User}
-            label="Profile"
-            isActive={true}
-          />
-        </div>
-      </nav>
-    </>
-  );
-};
+import { Terms, PrivacyPolicy } from "./Terms";
+import Navbar from "../Navbar.jsx";
 
 const Profile = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -453,7 +334,10 @@ const Profile = () => {
           subtitle="Manage your notification preferences"
           onClick={() => navigateToPage("notifications")}
         />
-        <MenuItem
+
+        {/* Dark Mode Section Commented */}
+
+        {/* <MenuItem
           icon={darkMode ? Sun : Moon}
           title="Dark Mode"
           subtitle={`Currently ${darkMode ? "enabled" : "disabled"}`}
@@ -481,7 +365,7 @@ const Profile = () => {
               </div>
             </div>
           }
-        />
+        /> */}
       </MenuSection>
 
       {/* Support Section */}
