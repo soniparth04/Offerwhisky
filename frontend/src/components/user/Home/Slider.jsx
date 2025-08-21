@@ -2,78 +2,196 @@ import React from "react";
 
 const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [translateX, setTranslateX] = React.useState(0);
 
-  const images = [
+  const slides = [
     {
-      src: "https://thedrum-media.imgix.net/thedrum-prod/s3/share_a_coke.jpg?w=1020&ar=default&fit=crop&crop=faces&auto=format&q=100",
-      alt: "Coca Cola Ad",
+      id: 1,
+      image:
+        "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
     },
     {
-      src: "https://poweradspy.com/wp-content/uploads/2023/10/nike-ads-growth.webp",
-      alt: "Nike Ad",
+      id: 2,
+      image:
+        "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg",
     },
     {
-      src: "https://i.ytimg.com/vi/_Cf_Thff044/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAoVVWj_RUKPn5ntqrftWWgR6R3DA",
-      alt: "Samsung Ad",
+      id: 3,
+      image:
+        "https://thumbs.dreamstime.com/b/beautiful-view-nature-mountains-near-konigssee-lake-bavaria-germany-blue-sky-clouds-97444419.jpg",
     },
     {
-      src: "https://www.krishnajewellers.com/blog/wp-content/uploads/2021/11/gold-jewellery-video-call-shopping-at-krishna-jewellers.jpg",
-      alt: "Krishna Jewellers Ad",
+      id: 4,
+      image:
+        "https://st2.depositphotos.com/1591133/8812/i/450/depositphotos_88120646-stock-photo-idyllic-summer-landscape-with-clear.jpg",
     },
     {
-      src: "https://www.adgully.com/img/800/201712/heinz-tomato-ketchup_the-taste-that-grabs-you_pic-2.jpg",
-      alt: "Heinz Ad",
+      id: 5,
+      image:
+        "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-fall-waterfall-free-image.jpeg?w=600&quality=80",
     },
   ];
 
+  // Auto-rotate functionality
   React.useEffect(() => {
+    if (isDragging) return;
+
     const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % images.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 4000);
 
     return () => clearInterval(interval);
-  }, [images.length]);
+  }, [slides.length, isDragging]);
 
-  const goToSlide = (index) => {
-    setCurrentSlide(index);
+  // Touch/Mouse handlers
+  const handleStart = (clientX) => {
+    setIsDragging(true);
+    setStartX(clientX);
+  };
+
+  const handleMove = (clientX) => {
+    if (!isDragging) return;
+    const diff = clientX - startX;
+    setTranslateX(diff);
+  };
+
+  const handleEnd = () => {
+    if (!isDragging) return;
+
+    const threshold = 100;
+    if (Math.abs(translateX) > threshold) {
+      if (translateX > 0) {
+        setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+      } else {
+        setCurrentSlide((prev) => (prev + 1) % slides.length);
+      }
+    }
+
+    setIsDragging(false);
+    setTranslateX(0);
+  };
+
+  // Mouse events
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    handleStart(e.clientX);
+  };
+  const handleMouseMove = (e) => handleMove(e.clientX);
+  const handleMouseUp = () => handleEnd();
+
+  // Touch events
+  const handleTouchStart = (e) => handleStart(e.touches[0].clientX);
+  const handleTouchMove = (e) => {
+    e.preventDefault(); // Prevent scrolling
+    handleMove(e.touches[0].clientX);
+  };
+  const handleTouchEnd = () => handleEnd();
+
+  // 3-dot logic
+  const getDotNumbers = () => {
+    const total = slides.length;
+
+    if (currentSlide === 0) {
+      return [1, 2, 3];
+    } else if (currentSlide === total - 1) {
+      return [total - 2, total - 1, total];
+    } else {
+      return [currentSlide, currentSlide + 1, currentSlide + 2];
+    }
+  };
+
+  const getActiveDotIndex = () => {
+    if (currentSlide === 0) return 0;
+    if (currentSlide === slides.length - 1) return 2;
+    return 1;
+  };
+
+  const goToSlide = (slideIndex) => {
+    setCurrentSlide(slideIndex);
+  };
+
+  const dotNumbers = getDotNumbers();
+  const activeDotIndex = getActiveDotIndex();
+
+  // Helper function to render card content
+  const renderCard = (slide, isMain = false) => {
+    const cardClasses = isMain
+      ? "w-80 h-96 shadow-2xl"
+      : "w-56 h-72 shadow-lg opacity-75";
+
+    return (
+      <div className={`${cardClasses} rounded-2xl overflow-hidden relative`}>
+        <div className="">
+          <img
+            src={slide.image}
+            alt={slide.title}
+            className="w-full h-full rounded-t-2xl absolute inset-0 object-cover"
+            draggable={false}
+          />
+        </div>
+      </div>
+    );
   };
 
   return (
-    <div className="relative px-4 py-2">
-      {/* Main Carousel Container */}
-      <div className="relative max-w-4xl w-full mx-auto">
-        {/* Image Container */}
-        <div className="relative aspect-[3/2] rounded-xl overflow-hidden shadow-lg">
-          {images.map((image, index) => (
-            <div
-              key={index}
-              className={`absolute inset-0 transition-opacity duration-800 ease-in-out ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-          ))}
-        </div>
+    <div className="relative px-4 py-6 mx-auto">
+      {/* Card Container with Side Previews */}
+      <div
+        className="relative w-full h-96 cursor-grab active:cursor-grabbing overflow-hidden"
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div 
+          className="flex items-center justify-center h-full gap-4 transition-transform duration-150 ease-out"
+          style={{
+            transform: `translateX(${translateX}px)`,
+            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+          }}
+        >
+          {/* Left preview */}
+          <div className="transform transition-all duration-500 ease-in-out scale-110 flex-shrink-0">
+            {renderCard(
+              slides[(currentSlide - 1 + slides.length) % slides.length],
+              false
+            )}
+          </div>
 
-        {/* Enhanced Dots Navigation */}
-        <div className="flex justify-center items-center mt-4 space-x-3">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`relative transition-all duration-300 hover:scale-110 ${
-                index === currentSlide
-                  ? "w-6 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full shadow-lg"
-                  : "w-2 h-2 bg-gray-300 hover:bg-gray-400 rounded-full"
-              }`}
-            ></button>
-          ))}
+          {/* Main slide */}
+          <div className="scale-95">
+            {renderCard(slides[currentSlide], true)}
+          </div>
+
+          {/* Right preview */}
+          <div className="transform transition-all duration-500 ease-in-out scale-110 flex-shrink-0">
+            {renderCard(slides[(currentSlide + 1) % slides.length], false)}
+          </div>
         </div>
+      </div>
+
+      {/* 3-Dot Navigation */}
+      <div className="flex justify-center items-center mt-8 space-x-2">
+        {[0, 1, 2].map((dotIndex) => (
+          <button
+            key={dotIndex}
+            onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
+            className={`flex items-center justify-center transition-all duration-300 ${
+              dotIndex === activeDotIndex
+                ? "w-12 h-6 rounded-full bg-purple-500 text-white shadow-md text-xs font-medium"
+                : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
+            }`}
+          >
+            {dotIndex === activeDotIndex
+              ? `${currentSlide + 1}/${slides.length}`
+              : ""}
+          </button>
+        ))}
       </div>
     </div>
   );
