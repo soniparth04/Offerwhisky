@@ -117,9 +117,7 @@ const Slider = () => {
 
   // Helper function to render card content
   const renderCard = (slide, isMain = false) => {
-    const cardClasses = isMain
-      ? "w-80 h-96"
-      : "w-56 h-72 opacity-50";
+    const cardClasses = isMain ? "w-80 h-96" : "w-56 h-72 opacity-50";
 
     return (
       <div className={`${cardClasses} rounded-2xl overflow-hidden relative`}>
@@ -148,11 +146,11 @@ const Slider = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div 
+        <div
           className="flex items-center justify-center h-full gap-2 transition-transform duration-300 ease-out"
           style={{
             transform: `translateX(${translateX}px)`,
-            transition: isDragging ? 'none' : 'transform 0.3s ease-out'
+            transition: isDragging ? "none" : "transform 0.3s ease-out",
           }}
         >
           {/* Left preview */}
@@ -183,7 +181,7 @@ const Slider = () => {
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-10 h-5 rounded-full bg-violet-600 text-white shadow-md text-xs font-medium"
+                ? "w-10 h-5 rounded-full bg-violet-600 text-white shadow-md text-xs"
                 : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
             }`}
           >

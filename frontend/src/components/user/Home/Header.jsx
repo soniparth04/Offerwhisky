@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import Markerpin from "../../../assets/Home/marker.png";
 import ChevronDown from "../../../assets/Home/chevrondown.png";
 import Heart from "../../../assets/Home/heart.png";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   useEffect(() => {
     const manualData = sessionStorage.getItem("selectedAddressDetails");
-    const cachedAddress = sessionStorage.getItem('userAddress');
-    const cachedCity = sessionStorage.getItem('userCity');
+    const cachedAddress = sessionStorage.getItem("userAddress");
+    const cachedCity = sessionStorage.getItem("userCity");
 
     if (manualData) {
       // Priority 1: Use manual address if present
@@ -28,7 +28,7 @@ const Header = () => {
       sessionStorage.setItem("userCity", parsed.city);
       setLoading(false);
       return;
-    } 
+    }
 
     if (cachedAddress && cachedCity) {
       // Priority 2: Use cached current location address
@@ -48,7 +48,7 @@ const Header = () => {
     const geoOptions = {
       enableHighAccuracy: true,
       timeout: 10000,
-      maximumAge: 0
+      maximumAge: 0,
     };
 
     navigator.geolocation.getCurrentPosition(
@@ -61,43 +61,48 @@ const Header = () => {
           );
 
           if (!response.ok) {
-            throw new Error(`API request failed with status ${response.status}`);
+            throw new Error(
+              `API request failed with status ${response.status}`
+            );
           }
 
           const data = await response.json();
 
           if (data.results && data.results.length > 0) {
             const result = data.results[0];
-            const fullAddress = result.formatted_address || 'Address not available';
+            const fullAddress =
+              result.formatted_address || "Address not available";
 
-            const cityComponent = result.address_components.find(component =>
-              component.types.includes("locality") || component.types.includes("administrative_area_level_2")
+            const cityComponent = result.address_components.find(
+              (component) =>
+                component.types.includes("locality") ||
+                component.types.includes("administrative_area_level_2")
             );
 
-            const cityName = cityComponent?.long_name || 'City not available';
+            const cityName = cityComponent?.long_name || "City not available";
 
             setAddress(fullAddress);
             setCity(cityName);
 
             // Cache current location address separately so manual address can override it
-            sessionStorage.setItem('userAddress', fullAddress);
-            sessionStorage.setItem('userCity', cityName);
+            sessionStorage.setItem("userAddress", fullAddress);
+            sessionStorage.setItem("userCity", cityName);
           } else {
-            setAddress('No address found');
-            setCity('No city found');
+            setAddress("No address found");
+            setCity("No city found");
           }
         } catch (err) {
-          console.error('Error:', err);
-          setError('Failed to get location data');
-          setAddress('Location service error');
-          setCity('City detection error');
+          console.error("Error:", err);
+          setError("Failed to get location data");
+          setAddress("Location service error");
+          setCity("City detection error");
         } finally {
           setLoading(false);
         }
       },
       (error) => {
-        console.error('Geolocation error:', error);
-        let errorMessage = 'Location access denied';
+        console.error("Geolocation error:", error);
+        let errorMessage = "Location access denied";
         switch (error.code) {
           case error.PERMISSION_DENIED:
             errorMessage = "Location permission denied";
@@ -113,7 +118,7 @@ const Header = () => {
         }
         setError(errorMessage);
         setAddress(errorMessage);
-        setCity('');
+        setCity("");
         setLoading(false);
       },
       geoOptions
@@ -121,7 +126,8 @@ const Header = () => {
   }, [apiKey]);
 
   // Trim long addresses
-  const trimmedAddress = address.length > 60 ? address.slice(0, 60) + '...' : address;
+  const trimmedAddress =
+    address.length > 60 ? address.slice(0, 60) + "..." : address;
 
   return (
     <div className="bg-gradient-to-b from-pink-200 to-white px-4 pt-5 pb-2">
@@ -130,7 +136,11 @@ const Header = () => {
           <div>
             <p className="flex items-center">
               <span className="font-bold flex items-center">
-                <img src={Markerpin} alt="Marker Icon" className="w-6 h-6 mr-2" />
+                <img
+                  src={Markerpin}
+                  alt="Marker Icon"
+                  className="w-6 h-6 mr-2"
+                />
                 {city || "Current Location"}
                 <img
                   src={ChevronDown}
@@ -138,24 +148,22 @@ const Header = () => {
                   className="w-4 h-4 ml-1 cursor-pointer"
                   onClick={() => {
                     // Clear manual address first so geolocation or cached location shows up
-                    sessionStorage.removeItem('selectedAddressDetails');
+                    sessionStorage.removeItem("selectedAddressDetails");
                     // Optionally clear userAddress and userCity or keep cached current location
-                    sessionStorage.removeItem('userAddress');
-                    sessionStorage.removeItem('userCity');
+                    sessionStorage.removeItem("userAddress");
+                    sessionStorage.removeItem("userCity");
                     navigate("/location");
                   }}
                 />
               </span>
             </p>
             <p className="text-xs text-gray-500 ml-2 whitespace-nowrap overflow-hidden text-ellipsis max-w-[250px]">
-              {loading ? 'Fetching location...' : error || trimmedAddress}
+              {loading ? "Fetching location..." : error || trimmedAddress}
             </p>
           </div>
         </div>
 
-        <div className="text-xl text-gray-700 cursor-pointer">
-          <img src={Heart} alt="heart" className="w-6 h-6" />
-        </div>
+        <img src={Heart} alt="heart" className="w-6 h-6 cursor-pointer" />
       </div>
     </div>
   );
