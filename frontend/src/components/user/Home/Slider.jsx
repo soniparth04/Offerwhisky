@@ -149,7 +149,7 @@ const Slider = () => {
         onTouchEnd={handleTouchEnd}
       >
         <div 
-          className="flex items-center justify-center h-full gap-2 transition-transform duration-150 ease-out"
+          className="flex items-center justify-center h-full gap-2 transition-transform duration-300 ease-out"
           style={{
             transform: `translateX(${translateX}px)`,
             transition: isDragging ? 'none' : 'transform 0.3s ease-out'
@@ -183,7 +183,7 @@ const Slider = () => {
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-10 h-5 rounded-full bg-purple-600 text-white shadow-md text-xs font-medium"
+                ? "w-10 h-5 rounded-full bg-violet-600 text-white shadow-md text-xs font-medium"
                 : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
             }`}
           >

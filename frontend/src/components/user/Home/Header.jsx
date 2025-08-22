@@ -153,7 +153,7 @@ const Header = () => {
           </div>
         </div>
 
-        <div className="text-xl text-gray-700">
+        <div className="text-xl text-gray-700 cursor-pointer">
           <img src={Heart} alt="heart" className="w-6 h-6" />
         </div>
       </div>
