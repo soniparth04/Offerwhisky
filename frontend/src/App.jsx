@@ -43,6 +43,7 @@ import Bag from "./components/user/Bag";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import OtpVerification from "./components/auth/OtpVerification";
+import SearchPage from "./components/user/Home/SearchPage";
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/otp-verification" element={<OtpVerification />} />
         <Route path="/youraccount" element={<UserProfile />} />
         <Route path="/offer/:id" element={<OfferDetail />} />
@@ -71,7 +73,10 @@ function App() {
         <Route path="/shop-owner-dashboard" element={<OwnerDashboard />} />
         <Route path="/edit-offer/:offerId" element={<EditOffer />} />
         <Route path="/owner/view-redeemed/:userId" element={<ViewClaim />} />
-        <Route path="/shop-owner-registration" element={<OwnerRegistration />} />
+        <Route
+          path="/shop-owner-registration"
+          element={<OwnerRegistration />}
+        />
         <Route path="/shop-owner-login" element={<OwnerLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/shop-owner/add-catalogs" element={<AddCatalogs />} />
@@ -80,24 +85,50 @@ function App() {
         <Route path="/shop-owner/your-offer" element={<YourOffer />} />
         <Route path="/shop-owner/scan-qr" element={<ScanQRPage />} />
         <Route path="/shop-owner/my-ads" element={<MyAds />} />
-        <Route path="/shop-owner/booking-history" element={<BookingHistory />} />
-        <Route path="/shop-owner/redemption-tracker" element={<RedemptionTracker />} />
-        <Route path="/shop-owner/active-sponsored-Ads" element={<SponsoredAds />} />
+        <Route
+          path="/shop-owner/booking-history"
+          element={<BookingHistory />}
+        />
+        <Route
+          path="/shop-owner/redemption-tracker"
+          element={<RedemptionTracker />}
+        />
+        <Route
+          path="/shop-owner/active-sponsored-Ads"
+          element={<SponsoredAds />}
+        />
         <Route path="/shop-owner/my-store" element={<MyStore />} />
         <Route path="/edit-happy-hour/:id" element={<EditHappyHourPage />} />
         <Route path="/select-location" element={<SelectLocation />} />
         <Route path="/manual-address" element={<ManualAddress />} />
         <Route path="/help-support" element={<HelpPage />} />
         <Route path="/shop-owner/edit" element={<OwnerEditPage />} />
-        <Route path="/shop-owner/Locationandbranch" element={<LocationAndBranch />} />
+        <Route
+          path="/shop-owner/Locationandbranch"
+          element={<LocationAndBranch />}
+        />
         <Route path="/shop-owner/Wallet" element={<OwnerWallet />} />
-        <Route path="/shop-owner/boost-spotlight/:offerId" element={<BoostSpotlightOffer />} />
-        <Route path="/shop-owner/Select-ads" element={<AdTypeSelectionPage/>} />
+        <Route
+          path="/shop-owner/boost-spotlight/:offerId"
+          element={<BoostSpotlightOffer />}
+        />
+        <Route
+          path="/shop-owner/Select-ads"
+          element={<AdTypeSelectionPage />}
+        />
 
-        <Route path="/Offerwhisky-admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/Offeerwhisky-admin/viewshopowner" element={<ViewShopOwner />} />
-        <Route path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId" element={<ViewShopUser />} />
-
+        <Route
+          path="/Offerwhisky-admin-dashboard"
+          element={<AdminDashboard />}
+        />
+        <Route
+          path="/Offeerwhisky-admin/viewshopowner"
+          element={<ViewShopOwner />}
+        />
+        <Route
+          path="/Offeerwhisky-admin/viewshopowner/viewusers/:ownerId"
+          element={<ViewShopUser />}
+        />
       </Routes>
     </Router>
   );
