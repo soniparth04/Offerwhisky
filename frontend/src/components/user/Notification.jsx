@@ -34,7 +34,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       offerText: "EXTRA 15% OFF",
       couponCode: "FLASH60",
       buttonText: "Grab Offer",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
     {
       id: 2,
@@ -51,7 +51,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       brandName: "Fashion Store",
       offerText: "Starting ₹149",
       buttonText: "Grab Offer",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
     {
       id: 3,
@@ -67,7 +67,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       brandLogo: "./OfferWhisky.png",
       brandName: "DeliveryApp",
       buttonText: "Rate Order",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
     {
       id: 4,
@@ -84,7 +84,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       brandName: "Fashion Store",
       offerText: "Up to 70% OFF",
       buttonText: "Grab Offer",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
     {
       id: 5,
@@ -100,7 +100,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       brandLogo: "./OfferWhisky.png",
       brandName: "Shopping App",
       buttonText: "Complete Purchase",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
     {
       id: 6,
@@ -118,7 +118,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
       offerText: "25% OFF",
       couponCode: "WELCOME25",
       buttonText: "Order Now",
-      buttonStyle: "border-2 border-purple-700 text-purple-700",
+      buttonStyle: "border-2 border-pink-500 text-pink-500",
     },
   ]);
 
@@ -150,7 +150,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
               Notifications
             </h1>
             {unreadCount > 0 && (
-              <span className="ml-1 bg-purple-700 text-white text-xs font-medium px-2 py-0.5 rounded-full">
+              <span className="ml-1 bg-pink-500 text-white text-xs font-medium px-2 py-0.5 rounded-full">
                 {unreadCount}
               </span>
             )}
@@ -160,7 +160,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
         {notifications.length > 0 && (
           <button
             onClick={clearAllNotifications}
-            className="text-sm font-medium text-purple-700 hover:text-purple-800"
+            className="text-sm font-medium text-pink-500 hover:text-pink-600"
           >
             Clear All
           </button>
@@ -240,7 +240,7 @@ export default function Notification({ onBack = () => window.history.back() }) {
 
                   {/* Unread indicator */}
                   {notification.unread && (
-                    <div className="absolute top-3 left-3 w-2 h-2 bg-purple-700 rounded-full z-10 animate-pulse"></div>
+                    <div className="absolute top-3 left-3 w-2 h-2 bg-pink-500 rounded-full z-10 animate-pulse"></div>
                   )}
 
                   {/* Image section for notifications with images */}

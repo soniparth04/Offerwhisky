@@ -181,7 +181,7 @@ const Slider = () => {
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-10 h-5 rounded-full bg-violet-600 text-white shadow-md text-xs"
+                ? "w-10 h-5 rounded-full bg-[#6678FF] text-white shadow-md text-xs"
                 : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
             }`}
           >
