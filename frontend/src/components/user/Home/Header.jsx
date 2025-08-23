@@ -163,7 +163,12 @@ const Header = () => {
           </div>
         </div>
 
-        <img src={Heart} alt="heart" className="w-6 h-6 cursor-pointer" />
+        <img
+          src={Heart}
+          alt="wishlist"
+          className="w-6 h-6 cursor-pointer"
+          onClick={() => navigate("/wishlist")}
+        />
       </div>
     </div>
   );

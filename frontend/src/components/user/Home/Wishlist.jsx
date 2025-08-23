@@ -75,18 +75,6 @@ const popularSearches = [
   "Gaming",
 ];
 
-const recentSearches = [
-  "Bluetooth earbuds",
-  "Summer dress",
-  "Running shoes",
-  "Coffee maker",
-  "Smartphone",
-  "Backpack",
-  "Wireless mouse",
-  "Jacket",
-  "Tablet",
-];
-
 const trendingBrands = [
   {
     name: "Nike",
@@ -152,7 +140,18 @@ export default function SearchPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(true);
-
+  // Convert recentSearches to state variable
+  const [recentSearches, setRecentSearches] = useState([
+    "Bluetooth earbuds",
+    "Summer dress",
+    "Running shoes",
+    "Coffee maker",
+    "Smartphone",
+    "Backpack",
+    "Wireless mouse",
+    "Jacket",
+    "Tablet",
+  ]);
   const searchInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -176,10 +175,8 @@ export default function SearchPage() {
       product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.brand.toLowerCase().includes(searchQuery.toLowerCase());
-
     const matchesCategory =
       selectedCategory === "all" || product.category === selectedCategory;
-
     return matchesSearch && matchesCategory;
   });
 
@@ -199,15 +196,19 @@ export default function SearchPage() {
     setSearchQuery(term);
     setShowSuggestions(false);
     setIsSearching(true);
+
+    // Add to recent searches if it's not already there
+    if (!recentSearches.includes(term)) {
+      setRecentSearches((prev) => [term, ...prev.slice(0, 8)]); // Keep only 9 items max
+    }
   };
 
-  const removeRecentSearch = (index) => {
-    setRecentSearches((prevSearches) =>
-      prevSearches.filter((_, i) => i !== index)
+  const removeRecentSearch = (indexToRemove) => {
+    setRecentSearches((prev) =>
+      prev.filter((_, index) => index !== indexToRemove)
     );
   };
 
-  // Optional: clear all searches
   const clearAllSearches = () => {
     setRecentSearches([]);
   };
@@ -225,7 +226,6 @@ export default function SearchPage() {
             >
               <ArrowLeft className="w-5 h-5 text-gray-700" />
             </button>
-
             <div className="flex-1 relative">
               <div className="flex items-center border border-gray-300 rounded-full px-4 py-3 bg-white transition-all duration-200 focus-within:border-blue-500 focus-within:shadow-md">
                 <Search className="w-5 h-5 text-gray-400 mr-3" />
@@ -259,7 +259,7 @@ export default function SearchPage() {
                     Recent Searches
                   </h2>
                   <button
-                    className="text-sm text-blue-600 font-medium"
+                    className="text-sm text-blue-600 font-medium hover:text-blue-700 transition-colors"
                     onClick={clearAllSearches}
                   >
                     Clear All
@@ -268,7 +268,7 @@ export default function SearchPage() {
                 <div className="flex space-x-3 overflow-x-auto pb-2 scrollbar-hide">
                   {recentSearches.map((term, index) => (
                     <div
-                      key={index}
+                      key={`${term}-${index}`}
                       className="flex items-center space-x-2 bg-white rounded-full px-4 py-2 border shadow-sm min-w-fit group hover:shadow-md transition-all duration-200"
                     >
                       <button
@@ -281,8 +281,11 @@ export default function SearchPage() {
                         </span>
                       </button>
                       <button
-                        onClick={() => removeRecentSearch(index)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeRecentSearch(index);
+                        }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1 hover:bg-gray-100 rounded-full"
                       >
                         <X className="w-3 h-3 text-gray-400 hover:text-gray-600" />
                       </button>
@@ -291,7 +294,6 @@ export default function SearchPage() {
                 </div>
               </div>
             )}
-
             {/* Popular Searches */}
             <div>
               <div className="flex items-center justify-between mb-4">
@@ -394,7 +396,7 @@ export default function SearchPage() {
                     }}
                     className="bg-white rounded-xl p-4 border hover:shadow-md transition-all duration-200 group"
                   >
-                    <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-3 overflow-hidden  mx-auto transition-all duration-200">
+                    <div className="w-12 h-12 bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl flex items-center justify-center mb-3 overflow-hidden mx-auto transition-all duration-200">
                       <img
                         src={
                           category === "Electronics"
@@ -443,12 +445,10 @@ export default function SearchPage() {
                       </div>
                     )}
                   </div>
-
                   <div className="p-4">
                     <h3 className="font-medium text-gray-900 line-clamp-2 text-sm mb-2">
                       {product.title}
                     </h3>
-
                     <div className="flex items-center space-x-1 mb-2">
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((star) => (
@@ -466,7 +466,6 @@ export default function SearchPage() {
                         {product.rating}
                       </span>
                     </div>
-
                     <div className="flex items-center space-x-2 mb-3">
                       <span className="text-lg font-bold text-gray-900">
                         {product.price}
@@ -475,7 +474,6 @@ export default function SearchPage() {
                         {product.originalPrice}
                       </span>
                     </div>
-
                     <button className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 rounded-lg text-sm font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg">
                       <ShoppingCart className="w-4 h-4" />
                       <span>Add to Cart</span>
@@ -484,7 +482,6 @@ export default function SearchPage() {
                 </div>
               ))}
             </div>
-
             {filteredProducts.length === 0 && searchQuery.length > 0 && (
               <div className="text-center py-16">
                 <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">

@@ -44,6 +44,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import OtpVerification from "./components/auth/OtpVerification";
 import SearchPage from "./components/user/Home/SearchPage";
+import Wishlist from "./components/user/Home/Wishlist";
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/otp-verification" element={<OtpVerification />} />
         <Route path="/youraccount" element={<UserProfile />} />
         <Route path="/offer/:id" element={<OfferDetail />} />

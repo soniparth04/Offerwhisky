@@ -4,7 +4,7 @@ const Slider = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isDragging, setIsDragging] = React.useState(false);
   const [startX, setStartX] = React.useState(0);
-  const [translateX, setTranslateX] = React.useState(0);
+  const [dragOffset, setDragOffset] = React.useState(0);
 
   const slides = [
     {
@@ -49,20 +49,21 @@ const Slider = () => {
   const handleStart = (clientX) => {
     setIsDragging(true);
     setStartX(clientX);
+    setDragOffset(0);
   };
 
   const handleMove = (clientX) => {
     if (!isDragging) return;
     const diff = clientX - startX;
-    setTranslateX(diff);
+    setDragOffset(diff);
   };
 
   const handleEnd = () => {
     if (!isDragging) return;
 
-    const threshold = 100;
-    if (Math.abs(translateX) > threshold) {
-      if (translateX > 0) {
+    const threshold = 80;
+    if (Math.abs(dragOffset) > threshold) {
+      if (dragOffset > 0) {
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
       } else {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -70,7 +71,7 @@ const Slider = () => {
     }
 
     setIsDragging(false);
-    setTranslateX(0);
+    setDragOffset(0);
   };
 
   // Mouse events
@@ -84,7 +85,7 @@ const Slider = () => {
   // Touch events
   const handleTouchStart = (e) => handleStart(e.touches[0].clientX);
   const handleTouchMove = (e) => {
-    e.preventDefault(); // Prevent scrolling
+    e.preventDefault();
     handleMove(e.touches[0].clientX);
   };
   const handleTouchEnd = () => handleEnd();
@@ -115,20 +116,69 @@ const Slider = () => {
   const dotNumbers = getDotNumbers();
   const activeDotIndex = getActiveDotIndex();
 
+  // Calculate positions for smooth swiping feel
+  const getSlidePosition = (slideIndex) => {
+    let position = slideIndex - currentSlide;
+    
+    // Handle wrapping
+    if (position > 2) position -= slides.length;
+    if (position < -2) position += slides.length;
+    
+    return position;
+  };
+
+  // Get transform for each slide based on drag offset
+  const getSlideTransform = (slideIndex) => {
+    const basePosition = getSlidePosition(slideIndex);
+    const dragInfluence = isDragging ? dragOffset * 0.7 : 0;
+    return basePosition * 300 + dragInfluence;
+  };
+
+  // Get scale for each slide
+  const getSlideScale = (slideIndex) => {
+    const position = Math.abs(getSlidePosition(slideIndex));
+    if (position === 0) return 0.9; // Main slide
+    if (position === 1) return 1.1; // Side previews
+    return 0.8; // Far slides
+  };
+
+  // Get opacity for each slide
+  const getSlideOpacity = (slideIndex) => {
+    const position = Math.abs(getSlidePosition(slideIndex));
+    if (position === 0) return 1; // Main slide
+    if (position === 1) return 0.5; // Side previews
+    return 0; // Far slides
+  };
+
   // Helper function to render card content
-  const renderCard = (slide, isMain = false) => {
-    const cardClasses = isMain ? "w-80 h-96" : "w-56 h-72 opacity-50";
+  const renderCard = (slide, slideIndex) => {
+    const position = getSlidePosition(slideIndex);
+    const isMain = position === 0;
+    const cardClasses = isMain ? "w-80 h-96" : "w-56 h-72";
+    
+    const transform = getSlideTransform(slideIndex);
+    const scale = getSlideScale(slideIndex);
+    const opacity = getSlideOpacity(slideIndex);
 
     return (
-      <div className={`${cardClasses} rounded-2xl overflow-hidden relative`}>
-        <div className="">
-          <img
-            src={slide.image}
-            alt={slide.title}
-            className="w-full h-full rounded-t-2xl absolute inset-0 object-cover"
-            draggable={false}
-          />
-        </div>
+      <div 
+        key={slide.id}
+        className={`${cardClasses} rounded-2xl overflow-hidden absolute flex-shrink-0 transition-all duration-300 ease-out`}
+        style={{
+          transform: `translateX(${transform}px) scale(${scale})`,
+          opacity: opacity,
+          zIndex: isMain ? 10 : 5,
+          left: '50%',
+          marginLeft: isMain ? '-160px' : '-112px',
+          transition: isDragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out',
+        }}
+      >
+        <img
+          src={slide.image}
+          alt={slide.title}
+          className="w-full h-full rounded-2xl object-cover"
+          draggable={false}
+        />
       </div>
     );
   };
@@ -146,31 +196,7 @@ const Slider = () => {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div
-          className="flex items-center justify-center h-full gap-2 transition-transform duration-300 ease-out"
-          style={{
-            transform: `translateX(${translateX}px)`,
-            transition: isDragging ? "none" : "transform 0.3s ease-out",
-          }}
-        >
-          {/* Left preview */}
-          <div className="transform transition-all duration-1000 ease-in-out scale-110 flex-shrink-0">
-            {renderCard(
-              slides[(currentSlide - 1 + slides.length) % slides.length],
-              false
-            )}
-          </div>
-
-          {/* Main slide */}
-          <div className="scale-90">
-            {renderCard(slides[currentSlide], true)}
-          </div>
-
-          {/* Right preview */}
-          <div className="transform transition-all duration-500 ease-in-out scale-110 flex-shrink-0">
-            {renderCard(slides[(currentSlide + 1) % slides.length], false)}
-          </div>
-        </div>
+        {slides.map((slide, index) => renderCard(slide, index))}
       </div>
 
       {/* 3-Dot Navigation */}
