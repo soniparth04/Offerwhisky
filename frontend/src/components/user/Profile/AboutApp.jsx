@@ -40,31 +40,6 @@ const AboutApp = ({ darkMode, onBack }) => {
     { label: "Downloads", value: "100K+", icon: Award }
   ];
 
-  const team = [
-    {
-      role: "Founder & CEO",
-      name: "Bhavin Makwana",
-      description: "Visionary leader with 10+ years in tech industry"
-    },
-    {
-      role: "Full Stack Dev",
-      name: "Parth Soni",
-      description: "Technical expert driving innovation and development"
-    },
-    {
-      role: "Front End Dev",
-      name: "Rishi Gupta",
-      description: "Creating beautiful and intuitive user experiences"
-    }
-  ];
-
-  const milestones = [
-    { year: "2023", event: "App Launch", description: "Initial release with core features" },
-    { year: "2023", event: "10K Users", description: "Reached first major user milestone" },
-    { year: "2023", event: "Premium Launch", description: "Introduced business accounts" },
-    { year: "2024", event: "50K Users", description: "Growing community of active users" }
-  ];
-
   return (
     <div className={`flex flex-col min-h-screen ${
       darkMode ? "bg-gray-900" : "bg-gradient-to-br from-gray-50 to-gray-100"
@@ -93,12 +68,12 @@ const AboutApp = ({ darkMode, onBack }) => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-4 py-4 space-y-6">
+      <div className="flex-1 px-4 py-4 space-y-6 max-w-md mx-auto">
         
         {/* App Hero */}
         <div className="text-center">
-          <div className="mx-auto mb-4 rounded-3xl flex items-center justify-center">
-            <img src="OfferWhisky.png" alt="Logo" className="w-17 h-20 object-cover" />
+          <div className="mx-auto mb-4 rounded-3xl flex items-center justify-center p-3 ">
+            <img src="OfferWhisky.png" alt="OfferWhisky Logo" className="w-20 h-20 object-cover rounded-2xl" />
           </div>
           <h2 className={`text-2xl font-bold mb-2 ${darkMode ? "text-white" : "text-gray-900"}`}>
             {appInfo.name}
@@ -140,7 +115,7 @@ const AboutApp = ({ darkMode, onBack }) => {
           <h3 className={`text-lg font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
             App Statistics
           </h3>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((stat, index) => (
               <div
                 key={index}
@@ -201,87 +176,19 @@ const AboutApp = ({ darkMode, onBack }) => {
           </div>
         </div>
 
-        {/* Our Mission */}
+        {/* Unified Mission Section */}
         <div className={`${
           darkMode ? "bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/30" : "bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200"
         } border rounded-2xl p-6`}>
           <div className="flex items-center gap-3 mb-4">
             <Heart className={`w-6 h-6 ${darkMode ? "text-red-400" : "text-red-500"}`} />
             <h3 className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
-              Our Mission
+              Our Vision
             </h3>
           </div>
           <p className={`text-sm leading-relaxed ${darkMode ? "text-gray-300" : "text-gray-700"}`}>
-            We believe in connecting communities and empowering local businesses. Our mission is to create a platform 
-            that makes local shopping convenient, accessible, and enjoyable for everyone. We're committed to supporting 
-            small businesses while providing customers with the best possible shopping experience.
+            At OfferWhisky, we envision a world where local businesses thrive and communities stay connected through trust, convenience, and technology. We are committed to empowering shop owners with powerful tools to reach more customers, while giving users a seamless way to discover, book, and enjoy exclusive offers nearby. Our focus is on simplicity, security, and creating meaningful connections that make every shopping experience rewarding.
           </p>
-        </div>
-
-        {/* Team */}
-        <div>
-          <h3 className={`text-lg font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-            Meet Our Team
-          </h3>
-          <div className="space-y-3">
-            {team.map((member, index) => (
-              <div
-                key={index}
-                className={`${
-                  darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"
-                } border rounded-2xl p-4 shadow-sm`}
-              >
-                <div className="flex items-start gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {member.name.split(' ').map(n => n[0]).join('')}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h4 className={`font-semibold ${darkMode ? "text-white" : "text-gray-900"}`}>
-                        {member.name}
-                      </h4>
-                      <span className={`text-xs px-2 py-1 rounded ${
-                        darkMode ? "bg-blue-500/20 text-blue-400" : "bg-blue-50 text-blue-600"
-                      }`}>
-                        {member.role}
-                      </span>
-                    </div>
-                    <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                      {member.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Company Milestones */}
-        <div>
-          <h3 className={`text-lg font-bold mb-4 ${darkMode ? "text-white" : "text-gray-900"}`}>
-            Our Journey
-          </h3>
-          <div className="space-y-4">
-            {milestones.map((milestone, index) => (
-              <div key={index} className="flex gap-4">
-                <div className={`w-16 h-16 rounded-2xl ${
-                  darkMode ? "bg-gray-800 border-gray-700" : "bg-white border-gray-100"
-                } border flex items-center justify-center flex-shrink-0`}>
-                  <span className={`text-sm font-bold ${darkMode ? "text-blue-400" : "text-blue-600"}`}>
-                    {milestone.year}
-                  </span>
-                </div>
-                <div className="flex-1">
-                  <h4 className={`font-semibold mb-1 ${darkMode ? "text-white" : "text-gray-900"}`}>
-                    {milestone.event}
-                  </h4>
-                  <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
-                    {milestone.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
 
         {/* Legal Links */}
@@ -292,24 +199,24 @@ const AboutApp = ({ darkMode, onBack }) => {
             Legal & Policies
           </h3>
           <div className="space-y-2">
-            <button className={`w-full text-left p-2 rounded-lg ${
+            <a href="#" className={`w-full block text-left p-2 rounded-lg ${
               darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-50 text-gray-700"
             } flex items-center justify-between transition-colors`}>
               <span>Privacy Policy</span>
               <ExternalLink className="w-4 h-4" />
-            </button>
-            <button className={`w-full text-left p-2 rounded-lg ${
+            </a>
+            <a href="#" className={`w-full block text-left p-2 rounded-lg ${
               darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-50 text-gray-700"
             } flex items-center justify-between transition-colors`}>
               <span>Terms of Service</span>
               <ExternalLink className="w-4 h-4" />
-            </button>
-            <button className={`w-full text-left p-2 rounded-lg ${
+            </a>
+            <a href="#" className={`w-full block text-left p-2 rounded-lg ${
               darkMode ? "hover:bg-gray-700 text-gray-300" : "hover:bg-gray-50 text-gray-700"
             } flex items-center justify-between transition-colors`}>
               <span>Open Source Licenses</span>
               <ExternalLink className="w-4 h-4" />
-            </button>
+            </a>
           </div>
         </div>
 
