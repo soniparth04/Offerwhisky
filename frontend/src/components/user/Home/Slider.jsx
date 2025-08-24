@@ -11,36 +11,26 @@ const Slider = () => {
       id: 1,
       image:
         "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
-      title: "Confidence is the best outfit",
-      subtitle: "Wear it and own it",
     },
     {
       id: 2,
       image:
         "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg",
-      title: "Glow differently",
-      subtitle: "Shine unapologetically",
     },
     {
       id: 3,
       image:
         "https://thumbs.dreamstime.com/b/beautiful-view-nature-mountains-near-konigssee-lake-bavaria-germany-blue-sky-clouds-97444419.jpg",
-      title: "Elegance is an attitude",
-      subtitle: "Be bold, be brilliant",
     },
     {
       id: 4,
       image:
         "https://st2.depositphotos.com/1591133/8812/i/450/depositphotos_88120646-stock-photo-idyllic-summer-landscape-with-clear.jpg",
-      title: "Fearless. Limitless",
-      subtitle: "Unstoppable",
     },
     {
       id: 5,
       image:
         "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-fall-waterfall-free-image.jpeg?w=600&quality=80",
-      title: "Your vibe attracts",
-      subtitle: "Your tribe",
     },
   ];
 
@@ -224,21 +214,6 @@ const Slider = () => {
             className="w-full h-full object-cover"
             draggable={false}
           />
-        </div>
-
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0" />
-
-        {/* Content Overlay */}
-        <div
-          className="absolute bottom-8 left-6 right-6 text-white transform transition-all duration-500"
-          style={{
-            opacity: isActive ? 1 : 0.7,
-            transform: `translateY(${isActive ? 0 : 20}px)`,
-          }}
-        >
-          <h3 className="text-2xl font-bold leading-tight">{slide.title}</h3>
-          <p className="text-sm opacity-90">{slide.subtitle}</p>
         </div>
       </div>
     );
