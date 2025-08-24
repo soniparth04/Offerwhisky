@@ -11,26 +11,36 @@ const Slider = () => {
       id: 1,
       image:
         "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
+      title: "Confidence is the best outfit",
+      subtitle: "Wear it and own it",
     },
     {
       id: 2,
       image:
         "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg",
+      title: "Glow differently",
+      subtitle: "Shine unapologetically",
     },
     {
       id: 3,
       image:
         "https://thumbs.dreamstime.com/b/beautiful-view-nature-mountains-near-konigssee-lake-bavaria-germany-blue-sky-clouds-97444419.jpg",
+      title: "Elegance is an attitude",
+      subtitle: "Be bold, be brilliant",
     },
     {
       id: 4,
       image:
         "https://st2.depositphotos.com/1591133/8812/i/450/depositphotos_88120646-stock-photo-idyllic-summer-landscape-with-clear.jpg",
+      title: "Fearless. Limitless",
+      subtitle: "Unstoppable",
     },
     {
       id: 5,
       image:
         "https://i0.wp.com/picjumbo.com/wp-content/uploads/beautiful-fall-waterfall-free-image.jpeg?w=600&quality=80",
+      title: "Your vibe attracts",
+      subtitle: "Your tribe",
     },
   ];
 
@@ -90,7 +100,7 @@ const Slider = () => {
   };
   const handleTouchEnd = () => handleEnd();
 
-  // 3-dot logic
+  // 3-dot logic (keeping your original system)
   const getDotNumbers = () => {
     const total = slides.length;
 
@@ -116,99 +126,169 @@ const Slider = () => {
   const dotNumbers = getDotNumbers();
   const activeDotIndex = getActiveDotIndex();
 
-  // Calculate positions for smooth swiping feel
+  // Expo Slider Effect Calculations
   const getSlidePosition = (slideIndex) => {
     let position = slideIndex - currentSlide;
-    
-    // Handle wrapping
+
+    // Handle wrapping for infinite loop
     if (position > 2) position -= slides.length;
     if (position < -2) position += slides.length;
-    
+
     return position;
   };
 
-  // Get transform for each slide based on drag offset
+  // Expo Effect: Parallax + Scale transformations
   const getSlideTransform = (slideIndex) => {
-    const basePosition = getSlidePosition(slideIndex);
-    const dragInfluence = isDragging ? dragOffset * 0.7 : 0;
-    return basePosition * 300 + dragInfluence;
+    const position = getSlidePosition(slideIndex);
+    const dragInfluence = isDragging ? dragOffset * 0.5 : 0;
+
+    // Base translation (horizontal movement)
+    const baseTranslateX = position * 320 + dragInfluence;
+
+    // Parallax effect - background moves slower than foreground
+    const parallaxOffset = position * -50;
+
+    // Scale effect based on position
+    let scale = 1;
+    let rotateY = 0;
+    let translateZ = 0;
+
+    if (position === 0) {
+      // Active slide
+      scale = 1;
+      translateZ = 0;
+    } else if (Math.abs(position) === 1) {
+      // Adjacent slides
+      scale = 0.85;
+      rotateY = position * -15; // Slight rotation for depth
+      translateZ = -100;
+    } else {
+      // Far slides
+      scale = 0;
+      rotateY = position * -25;
+      translateZ = -200;
+    }
+
+    return {
+      translateX: baseTranslateX,
+      parallaxOffset,
+      scale,
+      rotateY,
+      translateZ,
+    };
   };
 
-  // Get scale for each slide
-  const getSlideScale = (slideIndex) => {
-    const position = Math.abs(getSlidePosition(slideIndex));
-    if (position === 0) return 0.9; // Main slide
-    if (position === 1) return 1.1; // Side previews
-    return 0.8; // Far slides
-  };
-
-  // Get opacity for each slide
+  // Get opacity for expo effect
   const getSlideOpacity = (slideIndex) => {
     const position = Math.abs(getSlidePosition(slideIndex));
-    if (position === 0) return 1; // Main slide
-    if (position === 1) return 0.5; // Side previews
-    return 0; // Far slides
+    if (position === 0) return 1;
+    if (position === 1) return 0.8;
+    return 0.5;
   };
 
-  // Helper function to render card content
-  const renderCard = (slide, slideIndex) => {
+  // Render Expo Slider slide
+  const renderExpoSlide = (slide, slideIndex) => {
     const position = getSlidePosition(slideIndex);
-    const isMain = position === 0;
-    const cardClasses = isMain ? "w-80 h-96" : "w-56 h-72";
-    
+    const isActive = position === 0;
     const transform = getSlideTransform(slideIndex);
-    const scale = getSlideScale(slideIndex);
     const opacity = getSlideOpacity(slideIndex);
 
     return (
-      <div 
+      <div
         key={slide.id}
-        className={`${cardClasses} rounded-2xl overflow-hidden absolute flex-shrink-0 transition-all duration-300 ease-out`}
+        className="absolute w-80 h-96 rounded-3xl overflow-hidden"
         style={{
-          transform: `translateX(${transform}px) scale(${scale})`,
+          transform: `translateX(${transform.translateX}px) translateZ(${transform.translateZ}px) scale(${transform.scale}) rotateY(${transform.rotateY}deg)`,
           opacity: opacity,
-          zIndex: isMain ? 10 : 5,
-          left: '50%',
-          marginLeft: isMain ? '-160px' : '-112px',
-          transition: isDragging ? 'none' : 'transform 0.3s ease-out, opacity 0.3s ease-out',
+          zIndex: isActive ? 10 : 5 - Math.abs(position),
+          left: "50%",
+          marginLeft: "-160px",
+          transition: isDragging
+            ? "none"
+            : "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
         }}
       >
-        <img
-          src={slide.image}
-          alt={slide.title}
-          className="w-full h-full rounded-2xl object-cover"
-          draggable={false}
-        />
+        {/* Background Image with Parallax */}
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            transform: `translateX(${transform.parallaxOffset}px) scale(1.1)`,
+            transition: isDragging
+              ? "none"
+              : "transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          }}
+        >
+          <img
+            src={slide.image}
+            alt={slide.title}
+            className="w-full h-full object-cover"
+            draggable={false}
+          />
+        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0" />
+
+        {/* Content Overlay */}
+        <div
+          className="absolute bottom-8 left-6 right-6 text-white transform transition-all duration-500"
+          style={{
+            opacity: isActive ? 1 : 0.7,
+            transform: `translateY(${isActive ? 0 : 20}px)`,
+          }}
+        >
+          <h3 className="text-2xl font-bold leading-tight">{slide.title}</h3>
+          <p className="text-sm opacity-90">{slide.subtitle}</p>
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="relative">
-      {/* Card Container with Side Previews */}
-      <div
-        className="relative w-full h-96 cursor-grab active:cursor-grabbing overflow-hidden"
-        onMouseDown={handleMouseDown}
-        onMouseMove={handleMouseMove}
-        onMouseUp={handleMouseUp}
-        onMouseLeave={handleMouseUp}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {slides.map((slide, index) => renderCard(slide, index))}
+    <div className="relative bg-white">
+      {/* Expo Slider Container */}
+      <div className="relative w-full h-[440px] overflow-hidden">
+        <div
+          className="relative w-full h-full mt-6"
+          style={{
+            perspective: "1200px",
+            perspectiveOrigin: "50% 50%",
+          }}
+        >
+          <div
+            className="relative w-full h-full cursor-grab active:cursor-grabbing"
+            style={{
+              transformStyle: "preserve-3d",
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {slides.map((slide, index) => renderExpoSlide(slide, index))}
+          </div>
+        </div>
+
+        {/* Side Gradient Overlays for depth */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-y-0 left-0 w-32"></div>
+          <div className="absolute inset-y-0 right-0 w-32"></div>
+        </div>
       </div>
 
-      {/* 3-Dot Navigation */}
-      <div className="flex justify-center items-center -mt-4 mb-4 space-x-2">
+      {/* 3-Dot Navigation System */}
+      <div className="flex justify-center items-center space-x-2 -mt-6">
         {[0, 1, 2].map((dotIndex) => (
           <button
             key={dotIndex}
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-10 h-5 rounded-full bg-[#6678FF] text-white shadow-md text-xs"
-                : "w-3 h-3 rounded-full bg-gray-300 hover:bg-gray-400"
+                ? "w-12 h-6 rounded-full bg-[#6678FF] text-white shadow-lg text-xs font-medium"
+                : "w-3 h-3 rounded-full bg-indigo-200"
             }`}
           >
             {dotIndex === activeDotIndex

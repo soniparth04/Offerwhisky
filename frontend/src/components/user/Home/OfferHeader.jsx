@@ -14,7 +14,7 @@ import {
 const OfferHeader = () => {
   return (
     <>
-      <div className="bg-gradient-to-br from-gray-50 to-white p-4 max-w-7xl mx-auto -mt-2">
+      <div className="bg-gradient-to-br from-gray-50 to-white p-4 mx-auto mt-5">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>
