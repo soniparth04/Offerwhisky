@@ -227,7 +227,7 @@ export default function SearchPage() {
             </button>
 
             <div className="flex-1 relative">
-              <div className="flex items-center border border-gray-300 rounded-full px-4 py-3 bg-white transition-all duration-200 focus-within:border-blue-500 focus-within:shadow-md">
+              <div className="flex items-center border border-gray-300 rounded-full px-4 py-3 bg-white transition-all duration-200 focus-within:border-[#6678FF] focus-within:shadow-md">
                 <Search className="w-5 h-5 text-gray-400 mr-3" />
                 <input
                   ref={searchInputRef}
@@ -259,7 +259,7 @@ export default function SearchPage() {
                     Recent Searches
                   </h2>
                   <button
-                    className="text-sm text-blue-600 font-medium"
+                    className="text-sm text-[#6678FF] font-medium"
                     onClick={clearAllSearches}
                   >
                     Clear All
@@ -296,7 +296,7 @@ export default function SearchPage() {
             <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
-                  <TrendingUp className="w-5 h-5 mr-2 text-blue-500" />
+                  <TrendingUp className="w-5 h-5 mr-2 text-gray-500" />
                   Popular Searches
                 </h2>
               </div>
@@ -317,7 +317,7 @@ export default function SearchPage() {
             </div>
 
             {/* Trending Brands */}
-            <div>
+            {/* <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Flame className="w-5 h-5 mr-2 text-red-500" />
@@ -349,10 +349,10 @@ export default function SearchPage() {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Hot Deals */}
-            <div>
+            {/* <div>
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold text-gray-900 flex items-center">
                   <Tag className="w-5 h-5 mr-2 text-green-500" />
@@ -377,10 +377,10 @@ export default function SearchPage() {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Categories */}
-            <div>
+            {/* <div>
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
                 Shop by Categories
               </h2>
@@ -417,7 +417,7 @@ export default function SearchPage() {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
           </div>
         ) : (
           /* Search Results */
@@ -502,7 +502,7 @@ export default function SearchPage() {
                     setShowSuggestions(true);
                     setIsSearching(false);
                   }}
-                  className="text-pink-500 hover:text-pink-600 font-medium"
+                  className="text-[#6678FF] hover:text-indigo-600 font-medium"
                 >
                   Clear search and try again
                 </button>

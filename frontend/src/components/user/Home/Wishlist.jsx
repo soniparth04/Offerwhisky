@@ -140,7 +140,7 @@ export default function Wishlist() {
           >
             <h1
               className={`font-bold text-black transition-all duration-300 ${
-                isHeaderCompact ? "text-2xl" : "text-3xl"
+                isHeaderCompact ? "text-xl text-gray-500" : "text-2xl text-gray-500"
               }`}
             >
               WISHLIST
