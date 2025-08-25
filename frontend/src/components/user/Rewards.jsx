@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import { ChevronLeft, Gift, Star, Trophy, Sparkles, Coins } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // ✅ Import navigate
 
 export default function Rewards() {
   const [giftPressed, setGiftPressed] = useState(false);
+  const navigate = useNavigate(); // ✅ Initialize
 
   const handleBack = () => {
-    console.log("Navigate back");
-    // In a real app: navigate(-1);
+    if (window.history.length > 1) {
+      navigate(-1); // ✅ Go back if possible
+    } else {
+      navigate("/"); // ✅ Fallback to home
+    }
   };
 
   const handleStartEarning = () => {
