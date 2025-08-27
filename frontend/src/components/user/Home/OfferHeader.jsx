@@ -1,20 +1,13 @@
 import React from "react";
 
 import {
-  Heart,
-  Clock,
-  MapPin,
-  Star,
-  Zap,
-  Sparkles,
-  Gift,
   Filter,
 } from "lucide-react";
 
 const OfferHeader = () => {
   return (
     <>
-      <div className="bg-gradient-to-br from-gray-50 to-white p-4 mx-auto mt-5">
+      <div className="bg-gradient-to-br from-gray-50 to-white p-4 mx-auto -mt-2">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <div>

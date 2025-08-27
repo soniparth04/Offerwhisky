@@ -10,12 +10,12 @@ const Slider = () => {
     {
       id: 1,
       image:
-        "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZnJlZSUyMGltYWdlc3xlbnwwfHwwfHx8MA%3D%3D",
+        "https://images.unsplash.com/photo-1526779259212-939e64788e3c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0",
     },
     {
       id: 2,
       image:
-        "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&dl=pexels-hsapir-1054655.jpg&fm=jpg",
+        "https://images.pexels.com/photos/1054655/pexels-photo-1054655.jpeg?cs=srgb&fm=jpg",
     },
     {
       id: 3,
@@ -61,7 +61,7 @@ const Slider = () => {
   const handleEnd = () => {
     if (!isDragging) return;
 
-    const threshold = 80;
+    const threshold = window.innerWidth < 768 ? 50 : 80;
     if (Math.abs(dragOffset) > threshold) {
       if (dragOffset > 0) {
         setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
@@ -90,17 +90,12 @@ const Slider = () => {
   };
   const handleTouchEnd = () => handleEnd();
 
-  // 3-dot logic (keeping your original system)
+  // 3-dot navigation logic
   const getDotNumbers = () => {
     const total = slides.length;
-
-    if (currentSlide === 0) {
-      return [1, 2, 3];
-    } else if (currentSlide === total - 1) {
-      return [total - 2, total - 1, total];
-    } else {
-      return [currentSlide, currentSlide + 1, currentSlide + 2];
-    }
+    if (currentSlide === 0) return [1, 2, 3];
+    if (currentSlide === total - 1) return [total - 2, total - 1, total];
+    return [currentSlide, currentSlide + 1, currentSlide + 2];
   };
 
   const getActiveDotIndex = () => {
@@ -109,53 +104,101 @@ const Slider = () => {
     return 1;
   };
 
-  const goToSlide = (slideIndex) => {
-    setCurrentSlide(slideIndex);
-  };
+  const goToSlide = (slideIndex) => setCurrentSlide(slideIndex);
 
   const dotNumbers = getDotNumbers();
   const activeDotIndex = getActiveDotIndex();
 
-  // Expo Slider Effect Calculations
+  // ✅ Fixed Main Card (305.45 × 407.61) + More Spacing Between Cards
+  const getResponsiveDimensions = () => {
+    const vw = window.innerWidth;
+
+    const baseMainWidth = 305.45;
+    const baseMainHeight = 407.61;
+
+    // Responsive scaling for very small screens
+    if (vw < 360) {
+      const scale = vw / 360;
+      return {
+        slideWidth: baseMainWidth * scale,
+        slideHeight: baseMainHeight * scale,
+        slideSpacing: baseMainWidth * scale * 1.0, // 🔥 More spacing
+        parallaxOffset: -20,
+      };
+    }
+
+    // Small mobile (360px - 640px)
+    if (vw < 640) {
+      return {
+        slideWidth: baseMainWidth * 0.85, // 259.63px
+        slideHeight: baseMainHeight * 0.85, // 346.47px
+        slideSpacing: baseMainWidth * 0.87, // 🔥 275px spacing (more gap)
+        parallaxOffset: -25,
+      };
+    }
+
+    // Tablet (640px - 1024px)
+    if (vw < 1024) {
+      return {
+        slideWidth: baseMainWidth, // 305.45px
+        slideHeight: baseMainHeight, // 407.61px
+        slideSpacing: baseMainWidth * 1.05, // 🔥 321px spacing (more gap)
+        parallaxOffset: -30,
+      };
+    }
+
+    // Desktop (1024px - 1440px)
+    if (vw < 1440) {
+      return {
+        slideWidth: baseMainWidth,
+        slideHeight: baseMainHeight,
+        slideSpacing: baseMainWidth * 1.1, // 🔥 336px spacing (good gap)
+        parallaxOffset: -35,
+      };
+    }
+
+    // Large Desktop (1440px+)
+    return {
+      slideWidth: baseMainWidth,
+      slideHeight: baseMainHeight,
+      slideSpacing: baseMainWidth * 1.15, // 🔥 351px spacing (nice wide gap)
+      parallaxOffset: -40,
+    };
+  };
+
   const getSlidePosition = (slideIndex) => {
     let position = slideIndex - currentSlide;
-
-    // Handle wrapping for infinite loop
     if (position > 2) position -= slides.length;
     if (position < -2) position += slides.length;
-
     return position;
   };
 
-  // Expo Effect: Parallax + Scale transformations
+  // ✅ Better side card scaling and positioning
   const getSlideTransform = (slideIndex) => {
     const position = getSlidePosition(slideIndex);
+    const dimensions = getResponsiveDimensions();
     const dragInfluence = isDragging ? dragOffset * 0.5 : 0;
 
-    // Base translation (horizontal movement)
-    const baseTranslateX = position * 320 + dragInfluence;
+    const baseTranslateX = position * dimensions.slideSpacing + dragInfluence;
+    const parallaxOffset = position * dimensions.parallaxOffset;
 
-    // Parallax effect - background moves slower than foreground
-    const parallaxOffset = position * -50;
-
-    // Scale effect based on position
     let scale = 1;
     let rotateY = 0;
     let translateZ = 0;
 
     if (position === 0) {
-      // Active slide
+      // Main card
       scale = 1;
       translateZ = 0;
     } else if (Math.abs(position) === 1) {
-      // Adjacent slides
-      scale = 0.85;
-      rotateY = position * -15; // Slight rotation for depth
-      translateZ = -100;
+      // Side cards - good visibility with more spacing
+      scale = window.innerWidth < 640 ? 0.88 : 0.9;
+      rotateY = position * -5;
+      translateZ = -60;
     } else {
-      // Far slides
+      // Far cards - completely hidden
       scale = 0;
-      rotateY = position * -25;
+      rotateY = position * -15;
       translateZ = -200;
     }
 
@@ -168,34 +211,39 @@ const Slider = () => {
     };
   };
 
-  // Get opacity for expo effect
   const getSlideOpacity = (slideIndex) => {
     const position = Math.abs(getSlidePosition(slideIndex));
     if (position === 0) return 1;
-    if (position === 1) return 0.8;
-    return 0.5;
+    if (position === 1) return 0.9;
+    return 0;
   };
 
-  // Render Expo Slider slide
   const renderExpoSlide = (slide, slideIndex) => {
     const position = getSlidePosition(slideIndex);
     const isActive = position === 0;
     const transform = getSlideTransform(slideIndex);
     const opacity = getSlideOpacity(slideIndex);
+    const dimensions = getResponsiveDimensions();
 
     return (
       <div
         key={slide.id}
-        className="absolute w-80 h-96 rounded-3xl overflow-hidden"
+        className="absolute"
         style={{
+          width: `${dimensions.slideWidth}px`,
+          height: `${dimensions.slideHeight}px`,
+          borderRadius: `${
+            Math.min(dimensions.slideWidth, dimensions.slideHeight) * 0.08
+          }px`,
           transform: `translateX(${transform.translateX}px) translateZ(${transform.translateZ}px) scale(${transform.scale}) rotateY(${transform.rotateY}deg)`,
           opacity: opacity,
           zIndex: isActive ? 10 : 5 - Math.abs(position),
           left: "50%",
-          marginLeft: "-160px",
+          marginLeft: `-${dimensions.slideWidth / 2}px`,
           transition: isDragging
             ? "none"
             : "all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          overflow: "hidden",
         }}
       >
         {/* Background Image with Parallax */}
@@ -210,7 +258,7 @@ const Slider = () => {
         >
           <img
             src={slide.image}
-            alt={slide.title}
+            alt={`Slide-${slide.id}`}
             className="w-full h-full object-cover"
             draggable={false}
           />
@@ -219,21 +267,32 @@ const Slider = () => {
     );
   };
 
+  const dimensions = getResponsiveDimensions();
+
   return (
-    <div className="relative bg-white">
+    <div className="relative bg-white w-full" style={{ overflow: "visible" }}>
       {/* Expo Slider Container */}
-      <div className="relative w-full h-[440px] overflow-hidden">
+      <div
+        className="relative w-full"
+        style={{
+          height: `${dimensions.slideHeight + 90}px`,
+          overflow: "visible",
+        }}
+      >
         <div
-          className="relative w-full h-full mt-6"
+          className="relative w-full h-full"
           style={{
-            perspective: "1200px",
+            marginTop: `${Math.max(dimensions.slideHeight * 0.025)}px`,
+            perspective: "1400px",
             perspectiveOrigin: "50% 50%",
+            overflow: "visible",
           }}
         >
           <div
             className="relative w-full h-full cursor-grab active:cursor-grabbing"
             style={{
               transformStyle: "preserve-3d",
+              overflow: "visible",
             }}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
@@ -246,25 +305,40 @@ const Slider = () => {
             {slides.map((slide, index) => renderExpoSlide(slide, index))}
           </div>
         </div>
-
-        {/* Side Gradient Overlays for depth */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-y-0 left-0 w-32"></div>
-          <div className="absolute inset-y-0 right-0 w-32"></div>
-        </div>
       </div>
 
-      {/* 3-Dot Navigation System */}
-      <div className="flex justify-center items-center space-x-2 -mt-6">
+      {/* Navigation Dots */}
+      <div
+        className="flex justify-center items-center space-x-2"
+        style={{
+          marginTop: `-${Math.max(80, dimensions.slideHeight * 0.08)}px`,
+          paddingBottom: `${Math.max(25, dimensions.slideHeight * 0.045)}px`,
+        }}
+      >
         {[0, 1, 2].map((dotIndex) => (
           <button
             key={dotIndex}
             onClick={() => goToSlide(dotNumbers[dotIndex] - 1)}
             className={`flex items-center justify-center transition-all duration-300 ${
               dotIndex === activeDotIndex
-                ? "w-12 h-6 rounded-full bg-[#6678FF] text-white shadow-lg text-xs font-medium"
-                : "w-3 h-3 rounded-full bg-indigo-200"
+                ? "bg-[#6678FF] text-white shadow-lg font-medium"
+                : "bg-indigo-200"
             }`}
+            style={{
+              width:
+                dotIndex === activeDotIndex
+                  ? `${Math.max(48, dimensions.slideWidth * 0.15)}px`
+                  : `${Math.max(12, dimensions.slideWidth * 0.0375)}px`,
+              height:
+                dotIndex === activeDotIndex
+                  ? `${Math.max(24, dimensions.slideWidth * 0.075)}px`
+                  : `${Math.max(12, dimensions.slideWidth * 0.0375)}px`,
+              borderRadius:
+                dotIndex === activeDotIndex
+                  ? `${Math.max(12, dimensions.slideWidth * 0.0375)}px`
+                  : "50%",
+              fontSize: `${Math.max(10, dimensions.slideWidth * 0.03125)}px`,
+            }}
           >
             {dotIndex === activeDotIndex
               ? `${currentSlide + 1}/${slides.length}`
