@@ -24,8 +24,6 @@ const OfferCardSection = () => {
       {
         _id: "1",
         title: "50% Off on Trimmer",
-        description:
-          "Get amazing discount on trimmers with the best quality and performance. Limited time offer with exclusive features.",
         category: "Spotlight",
         offerType: "spotlight",
         image:
@@ -38,8 +36,6 @@ const OfferCardSection = () => {
       {
         _id: "2",
         title: "Buy 2 Get 1 Free",
-        description:
-          "Limited Time Deal on all ayurvedic medicines and health supplements. Get the third item absolutely free when you purchase any two items from our premium collection.",
         category: "Happy Hours",
         offerType: "happyHour",
         image:
@@ -54,8 +50,6 @@ const OfferCardSection = () => {
       {
         _id: "3",
         title: "Win Exciting Coupons",
-        description:
-          "Spin the wheel for surprise discounts and amazing prizes. Every spin guarantees a reward with chances to win up to 90% off on your next purchase.",
         category: "Spin & Win",
         offerType: "spinToWin",
         image:
@@ -68,8 +62,6 @@ const OfferCardSection = () => {
       {
         _id: "4",
         title: "Weekend Special offer",
-        description:
-          "Clothes at unbeatable prices you won’t find anywhere else",
         category: "Spotlight",
         offerType: "spotlight",
         image:
@@ -264,11 +256,6 @@ const OfferCardSection = () => {
                   <h3 className="text-xs font-bold text-gray-500 mb-2">
                     {offer.title}
                   </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-600 text-xs mb-2 line-clamp-2 ">
-                    {offer.description}
-                  </p>
 
                   {/* Remaining Coupons for Happy Hours with Progress Bar */}
                   {offer.offerType === "happyHour" &&

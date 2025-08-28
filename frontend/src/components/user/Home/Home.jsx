@@ -9,6 +9,15 @@ import ImageAdSection from './ImageAdSection';
 import Navbar from '../Navbar';
 import OfferHeader from './OfferHeader';
 
+// Import the new specialized components
+import Section1 from './OfferCardSection/Section1';
+import Section2 from './OfferCardSection/Section2';
+import Section3 from './OfferCardSection/Section3';
+import Section4 from './OfferCardSection/Section4';
+import Section5 from './OfferCardSection/Section5';
+import Section6 from './OfferCardSection/Section6';
+import Section7 from './OfferCardSection/Section7';
+
 const Home = () => {
   const [currentFilter, setCurrentFilter] = useState('all');
   const [currentCategory, setCurrentCategory] = useState('all');
@@ -31,17 +40,29 @@ const Home = () => {
         <Category onCategoryChange={handleCategoryChange} activeCategory={currentCategory} />
         <Slider />
         
-        {/* Multiple sections of offer cards alternating with video ads and image ads */}
-        <OfferHeader />
-        <OfferCardSection sectionId={1} filterType={currentFilter} categoryFilter={currentCategory} />
+        {/* Replace the multiple OfferCardSection components with specialized components */}
+        
+        {/* 1. Today's Hot Picks & Mega Brand Deals */}
+        <Section1 />
         <VideoAdSection adId={1} />
-        <OfferCardSection sectionId={2} filterType={currentFilter} categoryFilter={currentCategory} />
-        <ImageAdSection adId={1} />
-        <OfferCardSection sectionId={3} filterType={currentFilter} categoryFilter={currentCategory} />
+        
+        {/* 2. Happy Hours */}
+        <Section2 />
+        {/* <ImageAdSection adId={1} /> */}
+        
+        {/* 3. Festival Specials & Local Treasures */}
+        <Section3 />
         <VideoAdSection adId={2} />
-        <OfferCardSection sectionId={4} filterType={currentFilter} categoryFilter={currentCategory} />
-        <ImageAdSection adId={2} />
-        <OfferCardSection sectionId={5} filterType={currentFilter} categoryFilter={currentCategory} />
+        
+        {/* 4. Spin & Win Deals */}
+        <Section4 />
+        {/* <ImageAdSection adId={2} /> */}
+        
+        {/* 5. Latest Offers Nearby */}
+        <Section5 />
+        <Section6 />
+        <Section7 />
+
       </div>
       <Navbar/>
     </div>
