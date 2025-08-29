@@ -1,9 +1,74 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { Home, MapPin, ShoppingBag, User } from "lucide-react";
+import { gsap } from "gsap";
 
 const Navbar = () => {
   const [rippleEffect, setRippleEffect] = useState(null);
+  const navRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const scrollThreshold = 15; // Minimum scroll distance to trigger hide/show
+  const isAnimating = useRef(false); // Prevent multiple animations
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const scrollDifference = Math.abs(currentScrollY - lastScrollY.current);
+          
+          // Only animate if scroll difference is above threshold and not currently animating
+          if (scrollDifference > scrollThreshold && !isAnimating.current) {
+            if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
+              // Scrolling down - hide navbar
+              isAnimating.current = true;
+              gsap.to(navRef.current, {
+                y: "100%",
+                duration: 0.4,
+                ease: "power3.out",
+                onComplete: () => {
+                  isAnimating.current = false;
+                }
+              });
+            } else if (currentScrollY < lastScrollY.current) {
+              // Scrolling up - show navbar
+              isAnimating.current = true;
+              gsap.to(navRef.current, {
+                y: "0%",
+                duration: 0.35,
+                ease: "power2.inOut",
+                onComplete: () => {
+                  isAnimating.current = false;
+                }
+              });
+            }
+            
+            lastScrollY.current = currentScrollY;
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    // Add scroll event listener with better options
+    window.addEventListener("scroll", handleScroll, { passive: true, capture: false });
+
+    // Initial setup with smooth entry
+    if (navRef.current) {
+      gsap.set(navRef.current, { 
+        y: "0%",
+        force3D: true // Enable hardware acceleration
+      });
+    }
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleTap = (index, event) => {
     const rect = event.currentTarget.getBoundingClientRect();
@@ -82,7 +147,15 @@ const Navbar = () => {
         }
       `}</style>
       
-      <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 px-4 py-2 z-20">
+      <nav 
+        ref={navRef}
+        className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 px-4 py-2 z-20"
+        style={{
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          perspective: 1000
+        }}
+      >
         <div className="flex justify-between items-center max-w-md mx-auto">
           <NavItem 
             to="/home" 
