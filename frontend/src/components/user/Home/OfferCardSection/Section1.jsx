@@ -153,32 +153,26 @@ const Section1 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Today Hot Pic */}
-      <div className="mb-3 mt-4 px-3">
-        <div className="bg-gradient-to-r from-red-500 to-pink-500 p-3 sm:p-4 relative overflow-hidden rounded-xl">
+      {/* Header - Today Hot Pic (Full Width, No Padding) */}
+      <div className="mb-3 mt-4">
+        <div className="bg-gradient-to-r from-red-500 to-pink-500 py-3 sm:py-4 w-full relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
           <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
           <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
 
-          <div className="relative z-10">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center space-x-1.5 mb-1">
-                  <Flame className="w-3 h-3 sm:w-4 sm:h-4 text-white animate-pulse" />
-                  <span className="text-white/90 text-xs font-medium tracking-wider">FEATURED</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
-                  Today Hot Pic
-                </h2>
-                <p className="text-white/90 text-xs">
-                  Featured deals you can't miss!
-                </p>
-              </div>
-              <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
-                View All
-              </button>
+          <div className="relative z-10 max-w-7xl mx-auto px-3 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+                Today Hot Pic
+              </h2>
+              <p className="text-white/90 text-xs">
+                Featured deals you can't miss!
+              </p>
             </div>
+            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+              View All
+            </button>
           </div>
         </div>
       </div>
@@ -192,22 +186,30 @@ const Section1 = () => {
             return (
               <div
                 key={offer._id}
-                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-lg transition-all duration-300 flex-shrink-0 relative rounded-xl"
-                style={{ width: "180px" }} // Smaller width for mobile
+                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
+                style={{ width: "180px" }}
               >
                 {/* Image Container */}
-                <div className="relative overflow-hidden rounded-t-xl">
-                  <div className="w-full h-48 bg-gray-100"> {/* Reduced height */}
+                <div className="relative overflow-hidden rounded-2xl">
+                  <div className="w-full h-64 bg-gray-100 rounded-2xl">
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
                     />
+                    {/* Black gradient at bottom for discount badge */}
+                    <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center">
+                      <div className="w-full flex justify-center">
+                        <span className="text-white text-base font-bold drop-shadow-lg tracking-wide">
+                          {offer.primaryDiscount}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
                   {/* HOT Badge */}
                   <div className="absolute top-2 right-2">
-                    <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse">
+                    <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
                       <GoDotFill className="w-2 h-2" />
                       <span>HOT</span>
                     </div>
@@ -219,69 +221,36 @@ const Section1 = () => {
                       {offer.happyHourTime}
                     </div>
                   </div>
-
-                  {/* Heart Icon */}
-                  <button
-                    onClick={() => toggleLike(offer._id)}
-                    className="absolute top-10 right-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110"
-                  >
-                    <Heart
-                      className={`w-3 h-3 ${
-                        isLiked
-                          ? "text-red-500 fill-current"
-                          : "text-gray-600"
-                      }`}
-                    />
-                  </button>
-
-                  {/* Discount Badge */}
-                  <div className="absolute bottom-2 left-2">
-                    <div className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-2 py-1 rounded-md">
-                      <div className="text-xs font-bold">
-                        {offer.primaryDiscount}
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-3">
-                  {/* Shop Name & Category */}
+                  {/* Shop Name, Like Button & Category */}
                   <div className="mb-2">
-                    <h3 className="text-sm font-bold text-gray-900 truncate">
-                      {offer.ownerId?.shopName}
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                        {offer.ownerId?.shopName}
+                      </h3>
+                      <button
+                        onClick={() => toggleLike(offer._id)}
+                        className="ml-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110 shadow"
+                        aria-label={isLiked ? 'Unlike' : 'Like'}
+                      >
+                        <Heart
+                          className={`w-4 h-4 ${
+                            isLiked
+                              ? 'text-red-500 fill-current'
+                              : 'text-gray-400'
+                          }`}
+                        />
+                      </button>
+                    </div>
                     <p className="text-xs text-gray-500">{offer.categoryText}</p>
                   </div>
 
-                  {/* Price Section */}
-                  <div className="mb-2">
-                    <div className="flex items-center space-x-1">
-                      <span className="text-sm font-bold text-green-600">
-                        ₹{offer.salePrice}
-                      </span>
-                      <span className="text-xs text-gray-400 line-through">
-                        ₹{offer.originalPrice}
-                      </span>
-                    </div>
-                    {offer.secondaryDiscount && (
-                      <p className="text-xs text-orange-600 font-medium">
-                        {offer.secondaryDiscount}
-                      </p>
-                    )}
-                  </div>
+                  {/* Price Section removed */}
 
-                  {/* Rating and Views */}
-                  <div className="flex items-center justify-between mb-2 text-xs">
-                    <div className="flex items-center space-x-0.5 text-yellow-500">
-                      <Star className="w-3 h-3 fill-current" />
-                      <span className="text-gray-700 font-medium">{offer.rating}</span>
-                    </div>
-                    <div className="flex items-center space-x-0.5 text-gray-500">
-                      <Eye className="w-3 h-3" />
-                      <span>{offer.views}</span>
-                    </div>
-                  </div>
+                  {/* Rating and Views removed */}
 
                   {/* Footer - Countdown and Distance */}
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
@@ -298,7 +267,7 @@ const Section1 = () => {
                   </div>
 
                   {/* Action Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
+                  <button className="w-full mt-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200 shadow hover:shadow-lg active:scale-95">
                     Grab Now
                   </button>
                 </div>

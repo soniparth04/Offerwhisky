@@ -45,6 +45,7 @@ import Register from "./components/auth/Register";
 import OtpVerification from "./components/auth/OtpVerification";
 import SearchPage from "./components/user/Home/SearchPage";
 import Wishlist from "./components/user/Home/Wishlist";
+import ComingSoon from "./components/user/ComingSoon";
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/spinner/:ownerId" element={<Spinner />} />
         <Route path="/user-offers/:shopName/:ownerId" element={<UserOffer />} />
         <Route path="/All-shops" element={<AllShops />} />
+        <Route path="/coming-soon" element={<ComingSoon />} />
         <Route path="/common-offers/:ownerId" element={<CommonOffer />} />
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />

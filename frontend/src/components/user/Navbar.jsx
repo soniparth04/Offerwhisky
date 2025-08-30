@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { Home, MapPin, ShoppingBag, User } from "lucide-react";
+import { Home, Flame, ShoppingBag, User } from "lucide-react";
 import { gsap } from "gsap";
 
 const Navbar = () => {
   const [rippleEffect, setRippleEffect] = useState(null);
   const navRef = useRef(null);
   const lastScrollY = useRef(0);
-  const scrollThreshold = 15; // Minimum scroll distance to trigger hide/show
-  const isAnimating = useRef(false); // Prevent multiple animations
+  const scrollThreshold = 2;
+  const isAnimating = useRef(false);
 
   useEffect(() => {
     let ticking = false;
@@ -111,12 +111,7 @@ const Navbar = () => {
             isActive ? 'text-purple-500 scale-110' : 'text-gray-600'
           }`}>
             <Icon className="w-6 h-6" strokeWidth={1.5} />
-            {/* Notification Badge for Bag */}
-            {index === 2 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center border border-white">
-                3
-              </span>
-            )}
+            {/* Notification Badge for Bag removed */}
           </div>
           
           {/* Label */}
@@ -165,10 +160,10 @@ const Navbar = () => {
             isEnd={true} 
           />
           <NavItem 
-            to="/All-shops" 
+            to="/coming-soon" 
             index={1} 
-            icon={MapPin} 
-            label="Store Nearby" 
+            icon={Flame} 
+            label="Hots"
           />
           <NavItem 
             to="/bag" 

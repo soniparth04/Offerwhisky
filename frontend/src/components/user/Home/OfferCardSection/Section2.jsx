@@ -168,34 +168,26 @@ const Section2 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Mega Brand Deal */}
-      <div className="mb-3 mt-4 px-3">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-3 sm:p-4 relative overflow-hidden rounded-xl">
+      {/* Header - Mega Brand Deal (Full Width, No Sponsor) */}
+      <div className="mb-3 mt-4">
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-3 sm:py-4 w-full relative overflow-hidden">
           {/* Background Pattern */}
           <div className="absolute top-0 right-0 w-0 h-0 border-l-[80px] border-l-transparent border-b-[80px] border-b-white/10"></div>
           <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
           <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
 
-          <div className="relative z-10">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center space-x-1.5 mb-1">
-                  <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-300 animate-pulse" />
-                  <span className="text-white/90 text-xs font-medium tracking-wider">
-                    SPONSORED
-                  </span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
-                  Mega Brand Deal
-                </h2>
-                <p className="text-white/90 text-xs">
-                  Sponsored offers from top brands
-                </p>
-              </div>
-              <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
-                View All
-              </button>
+          <div className="relative z-10 max-w-7xl mx-auto px-3 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+                Mega Brand Deal
+              </h2>
+              <p className="text-white/90 text-xs">
+                Exclusive offers from top brands
+              </p>
             </div>
+            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+              View All
+            </button>
           </div>
         </div>
       </div>
@@ -213,119 +205,63 @@ const Section2 = () => {
                 style={{ width: "180px" }}
               >
                 {/* Image Container */}
-                <div className="relative overflow-hidden rounded-t-xl">
-                  <div className="w-full h-48 bg-gray-100">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <div className="w-full h-64 bg-gray-100 rounded-2xl">
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
                     />
-                  </div>
-
-                  {/* MEGA Badge */}
-                  <div className="absolute top-2 right-2">
-                    <div className="bg-purple-600 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5">
-                      <Crown className="w-2 h-2" />
-                      <span>MEGA</span>
+                    <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center">
+                      <div className="w-full flex justify-center">
+                        <span className="text-white text-base font-bold drop-shadow-lg tracking-wide">
+                          {offer.primaryDiscount}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-
-                  {/* Verified Badge */}
-                  {offer.isVerified && (
+                    {/* Offer Duration Badge (like Section1) */}
                     <div className="absolute top-2 left-2">
-                      <div className="bg-blue-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5">
-                        <Shield className="w-2 h-2" />
-                        <span>VERIFIED</span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Heart Icon */}
-                  <button
-                    onClick={() => toggleLike(offer._id)}
-                    className="absolute top-10 right-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110"
-                  >
-                    <Heart
-                      className={`w-3 h-3 ${
-                        isLiked ? "text-red-500 fill-current" : "text-gray-600"
-                      }`}
-                    />
-                  </button>
-
-                  {/* Discount Badge */}
-                  <div className="absolute bottom-2 left-2">
-                    <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-2 py-1 rounded-md">
-                      <div className="text-xs font-bold">
-                        {offer.primaryDiscount}
+                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                        {offer.happyHourTime}
                       </div>
                     </div>
                   </div>
 
-                  {/* Brand Tier Badge */}
-                  <div className="absolute bottom-2 right-2">
-                    <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
-                      {offer.brandTier}
-                    </div>
-                  </div>
+                  {/* Top badge removed */}
                 </div>
 
                 {/* Content */}
                 <div className="p-3">
-                  {/* Shop Name & Category */}
+                  {/* Shop Name, Like Button & Category */}
                   <div className="mb-2">
-                    <h3 className="text-sm font-bold text-gray-900 truncate">
-                      {offer.ownerId?.shopName}
-                    </h3>
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                        {offer.ownerId?.shopName}
+                      </h3>
+                      <button
+                        onClick={() => toggleLike(offer._id)}
+                        className="ml-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110 shadow"
+                        aria-label={isLiked ? "Unlike" : "Like"}
+                      >
+                        <Heart
+                          className={`w-4 h-4 ${
+                            isLiked
+                              ? "text-red-500 fill-current"
+                              : "text-gray-400"
+                          }`}
+                        />
+                      </button>
+                    </div>
                     <p className="text-xs text-gray-500">
                       {offer.categoryText}
                     </p>
                   </div>
 
-                  {/* Price Section */}
-                  <div className="mb-2">
-                    <div className="flex items-center space-x-1">
-                      <span className="text-sm font-bold text-green-600">
-                        ₹{offer.salePrice.toLocaleString()}
-                      </span>
-                      <span className="text-xs text-gray-400 line-through">
-                        ₹{offer.originalPrice.toLocaleString()}
-                      </span>
-                    </div>
-                    {offer.secondaryDiscount && (
-                      <p className="text-xs text-purple-600 font-medium">
-                        {offer.secondaryDiscount}
-                      </p>
-                    )}
-                  </div>
+                  {/* Price Section removed */}
 
-                  {/* Rating and Views */}
-                  <div className="flex items-center justify-between mb-2 text-xs">
-                    <div className="flex items-center space-x-0.5 text-yellow-500">
-                      <Star className="w-3 h-3 fill-current" />
-                      <span className="text-gray-700 font-medium">
-                        {offer.rating}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-0.5 text-gray-500">
-                      <Eye className="w-3 h-3" />
-                      <span>{offer.views}</span>
-                    </div>
-                  </div>
+                  {/* Rating and Views removed */}
 
-                  {/* Brand Quality Indicator */}
-                  <div className="mb-2">
-                    <div className="flex items-center space-x-1">
-                      <div className="flex-1 h-1 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full"
-                          style={{ width: "90%" }}
-                        ></div>
-                      </div>
-                      <span className="text-xs text-purple-600 font-medium">
-                        Brand Quality
-                      </span>
-                    </div>
-                  </div>
+                  {/* Brand Quality removed */}
 
                   {/* Footer - Countdown and Distance */}
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
