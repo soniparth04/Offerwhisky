@@ -23,10 +23,12 @@ const Section1 = () => {
       {
         _id: "hot1",
         title: "Premium Gaming Setup",
-        description: "Complete gaming setup with RGB lighting and high-performance accessories",
+        description:
+          "Complete gaming setup with RGB lighting and high-performance accessories",
         category: "Today Hot Pic",
         offerType: "hotPick",
-        image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=500&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=500&fit=crop",
         ownerId: { shopName: "GameZone Pro" },
         validTill: new Date(Date.now() + 8 * 60 * 60 * 1000),
         discount: 70,
@@ -44,10 +46,12 @@ const Section1 = () => {
       {
         _id: "hot2",
         title: "Designer Fashion Collection",
-        description: "Exclusive designer wear with premium fabrics and latest fashion trends",
+        description:
+          "Exclusive designer wear with premium fabrics and latest fashion trends",
         category: "Today Hot Pic",
         offerType: "hotPick",
-        image: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=500&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=500&fit=crop",
         ownerId: { shopName: "Elite Fashion" },
         validTill: new Date(Date.now() + 10 * 60 * 60 * 1000),
         discount: 65,
@@ -65,10 +69,12 @@ const Section1 = () => {
       {
         _id: "hot3",
         title: "Smart Home Devices",
-        description: "Latest smart home automation devices with voice control and app integration",
+        description:
+          "Latest smart home automation devices with voice control and app integration",
         category: "Today Hot Pic",
         offerType: "hotPick",
-        image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=500&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=500&fit=crop",
         ownerId: { shopName: "SmartTech" },
         validTill: new Date(Date.now() + 12 * 60 * 60 * 1000),
         discount: 55,
@@ -86,10 +92,12 @@ const Section1 = () => {
       {
         _id: "hot4",
         title: "Fitness & Wellness Kit",
-        description: "Complete fitness package with equipment, supplements and workout guides",
+        description:
+          "Complete fitness package with equipment, supplements and workout guides",
         category: "Today Hot Pic",
         offerType: "hotPick",
-        image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=500&fit=crop",
         ownerId: { shopName: "FitLife Premium" },
         validTill: new Date(Date.now() + 6 * 60 * 60 * 1000),
         discount: 60,
@@ -191,34 +199,28 @@ const Section1 = () => {
               >
                 {/* Image Container */}
                 <div className="relative overflow-hidden rounded-2xl">
-                  <div className="w-full h-64 bg-gray-100 rounded-2xl">
+                  <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
+                    {/* HOT and Time Badges in a single row at the top */}
+                    <div className="absolute top-4 left-2 right-2 z-20 flex flex-row items-center justify-between">
+                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                        {offer.happyHourTime}
+                      </div>
+                      <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
+                        <GoDotFill className="w-2 h-2" />
+                        <span>HOT</span>
+                      </div>
+                    </div>
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
+                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+                      style={{ aspectRatio: "4/3" }}
                     />
-                    {/* Black gradient at bottom for discount badge */}
-                    <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center">
-                      <div className="w-full flex justify-center">
-                        <span className="text-white text-base font-bold drop-shadow-lg tracking-wide">
-                          {offer.primaryDiscount}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* HOT Badge */}
-                  <div className="absolute top-2 right-2">
-                    <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
-                      <GoDotFill className="w-2 h-2" />
-                      <span>HOT</span>
-                    </div>
-                  </div>
-
-                  {/* Time Badge */}
-                  <div className="absolute top-2 left-2">
-                    <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
-                      {offer.happyHourTime}
+                    {/* Black gradient at bottom for discount badge, fits bottom of image */}
+                    <div className="absolute left-1 bottom-2 w-[96%] h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-xl pointer-events-none z-10">
+                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2">
+                        {offer.primaryDiscount}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -234,23 +236,21 @@ const Section1 = () => {
                       <button
                         onClick={() => toggleLike(offer._id)}
                         className="ml-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110 shadow"
-                        aria-label={isLiked ? 'Unlike' : 'Like'}
+                        aria-label={isLiked ? "Unlike" : "Like"}
                       >
                         <Heart
                           className={`w-4 h-4 ${
                             isLiked
-                              ? 'text-red-500 fill-current'
-                              : 'text-gray-400'
+                              ? "text-red-500 fill-current"
+                              : "text-gray-400"
                           }`}
                         />
                       </button>
                     </div>
-                    <p className="text-xs text-gray-500">{offer.categoryText}</p>
+                    <p className="text-xs text-gray-500">
+                      {offer.categoryText}
+                    </p>
                   </div>
-
-                  {/* Price Section removed */}
-
-                  {/* Rating and Views removed */}
 
                   {/* Footer - Countdown and Distance */}
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
@@ -265,11 +265,6 @@ const Section1 = () => {
                       <span className="text-xs">{offer.distance}</span>
                     </div>
                   </div>
-
-                  {/* Action Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200 shadow hover:shadow-lg active:scale-95">
-                    Grab Now
-                  </button>
                 </div>
               </div>
             );
