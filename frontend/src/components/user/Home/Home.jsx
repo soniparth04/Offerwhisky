@@ -61,7 +61,8 @@ const Home = () => {
         {/* 5. Latest Offers Nearby */}
         <Section5 />
         <Section6 />
-        <Section7 />
+        <OfferHeader/>
+        <OfferCardSection/>
 
       </div>
       <Navbar/>

@@ -259,7 +259,7 @@ const Section6 = () => {
                   </div>
 
                   {/* Spin Now Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
+                  <button className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-transparent bg-clip-text border border-blue-600 py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
                     Spin Now
                   </button>
                 </div>

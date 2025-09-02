@@ -168,7 +168,7 @@ const VideoAdSection = ({ adId = 1 }) => {
   }, []);
 
   return (
-    <div className="mt-2 px-2 sm:px-4 bg-gray-50 py-3 cursor-pointer">
+    <div className="mt-2 px-2 bg-gray-50 py-3 cursor-pointer">
       <div className="bg-white rounded-xl shadow-lg overflow-hidden relative">
         {/* Video Container */}
         <div

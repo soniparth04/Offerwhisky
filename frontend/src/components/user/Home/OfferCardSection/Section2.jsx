@@ -250,7 +250,7 @@ const Section2 = () => {
                   {/* Shop Name, Like Button & Tag */}
                   <div className="mb-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                      <h3 className="text-base font-bold text-gray-900 truncate">
                         {offer.ownerId?.shopName}
                       </h3>
                       <button
@@ -278,7 +278,7 @@ const Section2 = () => {
                         </p>
                       </>
                     ) : (
-                      <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg mt-1 inline-block">
+                      <span className="bg-pink-200 text-pink-500 px-2 py-0.5 rounded-full text-xs font-bold shadow-lg mt-1 inline-block">
                         Happy Hours
                       </span>
                     )}

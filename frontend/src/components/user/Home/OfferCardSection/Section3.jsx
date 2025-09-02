@@ -27,10 +27,10 @@ const Section3 = () => {
         offerType: "happyHour",
         image:
           "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400&h=500&fit=crop",
-        ownerId: { shopName: "Brew Masters" },
+        ownerId: { shopName: "Croma" },
         validTill: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
         discount: 50,
-        primaryDiscount: "Buy 2 Get 1",
+        primaryDiscount: "Buy 2 Get 1 Free",
         secondaryDiscount: "+ Free Pastry",
         categoryText: "Coffee & Bakery",
         distance: "0.2 km",
@@ -51,7 +51,7 @@ const Section3 = () => {
         offerType: "happyHour",
         image:
           "https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=400&h=500&fit=crop",
-        ownerId: { shopName: "TechHub" },
+        ownerId: { shopName: "Teapost" },
         validTill: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
         discount: 65,
         primaryDiscount: "65% OFF",
@@ -188,7 +188,10 @@ const Section3 = () => {
 
       {/* Cards - horizontal scrollable row */}
       <div className="overflow-x-auto scrollbar-hide px-3">
-        <div className="flex space-x-3 pb-4" style={{ width: 'max-content' }}>
+        <div
+          className="flex space-x-3 mt-4 pb-4"
+          style={{ width: "max-content" }}
+        >
           {offers.map((offer, idx) => {
             const isLiked = likedOffers.has(offer._id);
             // Section1 Happy Hours card logic
@@ -201,21 +204,43 @@ const Section3 = () => {
                 {/* Image Container */}
                 <div className="relative overflow-hidden rounded-2xl">
                   <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
-                    {/* Time Badge at the top left */}
-                    <div className="absolute top-4 left-2 z-20">
-                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                    {/* Time Badge at the top left and LIVE tag at the top right, both slightly higher */}
+                    {/* Slot timing left and LIVE tag right, horizontally aligned */}
+                    <div className="absolute top-2 left-0 w-full flex flex-row items-center justify-between z-20 px-0">
+                      <div
+                        className="bg-black/70 backdrop-blur-sm text-white px-3 py-0.5 rounded-l-none rounded-r-full text-xs font-bold flex items-center shadow-lg"
+                        style={{
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                          borderTopRightRadius: "9999px",
+                          borderBottomRightRadius: "9999px",
+                          boxShadow: "2px 2px 8px 0 rgba(0,0,0,0.10)",
+                        }}
+                      >
                         {offer.happyHourTime}
                       </div>
+                      {offer.offerType === "happyHour" && (
+                        <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold shadow-lg flex items-center animate-pulse mr-2">
+                          <GoDotFill className="w-3 h-3 mr-[1px] mt-[1px]" />
+                          Live
+                        </span>
+                      )}
                     </div>
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
-                      style={{ aspectRatio: "4/3" }}
+                      className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
                     />
                     {/* Black gradient at bottom for discount badge, fits bottom of image */}
-                    <div className="absolute left-1 bottom-2 w-[96%] h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-xl pointer-events-none z-10">
-                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2">
+                    <div className="absolute left-0 bottom-0 w-full h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-2xl pointer-events-none z-10">
+                      <span
+                        className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2 w-40 text-center block mx-auto whitespace-pre-line break-words"
+                        style={{
+                          width: "10rem",
+                          textAlign: "center",
+                          wordBreak: "break-word",
+                        }}
+                      >
                         {offer.primaryDiscount}
                       </span>
                     </div>
@@ -224,10 +249,9 @@ const Section3 = () => {
 
                 {/* Content */}
                 <div className="p-3">
-                  {/* Shop Name, Like Button & Tag */}
                   <div className="mb-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                      <h3 className="text-base font-bold text-gray-900 truncate">
                         {offer.ownerId?.shopName}
                       </h3>
                       <button
@@ -237,28 +261,32 @@ const Section3 = () => {
                       >
                         <Heart
                           className={`w-4 h-4 ${
-                            isLiked ? "text-red-500 fill-current" : "text-gray-400"
+                            isLiked
+                              ? "text-red-500 fill-current"
+                              : "text-gray-400"
                           }`}
                         />
                       </button>
                     </div>
                     {/* Tag: Happy Hours below shop name */}
                     <div className="mt-1">
-                      <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                      <span className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full text-xs font-medium">
                         Happy Hours
                       </span>
                     </div>
                     {/* Coupons Left Bar for Happy Hours cards */}
                     <div className="mt-2 mb-1">
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs text-gray-500">Coupons Left</span>
+                        <span className="text-xs text-gray-500">
+                          Coupons Left
+                        </span>
                         <span className="text-xs font-bold text-pink-500">
                           {offer.remainingCoupons ?? 0}/60
                         </span>
                       </div>
                       <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-fuchsia-500 to-purple-600 rounded-full transition-all duration-300 ease-out"
+                          className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full transition-all duration-300 ease-out"
                           style={{
                             width: `${
                               offer.remainingCoupons
