@@ -185,7 +185,7 @@ const Section6 = () => {
             return (
               <div
                 key={offer._id}
-                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
+          className="bg-white overflow-hidden shadow-md border border-gray-100 flex-shrink-0 relative rounded-2xl"
                 style={{ width: '180px' }}
               >
                 {/* Image Container */}
@@ -204,7 +204,7 @@ const Section6 = () => {
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+            className="w-[98%] h-[95%] object-cover rounded-xl"
                       style={{ aspectRatio: '4/3' }}
                     />
                     {/* Black gradient at bottom for discount badge */}
@@ -226,7 +226,7 @@ const Section6 = () => {
                       </h3>
                       <button
                         onClick={() => toggleLike(offer._id)}
-                        className="ml-2 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                          className="ml-2 rounded-full p-1"
                         aria-label={isLiked ? 'Unlike' : 'Like'}
                       >
                         <Heart

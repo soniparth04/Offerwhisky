@@ -193,40 +193,50 @@ const Section1 = () => {
         </div>
       </div>
 
-      {/* Cards */}
+      {/* Cards - horizontal scrollable row, improved UI */}
       <div className="overflow-x-auto scrollbar-hide px-3">
-        <div className="flex space-x-3 pb-4" style={{ width: "max-content" }}>
+        <div className="flex space-x-2 pb-4" style={{ width: "max-content" }}>
           {offers.map((offer, idx) => {
             const isLiked = likedOffers.has(offer._id);
-
             return (
               <div
                 key={offer._id}
-                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
+                className="bg-white overflow-hidden shadow-md border border-gray-100 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
                 style={{ width: "180px" }}
               >
-                {/* Image Container */}
+                {/* Image Container - match Section3 image size and style */}
                 <div className="relative overflow-hidden rounded-2xl">
                   <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
-                    {/* HOT and Time Badges in a single row at the top */}
-                    <div className="absolute top-4 left-2 right-2 z-20 flex flex-row items-center justify-between">
-                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                    {/* HOT and Time Badges in a single row at the top, improved position */}
+                    <div className="absolute top-2 left-0 w-full flex flex-row items-center justify-between z-20 px-0">
+                      <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-0.5 rounded-l-none rounded-r-full text-xs font-bold flex items-center shadow-lg"
+                        style={{
+                          borderTopLeftRadius: 0,
+                          borderBottomLeftRadius: 0,
+                          borderTopRightRadius: "9999px",
+                          borderBottomRightRadius: "9999px",
+                          boxShadow: "2px 2px 8px 0 rgba(0,0,0,0.10)",
+                        }}>
                         {offer.happyHourTime}
                       </div>
-                      <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
-                        <GoDotFill className="w-2 h-2" />
-                        <span>HOT</span>
-                      </div>
+                      <span className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold shadow-lg flex items-center animate-pulse mr-2">
+                        <GoDotFill className="w-3 h-3 mr-[1px] mt-[1px]" />
+                        HOT
+                      </span>
                     </div>
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
-                      style={{ aspectRatio: "4/3" }}
+                      className="w-full h-56 object-cover transition-transform duration-300 rounded-xl"
                     />
                     {/* Black gradient at bottom for discount badge, fits bottom of image */}
-                    <div className="absolute left-1 bottom-2 w-[96%] h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-xl pointer-events-none z-10">
-                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2">
+                    <div className="absolute left-0 bottom-0 w-full h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-2xl pointer-events-none z-10">
+                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2 w-40 text-center block mx-auto whitespace-pre-line break-words"
+                        style={{
+                          width: "10rem",
+                          textAlign: "center",
+                          wordBreak: "break-word",
+                        }}>
                         {offer.primaryDiscount}
                       </span>
                     </div>
@@ -238,12 +248,12 @@ const Section1 = () => {
                   {/* Shop Name, Like Button & Tag */}
                   <div className="mb-2">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                      <h3 className="text-base font-bold text-gray-900 truncate">
                         {offer.ownerId?.shopName}
                       </h3>
                       <button
                         onClick={() => toggleLike(offer._id)}
-                        className="ml-2 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                        className="ml-2 rounded-full p-1 transition-all duration-200"
                         aria-label={isLiked ? "Unlike" : "Like"}
                       >
                         <Heart
@@ -259,7 +269,7 @@ const Section1 = () => {
                     <div className="mt-1">
                       {idx % 2 === 0 ? (
                         <>
-                          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                          <span className="bg-purple-200 text-purple-600 px-2 py-0.5 rounded-full text-xs font-medium">
                             Spotlight
                           </span>
                           {/* Product description below Spotlight tag */}
@@ -268,13 +278,11 @@ const Section1 = () => {
                           </p>
                         </>
                       ) : (
-                        <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                        <span className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full text-xs font-medium">
                           Happy Hours
                         </span>
                       )}
                     </div>
-                    {/* Tag: Happy Hours below shop name (single instance) */}
-                    {/* Only render for Happy Hours cards, and only once */}
                     {/* Coupons Left Bar for Happy Hours cards */}
                     {idx % 2 === 1 && (
                       <div className="mt-2 mb-1">

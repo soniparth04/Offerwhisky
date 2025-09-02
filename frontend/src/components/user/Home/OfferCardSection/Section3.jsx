@@ -189,7 +189,7 @@ const Section3 = () => {
       {/* Cards - horizontal scrollable row */}
       <div className="overflow-x-auto scrollbar-hide px-3">
         <div
-          className="flex space-x-3 mt-4 pb-4"
+          className="flex space-x-2 pb-4"
           style={{ width: "max-content" }}
         >
           {offers.map((offer, idx) => {
@@ -198,7 +198,7 @@ const Section3 = () => {
             return (
               <div
                 key={offer._id}
-                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
+                className="bg-white overflow-hidden shadow-md border border-gray-100 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
                 style={{ width: "180px" }}
               >
                 {/* Image Container */}
@@ -229,7 +229,7 @@ const Section3 = () => {
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+                      className="w-full h-56 object-cover transition-transform duration-300 rounded-xl"
                     />
                     {/* Black gradient at bottom for discount badge, fits bottom of image */}
                     <div className="absolute left-0 bottom-0 w-full h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-2xl pointer-events-none z-10">
@@ -256,7 +256,7 @@ const Section3 = () => {
                       </h3>
                       <button
                         onClick={() => toggleLike(offer._id)}
-                        className="ml-2 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                        className="ml-2 rounded-full p-1 transition-all duration-200"
                         aria-label={isLiked ? "Unlike" : "Like"}
                       >
                         <Heart

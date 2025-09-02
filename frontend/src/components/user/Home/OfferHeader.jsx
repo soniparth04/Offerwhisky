@@ -7,22 +7,25 @@ import {
 const OfferHeader = () => {
   return (
     <>
-      <div className="bg-gradient-to-br from-gray-50 to-white p-4 mx-auto -mt-2">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
+  <div className="bg-gradient-to-r from-fuchsia-500 to-purple-600 py-6 sm:py-8 w-full relative overflow-hidden px-3 mx-auto -mt-2">
+        {/* Background Pattern */}
+        <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
+        <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
+        <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
+
+        <div className="relative z-10 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
               Latest Offers Nearby
             </h2>
-            <p className="text-gray-600 text-sm">
+            <p className="text-white/90 text-xs">
               Discover amazing deals around you
             </p>
           </div>
-          <div className="flex items-center space-x-3">
-            <div className="bg-white rounded-lg p-2 shadow-sm border">
-              <Filter className="w-5 h-5 text-gray-600" />
-            </div>
-          </div>
+          <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition flex items-center space-x-2">
+            <Filter className="w-4 h-4 text-white" />
+            <span>Filter</span>
+          </button>
         </div>
       </div>
     </>

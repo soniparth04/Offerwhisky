@@ -33,39 +33,34 @@ const Home = () => {
   };
 
   return (
-    <div style={{ maxWidth: '100%', overflowX: 'hidden' }}>
+    <div style={{ maxWidth: '100%', overflowX: 'hidden' }} className="select-none">
+      <style>{`
+        img { pointer-events: none; user-drag: none; -webkit-user-drag: none; }
+      `}</style>
       <div className='mb-20'>
         <Header />
         <SearchBar />
         <Category onCategoryChange={handleCategoryChange} activeCategory={currentCategory} />
         <Slider />
-        
-        {/* Replace the multiple OfferCardSection components with specialized components */}
-        
-        {/* 1. Today's Hot Picks & Mega Brand Deals */}
         <Section1 />
         <VideoAdSection adId={1} />
-        
-        {/* 2. Happy Hours */}
         <Section2 />
-        {/* <ImageAdSection adId={1} /> */}
-        
-        {/* 3. Festival Specials & Local Treasures */}
         <Section3 />
         <VideoAdSection adId={2} />
-        
-        {/* 4. Spin & Win Deals */}
         <Section4 />
-        {/* <ImageAdSection adId={2} /> */}
-        
-        {/* 5. Latest Offers Nearby */}
         <Section5 />
         <Section6 />
+        {/* <Section7/> */}
         <OfferHeader/>
         <OfferCardSection/>
-
+        <OfferCardSection/>
+        <OfferCardSection/>
+        <OfferCardSection/>
+        <OfferCardSection/>
       </div>
-      <Navbar/>
+      <div className="fixed bottom-0 left-0 w-full z-50">
+        <Navbar/>
+      </div>
     </div>
   );
 };
