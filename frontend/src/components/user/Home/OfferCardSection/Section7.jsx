@@ -39,6 +39,8 @@ const Section7 = () => {
         salePrice: 199,
         happyHourEnd: new Date(Date.now() + 4 * 60 * 60 * 1000),
         happyHourTime: "Morning Fresh",
+        couponsLeft: 18,
+        totalCoupons: 40,
       },
       {
         _id: "nearby2",
@@ -102,6 +104,8 @@ const Section7 = () => {
         salePrice: 714,
         happyHourEnd: new Date(Date.now() + 3 * 60 * 60 * 1000),
         happyHourTime: "Pet Special",
+        couponsLeft: 7,
+        totalCoupons: 30,
       },
     ];
 
@@ -149,154 +153,142 @@ const Section7 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Latest Offer Nearby */}
-      <div className="mb-3 mt-4 px-3">
-        <div className="bg-gradient-to-r from-blue-300 to-blue-400 p-3 sm:p-4 relative overflow-hidden rounded-xl">
-          {/* Background Pattern */}
-          <div className="absolute top-0 left-0 w-0 h-0 border-l-[80px] border-l-transparent border-b-[80px] border-b-white/30"></div>
-          <div className="absolute bottom-0 right-0 w-0 h-0 border-r-[70px] border-r-transparent border-t-[70px] border-t-white/20"></div>
+      {/* Header - Latest Offer Nearby (match Section1 UI, keep color) */}
+      <div className="mb-3 mt-4">
+        <div className="bg-gradient-to-r from-blue-300 to-blue-400 py-6 sm:py-8 w-full relative overflow-hidden px-3">
+          {/* Background Pattern (match Section1 UI) */}
+          <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
           <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
           <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
-          
-          <div className="relative z-10">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center space-x-1.5 mb-1">
-                  <Navigation className="w-3 h-3 sm:w-4 sm:h-4 text-white animate-pulse" />
-                  <span className="text-white/90 text-xs font-medium tracking-wider">JUST ARRIVED</span>
-                </div>
-                <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
-                  Latest Offer Nearby
-                </h2>
-                <p className="text-white/90 text-xs">
-                  Fresh deals just around the corner
-                </p>
-              </div>
-              <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
-                View All
-              </button>
+
+          <div className="relative z-10 flex items-center justify-between">
+            <div>
+              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+                Latest Offer Nearby
+              </h2>
+              <p className="text-white/90 text-xs">
+                Fresh deals just around the corner
+              </p>
             </div>
+            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+              View All
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Cards */}
+      {/* Cards (match Section1 UI, Happy Hours at first/last, Spotlight in middle) */}
       <div className="overflow-x-auto scrollbar-hide px-3">
-        <div className="flex space-x-3 pb-4" style={{ width: "max-content" }}>
-          {offers.map((offer) => {
+        <div className="flex space-x-3 pb-4" style={{ width: 'max-content' }}>
+          {offers.map((offer, idx) => {
             const isLiked = likedOffers.has(offer._id);
+            const isHappyHours = idx === 0 || idx === offers.length - 1;
+            const isSpotlight = idx === 1 || idx === 2;
             return (
               <div
                 key={offer._id}
-                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-lg transition-all duration-300 flex-shrink-0 relative rounded-xl"
-                style={{ width: "180px" }}
+                className="bg-white overflow-hidden shadow-md border border-gray-100 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex-shrink-0 relative rounded-2xl"
+                style={{ width: '180px' }}
               >
                 {/* Image Container */}
-                <div className="relative overflow-hidden rounded-t-xl">
-                  <div className="w-full h-48 bg-gray-100">
+                <div className="relative overflow-hidden rounded-2xl">
+                  <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
+                    {/* Time Badge (left, full width) */}
+                    <div className="absolute top-4 left-2 right-2 z-20 flex flex-row items-center justify-start">
+                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                        {offer.happyHourTime}
+                      </div>
+                    </div>
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+                      style={{ aspectRatio: '4/3' }}
                     />
-                  </div>
-                  
-                  {/* Nearby Badge */}
-                  <div className="absolute top-2 right-2">
-                    <div className="bg-blue-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5">
-                      <Navigation className="w-2 h-2" />
-                      <span>NEARBY</span>
-                    </div>
-                  </div>
-                  
-                  {/* Time Badge */}
-                  <div className="absolute top-2 left-2">
-                    <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
-                      {offer.happyHourTime}
-                    </div>
-                  </div>
-                  
-                  {/* Heart Icon */}
-                  <button
-                    onClick={() => toggleLike(offer._id)}
-                    className="absolute top-10 right-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110"
-                  >
-                    <Heart
-                      className={`w-3 h-3 ${
-                        isLiked
-                          ? "text-red-500 fill-current"
-                          : "text-gray-600"
-                      }`}
-                    />
-                  </button>
-                  
-                  {/* Discount Badge */}
-                  <div className="absolute bottom-2 left-2">
-                    <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-2 py-1 rounded-md">
-                      <div className="text-xs font-bold">
+                    {/* Black gradient at bottom for discount badge */}
+                    <div className="absolute left-1 bottom-2 w-[96%] h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-xl pointer-events-none z-10">
+                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2">
                         {offer.primaryDiscount}
-                      </div>
+                      </span>
                     </div>
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="p-3">
-                  {/* Shop Name & Category */}
+                  {/* Shop Name, Like Button & Tag */}
                   <div className="mb-2">
-                    <h3 className="text-sm font-bold text-gray-900 truncate">
-                      {offer.ownerId?.shopName}
-                    </h3>
-                    <p className="text-xs text-gray-500">{offer.categoryText}</p>
-                  </div>
-
-                  {/* Price Section */}
-                  <div className="mb-2">
-                    <div className="flex items-center space-x-1">
-                      <span className="text-sm font-bold text-green-600">
-                        ₹{offer.salePrice}
-                      </span>
-                      <span className="text-xs text-gray-400 line-through">
-                        ₹{offer.originalPrice}
-                      </span>
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-sm font-bold text-gray-900 truncate">
+                        {offer.ownerId?.shopName}
+                      </h3>
+                      <button
+                        onClick={() => toggleLike(offer._id)}
+                        className="ml-2 rounded-full p-1 transition-all duration-200 hover:scale-110"
+                        aria-label={isLiked ? 'Unlike' : 'Like'}
+                      >
+                        <Heart
+                          className={`w-4 h-4 ${
+                            isLiked ? 'text-blue-500 fill-current' : 'text-gray-400'
+                          }`}
+                        />
+                      </button>
                     </div>
-                    {offer.secondaryDiscount && (
-                      <p className="text-xs text-blue-600 font-medium">
-                        {offer.secondaryDiscount}
-                      </p>
+                    {/* Tag and description logic */}
+                    <div className="mt-1">
+                      {isSpotlight ? (
+                        <>
+                          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                            Spotlight
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                            {offer.description}
+                          </p>
+                        </>
+                      ) : (
+                        <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg">
+                          Happy Hours
+                        </span>
+                      )}
+                    </div>
+                    {/* Coupons Left Bar for Happy Hours cards (first/last) */}
+                    {isHappyHours && (
+                      <div className="mt-2 mb-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-gray-500">
+                            Coupons Left
+                          </span>
+                          <span className="text-xs font-bold text-pink-500">
+                            {typeof offer.couponsLeft === 'number' ? offer.couponsLeft : 0}/{typeof offer.totalCoupons === 'number' ? offer.totalCoupons : 60}
+                          </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-300 ease-out"
+                            style={{
+                              width: `${typeof offer.couponsLeft === 'number' && typeof offer.totalCoupons === 'number' && offer.totalCoupons > 0 ? (offer.couponsLeft / offer.totalCoupons) * 100 : 0}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
                     )}
                   </div>
 
-                  {/* Rating and Views */}
-                  <div className="flex items-center justify-between mb-2 text-xs">
-                    <div className="flex items-center space-x-0.5 text-yellow-500">
-                      <Star className="w-3 h-3 fill-current" />
-                      <span className="text-gray-700 font-medium">{offer.rating}</span>
-                    </div>
-                    <div className="flex items-center space-x-0.5 text-gray-500">
-                      <Eye className="w-3 h-3" />
-                      <span>{offer.views}</span>
-                    </div>
-                  </div>
-
                   {/* Footer - Countdown and Distance */}
-                  <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                    <div className="flex items-center space-x-0.5 text-blue-600">
-                      <Clock className="w-3 h-3 animate-pulse" />
-                      <span className="text-xs font-mono font-bold">
-                        {getHappyHourCountdown(offer.happyHourEnd)}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-0.5 text-gray-500">
-                      <MapPin className="w-3 h-3" />
-                      <span className="text-xs">{offer.distance}</span>
+                  <div className="flex flex-col pt-2 border-t border-gray-100">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-0.5 text-red-600">
+                        <Clock className="w-3 h-3 animate-pulse" />
+                        <span className="text-xs font-mono font-bold">
+                          {getHappyHourCountdown(offer.happyHourEnd)}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-0.5 text-gray-500">
+                        <MapPin className="w-3 h-3" />
+                        <span className="text-xs">{offer.distance}</span>
+                      </div>
                     </div>
                   </div>
-
-                  {/* Action Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
-                    Claim Offer
-                  </button>
                 </div>
               </div>
             );

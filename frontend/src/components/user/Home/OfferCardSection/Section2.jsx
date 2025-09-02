@@ -43,6 +43,8 @@ const Section2 = () => {
         brandTier: "Premium",
         happyHourEnd: new Date(Date.now() + 5 * 60 * 60 * 1000),
         happyHourTime: "Mega Sale",
+        couponsLeft: 30,
+        totalCoupons: 60,
       },
       {
         _id: "mega2",
@@ -68,6 +70,8 @@ const Section2 = () => {
         brandTier: "Official",
         happyHourEnd: new Date(Date.now() + 4 * 60 * 60 * 1000),
         happyHourTime: "Brand Deal",
+        couponsLeft: 18,
+        totalCoupons: 60,
       },
       {
         _id: "mega3",
@@ -93,6 +97,8 @@ const Section2 = () => {
         brandTier: "Authorized",
         happyHourEnd: new Date(Date.now() + 6 * 60 * 60 * 1000),
         happyHourTime: "Exclusive",
+        couponsLeft: 10,
+        totalCoupons: 60,
       },
       {
         _id: "mega4",
@@ -118,6 +124,8 @@ const Section2 = () => {
         brandTier: "Official",
         happyHourEnd: new Date(Date.now() + 3 * 60 * 60 * 1000),
         happyHourTime: "Brand Hours",
+        couponsLeft: 5,
+        totalCoupons: 60,
       },
     ];
 
@@ -168,15 +176,15 @@ const Section2 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Mega Brand Deal (Full Width, No Sponsor) */}
+      {/* Header - Mega Brand Deal (Match Section1 structure, keep color) */}
       <div className="mb-3 mt-4">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-3 sm:py-4 w-full relative overflow-hidden">
-          {/* Background Pattern */}
-          <div className="absolute top-0 right-0 w-0 h-0 border-l-[80px] border-l-transparent border-b-[80px] border-b-white/10"></div>
+        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-6 sm:py-8 w-full relative overflow-hidden px-3">
+          {/* Background Pattern (match Section1) */}
+          <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
           <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
           <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
 
-          <div className="relative z-10 max-w-7xl mx-auto px-3 flex items-center justify-between">
+          <div className="relative z-10 flex items-center justify-between">
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
                 Mega Brand Deal
@@ -195,8 +203,10 @@ const Section2 = () => {
       {/* Cards */}
       <div className="overflow-x-auto scrollbar-hide px-3">
         <div className="flex space-x-3 pb-4" style={{ width: "max-content" }}>
-          {offers.map((offer) => {
+          {offers.map((offer, idx) => {
             const isLiked = likedOffers.has(offer._id);
+            const isSpotlight = idx < offers.length / 2;
+            const isHappyHours = idx >= offers.length / 2;
 
             return (
               <div
@@ -206,33 +216,38 @@ const Section2 = () => {
               >
                 {/* Image Container */}
                 <div className="relative overflow-hidden rounded-2xl">
-                  <div className="w-full h-64 bg-gray-100 rounded-2xl">
+                  <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-2xl"
+                      className="w-[98%] h-[95%] object-cover group-hover:scale-105 transition-transform duration-300 rounded-xl"
+                      style={{ aspectRatio: "4/3" }}
                     />
-                    <div className="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center">
-                      <div className="w-full flex justify-center">
-                        <span className="text-white text-base font-bold drop-shadow-lg tracking-wide">
-                          {offer.primaryDiscount}
-                        </span>
-                      </div>
+                    <div className="absolute left-1 bottom-2 w-[96%] h-12 bg-gradient-to-t from-black/80 to-transparent flex items-end justify-center rounded-b-xl pointer-events-none z-10">
+                      <span className="text-white text-base font-bold drop-shadow-lg tracking-wide mb-2">
+                        {offer.primaryDiscount}
+                      </span>
                     </div>
                     {/* Offer Duration Badge (like Section1) */}
-                    <div className="absolute top-2 left-2">
-                      <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
-                        {offer.happyHourTime}
+                    {isHappyHours ? (
+                      <div className="absolute top-2 left-2">
+                        <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                          1PM - 4PM
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="absolute top-2 left-2">
+                        <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
+                          {offer.happyHourTime}
+                        </div>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Top badge removed */}
                 </div>
 
                 {/* Content */}
                 <div className="p-3">
-                  {/* Shop Name, Like Button & Category */}
+                  {/* Shop Name, Like Button & Tag */}
                   <div className="mb-2">
                     <div className="flex items-center justify-between">
                       <h3 className="text-sm font-bold text-gray-900 truncate">
@@ -240,32 +255,63 @@ const Section2 = () => {
                       </h3>
                       <button
                         onClick={() => toggleLike(offer._id)}
-                        className="ml-2 bg-white/90 backdrop-blur-sm rounded-full p-1 hover:bg-white transition-all duration-200 hover:scale-110 shadow"
+                        className="ml-2 rounded-full p-1 transition-all duration-200 hover:scale-110"
                         aria-label={isLiked ? "Unlike" : "Like"}
                       >
                         <Heart
                           className={`w-4 h-4 ${
                             isLiked
-                              ? "text-red-500 fill-current"
+                              ? "text-purple-600 fill-current"
                               : "text-gray-400"
                           }`}
                         />
                       </button>
                     </div>
-                    <p className="text-xs text-gray-500">
-                      {offer.categoryText}
-                    </p>
+                    {/* Tag and description logic */}
+                    {isSpotlight ? (
+                      <>
+                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg mt-1 inline-block">
+                          Spotlight
+                        </span>
+                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                          {offer.description}
+                        </p>
+                      </>
+                    ) : (
+                      <span className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-2 py-0.5 rounded-full text-xs font-bold shadow-lg mt-1 inline-block">
+                        Happy Hours
+                      </span>
+                    )}
+                    {/* Coupons Left Bar for Happy Hours cards (second half only) */}
+                    {isHappyHours && (
+                      <div className="mt-2 mb-1">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-xs text-gray-500">
+                            Coupons Left
+                          </span>
+                          <span className="text-xs font-bold text-pink-500">
+                            {typeof offer.couponsLeft === 'number' ? offer.couponsLeft : 0}/{typeof offer.totalCoupons === 'number' ? offer.totalCoupons : 60}
+                          </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full transition-all duration-300 ease-out"
+                            style={{
+                              width: `${
+                                typeof offer.couponsLeft === 'number' && typeof offer.totalCoupons === 'number' && offer.totalCoupons > 0
+                                  ? (offer.couponsLeft / offer.totalCoupons) * 100
+                                  : 0
+                              }%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Price Section removed */}
-
-                  {/* Rating and Views removed */}
-
-                  {/* Brand Quality removed */}
 
                   {/* Footer - Countdown and Distance */}
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-                    <div className="flex items-center space-x-0.5 text-purple-600">
+                    <div className="flex items-center space-x-0.5 text-red-600">
                       <Clock className="w-3 h-3 animate-pulse" />
                       <span className="text-xs font-mono font-bold">
                         {getHappyHourCountdown(offer.happyHourEnd)}
@@ -277,10 +323,7 @@ const Section2 = () => {
                     </div>
                   </div>
 
-                  {/* Action Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
-                    Shop Now
-                  </button>
+                  {/* Action Button removed */}
                 </div>
               </div>
             );
