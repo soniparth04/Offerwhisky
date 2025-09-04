@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Heart, Clock, MapPin, Zap, Star, Eye, Timer } from "lucide-react";
+import { Heart, Clock, MapPin } from "lucide-react";
+import { IoIosArrowForward } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
+import { FaClock } from "react-icons/fa6";
 
 const Section3 = () => {
   const [offers, setOffers] = useState([]);
@@ -162,25 +164,30 @@ const Section3 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Happy Hours (match Section1 style) */}
-      <div className="mb-3 mt-4">
-        <div className="bg-gradient-to-r from-fuchsia-500 to-purple-600 py-6 sm:py-8 w-full relative overflow-hidden px-3">
-          {/* Background Pattern (match Section1, but keep color) */}
-          <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
-          <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
-          <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
-
-          <div className="relative z-10 flex items-center justify-between">
+      {/* Header - Happy Hours (Section1 style, keep content) */}
+      <div className="w-full px-4 py-6 sm:py-8 bg-transparent">
+        <div className="flex items-center justify-between">
+          {/* Left Side: Icon + Title + Subtitle */}
+          <div className="flex items-center gap-3">
+            <FaClock className="text-fuchsia-500 w-7 h-7 flex-shrink-0" />
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Happy Hours
               </h2>
-              <p className="text-white/90 text-xs">
+              <p className="text-gray-600 text-xs sm:text-sm mb-0">
                 Limited-time discounts available now
               </p>
             </div>
-            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+          </div>
+
+          {/* Right Side: Featured stacked above View All */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-xs text-fuchsia-500 font-medium bg-fuchsia-100 px-2 py-0.5 rounded-full">
+              Live Now
+            </span>
+            <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
               View All
+              <IoIosArrowForward className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
@@ -286,7 +293,7 @@ const Section3 = () => {
                       </div>
                       <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full transition-all duration-300 ease-out"
+                          className="h-full bg-gradient-to-r from-red-500 to-pink-500 rounded-full transition-all duration-300 ease-out"
                           style={{
                             width: `${
                               offer.remainingCoupons

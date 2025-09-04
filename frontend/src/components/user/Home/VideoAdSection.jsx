@@ -14,6 +14,8 @@ const VideoAdSection = ({ adId = 1 }) => {
   const [showCenterButton, setShowCenterButton] = useState(false);
 
   // Enhanced ad variations with offer details
+  // Use a single accent color for all discount badges
+  const discountAccentColor = "from-indigo-500 to-purple-500";
   const ads = [
     {
       video: "/Defender.mp4",
@@ -21,7 +23,6 @@ const VideoAdSection = ({ adId = 1 }) => {
         "https://images.unsplash.com/photo-1617893992751-6d1e8d7f19ec?w=1200&h=600&fit=crop&q=80",
       title: "Range Rover Defender",
       subtitle: "Luxury SUV Offer",
-      accentColor: "from-indigo-500 to-purple-500",
       offer: {
         discount: "₹1,00,000 OFF",
         description:
@@ -36,7 +37,6 @@ const VideoAdSection = ({ adId = 1 }) => {
         "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&q=80",
       title: "Go Good",
       subtitle: "Buy 2 Get 1 Free",
-      accentColor: "from-rose-400 to-orange-300",
       offer: {
         discount: "Buy 2 Get 1 FREE",
         description: "Refreshing Natural Cold Drinks - Special Combo Pack",
@@ -278,7 +278,7 @@ const VideoAdSection = ({ adId = 1 }) => {
               {/* Price Section */}
               <div className="flex items-center space-x-3">
                 <div
-                  className={`bg-gradient-to-r ${currentAd.accentColor} text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg`}
+                  className={`bg-gradient-to-r ${discountAccentColor} text-white px-3 py-1.5 rounded-full text-sm font-bold shadow-lg`}
                 >
                   {currentAd.offer.discount}
                 </div>

@@ -263,7 +263,7 @@ const OfferCardSection = () => {
                       <div className="mb-2 flex">
                         <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-pink-400 to-pink-600 rounded-full transition-all duration-300 ease-out"
+                            className="h-full bg-gradient-to-r from-red-500 to-pink-500 rounded-full transition-all duration-300 ease-out"
                             style={{
                               width: `${(offer.remainingCoupons / 50) * 100}%`,
                             }}

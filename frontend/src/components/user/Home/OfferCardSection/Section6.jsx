@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Heart, Clock, MapPin, RotateCcw, Trophy, Star, Eye } from "lucide-react";
+import { Heart, Clock, MapPin, LoaderPinwheel, Trophy, Star, Eye } from "lucide-react";
+import { IoIosArrowForward } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
 
 const Section6 = () => {
@@ -153,25 +154,30 @@ const Section6 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Spin & Win Deal (match Section1 UI, keep Section6 color) */}
-      <div className="mb-3 mt-4">
-        <div className="bg-gradient-to-r from-cyan-500 to-blue-600 py-6 sm:py-8 w-full relative overflow-hidden px-3">
-          {/* Background Pattern (match Section1 UI) */}
-          <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
-          <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
-          <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
-
-          <div className="relative z-10 flex items-center justify-between">
+      {/* Header - Spin & Win (Section1 style, keep content) */}
+      <div className="w-full px-4 py-6 sm:py-8 bg-transparent">
+        <div className="flex items-center justify-between">
+          {/* Left Side: Icon + Title + Subtitle */}
+          <div className="flex items-center gap-3">
+            <LoaderPinwheel className="text-cyan-500 w-7 h-7 flex-shrink-0" />
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Spin & Win
               </h2>
-              <p className="text-white/90 text-xs">
+              <p className="text-gray-600 text-xs sm:text-sm mb-0">
                 Try your luck and win exciting deals
               </p>
             </div>
-            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+          </div>
+
+          {/* Right Side: Featured stacked above View All */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-xs text-cyan-500 font-medium bg-cyan-100 px-2 py-0.5 rounded-full">
+              Try Your Luck
+            </span>
+            <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
               View All
+              <IoIosArrowForward className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>

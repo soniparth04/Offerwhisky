@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Heart, Clock, MapPin, Crown, Star, Eye, Shield } from "lucide-react";
+import { IoIosArrowForward } from "react-icons/io";
+import { FaCrown } from "react-icons/fa6";
 
 const Section2 = () => {
   const [offers, setOffers] = useState([]);
@@ -42,7 +44,7 @@ const Section2 = () => {
         isVerified: true,
         brandTier: "Premium",
         happyHourEnd: new Date(Date.now() + 5 * 60 * 60 * 1000),
-        happyHourTime: "Mega Sale",
+        happyHourTime: "",
         couponsLeft: 30,
         totalCoupons: 60,
       },
@@ -176,25 +178,30 @@ const Section2 = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-50 to-white">
-      {/* Header - Mega Brand Deal (Match Section1 structure, keep color) */}
-      <div className="mb-3 mt-4">
-        <div className="bg-gradient-to-r from-purple-600 to-indigo-600 py-6 sm:py-8 w-full relative overflow-hidden px-3">
-          {/* Background Pattern (match Section1) */}
-          <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
-          <div className="absolute top-1 right-3 w-8 h-8 sm:w-12 sm:h-12 border border-white rounded-full animate-pulse"></div>
-          <div className="absolute bottom-2 left-2 w-6 h-6 sm:w-8 sm:h-8 border border-white rounded-full animate-bounce"></div>
-
-          <div className="relative z-10 flex items-center justify-between">
+      {/* Header - Mega Brand Deal (Section1 style, keep content) */}
+      <div className="w-full px-4 py-6 sm:py-8 bg-transparent">
+        <div className="flex items-center justify-between">
+          {/* Left Side: Icon + Title + Subtitle */}
+          <div className="flex items-center gap-3">
+            <FaCrown className="text-purple-600 w-7 h-7 flex-shrink-0" />
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-white mb-0.5">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Mega Brand Deal
               </h2>
-              <p className="text-white/90 text-xs">
+              <p className="text-gray-600 text-xs sm:text-sm mb-0">
                 Exclusive offers from top brands
               </p>
             </div>
-            <button className="px-3 py-1 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-full transition">
+          </div>
+
+          {/* Right Side: Featured stacked above View All */}
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-xs text-purple-500 font-medium bg-purple-100 px-2 py-0.5 rounded-full">
+              Sponsored
+            </span>
+            <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
               View All
+              <IoIosArrowForward className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
@@ -217,18 +224,20 @@ const Section2 = () => {
                 <div className="relative overflow-hidden rounded-2xl">
                   <div className="w-full h-56 bg-gray-100 rounded-2xl flex items-center justify-center relative">
                     {/* Offer Duration Badge (like Section1) */}
-                    <div className="absolute top-2 left-0 w-full flex flex-row items-start z-20 px-0">
-                      <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-0.5 rounded-l-none rounded-r-full text-xs font-bold flex items-center shadow-lg"
-                        style={{
-                          borderTopLeftRadius: 0,
-                          borderBottomLeftRadius: 0,
-                          borderTopRightRadius: "9999px",
-                          borderBottomRightRadius: "9999px",
-                          boxShadow: "2px 2px 8px 0 rgba(0,0,0,0.10)",
-                        }}>
-                        {offer.happyHourTime}
-                      </div>
-                    </div>
+                      {isHappyHours && offer.happyHourTime && (
+                        <div className="absolute top-2 left-0 w-full flex flex-row items-start z-20 px-0">
+                          <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-0.5 rounded-l-none rounded-r-full text-xs font-bold flex items-center shadow-lg"
+                            style={{
+                              borderTopLeftRadius: 0,
+                              borderBottomLeftRadius: 0,
+                              borderTopRightRadius: "9999px",
+                              borderBottomRightRadius: "9999px",
+                              boxShadow: "2px 2px 8px 0 rgba(0,0,0,0.10)",
+                            }}>
+                            {offer.happyHourTime}
+                          </div>
+                        </div>
+                      )}
                     <img
                       src={offer.image}
                       alt={offer.title}
@@ -271,56 +280,60 @@ const Section2 = () => {
                       </button>
                     </div>
                     {/* Tag and description logic, match Section1 tag colors and text style */}
-                    {isSpotlight ? (
-                      <>
-                        <span className="bg-purple-200 text-purple-600 px-2 py-0.5 rounded-full text-xs font-medium mt-1 inline-block">
-                          Spotlight
-                        </span>
-                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                          {offer.description}
-                        </p>
-                      </>
-                    ) : (
-                      <span className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full text-xs font-medium mt-1 inline-block">
-                        Happy Hours
-                      </span>
-                    )}
+                      {isSpotlight ? (
+                        <>
+                          <span className="bg-purple-200 text-purple-600 px-2 py-0.5 rounded-full text-xs font-medium mt-1 inline-block">
+                            Spotlight
+                          </span>
+                          <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                            {offer.description}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <span className="bg-pink-100 text-pink-600 px-2 py-0.5 rounded-full text-xs font-medium mt-1 inline-block">
+                            Happy Hours
+                          </span>
+                        </>
+                      )}
                     {/* Coupons Left Bar for Happy Hours cards (second half only) */}
-                    {isHappyHours && (
-                      <div className="mt-2 mb-1">
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs text-gray-500">
-                            Coupons Left
-                          </span>
-                          <span className="text-xs font-bold text-pink-500">
-                            {typeof offer.couponsLeft === 'number' ? offer.couponsLeft : 0}/{typeof offer.totalCoupons === 'number' ? offer.totalCoupons : 60}
-                          </span>
+                      {isHappyHours && offer.happyHourTime && (
+                        <div className="mt-2 mb-1">
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs text-gray-500">
+                              Coupons Left
+                            </span>
+                            <span className="text-xs font-bold text-pink-500">
+                              {typeof offer.couponsLeft === 'number' ? offer.couponsLeft : 0}/{typeof offer.totalCoupons === 'number' ? offer.totalCoupons : 60}
+                            </span>
+                          </div>
+                          <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className="h-full bg-gradient-to-r from-red-500 to-pink-500 rounded-full transition-all duration-300 ease-out"
+                              style={{
+                                width: `${
+                                  typeof offer.couponsLeft === 'number' && typeof offer.totalCoupons === 'number' && offer.totalCoupons > 0
+                                    ? (offer.couponsLeft / offer.totalCoupons) * 100
+                                    : 0
+                                }%`,
+                              }}
+                            />
+                          </div>
                         </div>
-                        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-gradient-to-r from-red-500 to-pink-500 rounded-full transition-all duration-300 ease-out"
-                            style={{
-                              width: `${
-                                typeof offer.couponsLeft === 'number' && typeof offer.totalCoupons === 'number' && offer.totalCoupons > 0
-                                  ? (offer.couponsLeft / offer.totalCoupons) * 100
-                                  : 0
-                              }%`,
-                            }}
-                          />
-                        </div>
-                      </div>
-                    )}
+                      )}
                   </div>
 
                   {/* Footer - Countdown and Distance */}
                   <div className="flex flex-col pt-2 border-t border-gray-100">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-0.5 text-red-600">
-                        <Clock className="w-3 h-3 animate-pulse" />
-                        <span className="text-xs font-mono font-bold">
-                          {getHappyHourCountdown(offer.happyHourEnd)}
-                        </span>
-                      </div>
+                        {isHappyHours && offer.happyHourTime && (
+                          <div className="flex items-center space-x-0.5 text-red-600">
+                            <Clock className="w-3 h-3 animate-pulse" />
+                            <span className="text-xs font-mono font-bold">
+                              {getHappyHourCountdown(offer.happyHourEnd)}
+                            </span>
+                          </div>
+                        )}
                       <div className="flex items-center space-x-0.5 text-gray-500">
                         <MapPin className="w-3 h-3" />
                         <span className="text-xs">{offer.distance}</span>
