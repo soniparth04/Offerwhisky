@@ -18,20 +18,19 @@ const Bag = () => {
   return (
     <div className="h-screen bg-gray-50">
       <div className="h-screen bg-gray-100 flex flex-col">
-        {/* Header with Back Button left, title centered */}
-        <div className="flex items-center p-4 bg-white relative">
-          <button
-            onClick={handleBack}
-            className="p-2 rounded-full hover:bg-gray-100 transition absolute left-4"
-            aria-label="Back"
-          >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
-          </button>
-          <div className="w-full flex justify-center">
-            <h1 className="text-xl font-bold text-gray-900 text-center">
-              Your Bag
-            </h1>
+        {/* Header - matches Wishlist */}
+        <div className="bg-white w-full flex items-center justify-between p-4 shadow-sm border-b border-gray-100 sticky top-0 z-10" style={{height: "64px"}}>
+          <div className="flex items-center">
+            <button
+              onClick={handleBack}
+              className="mr-3 p-1.5 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="Back"
+            >
+              <ArrowLeft className="w-6 h-6 text-gray-700" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900 tracking-wide">Your Bag</h1>
           </div>
+          <div style={{width: '32px'}}></div>
         </div>
 
         {/* Main Content */}
@@ -41,12 +40,12 @@ const Bag = () => {
             <img src="chatgpt.png" alt="Empty Bag" className="px-10" />
           </div>
 
-          {/* Content below image in two lines, increased width */}
-          <div className="text-center space-y-3 mb-10 max-w-xl w-full mx-auto">
-            <h2 className="text-2xl font-bold text-gray-800 leading-tight">
+          {/* Content below image - optimized for mobile view */}
+          <div className="text-center space-y-2 mb-8 max-w-md w-full mx-auto px-2">
+            <h2 className="text-lg sm:text-2xl font-bold text-gray-800 leading-tight">
               Your bag feels a little empty... let's add some spark!
             </h2>
-            <p className="text-gray-400 text-base px-2">
+            <p className="text-gray-400 text-sm sm:text-base">
               <span className="font-medium block">
                 Unlock exclusive deals waiting just for you!
               </span>

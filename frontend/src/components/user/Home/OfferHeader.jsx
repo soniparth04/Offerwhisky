@@ -20,7 +20,7 @@ const OfferHeader = () => {
         </div>
 
         {/* Right Side: Filter Button */}
-        <button className="text-xs sm:text-sm font-medium flex items-center gap-2 text-fuchsia-500 hover:text-purple-600 transition px-3 py-1 rounded-full bg-fuchsia-100">
+        <button className="text-xs sm:text-sm font-medium flex items-center gap-2 text-pink-500 border border-pink-500 px-3 py-1.5 rounded-full">
           <Filter className="w-4 h-4" />
           <span>Filter</span>
         </button>

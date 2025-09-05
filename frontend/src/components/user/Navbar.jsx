@@ -7,44 +7,48 @@ const Navbar = () => {
   const [rippleEffect, setRippleEffect] = useState(null);
   const navRef = useRef(null);
   const lastScrollY = useRef(0);
-  const scrollThreshold = 2;
+  const scrollThreshold = 10; // More forgiving threshold for smoother show/hide
   const isAnimating = useRef(false);
 
   useEffect(() => {
     let ticking = false;
 
+    let lastDirection = null;
     const handleScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
           const currentScrollY = window.scrollY;
           const scrollDifference = Math.abs(currentScrollY - lastScrollY.current);
-          
-          // Only animate if scroll difference is above threshold and not currently animating
           if (scrollDifference > scrollThreshold && !isAnimating.current) {
             if (currentScrollY > lastScrollY.current && currentScrollY > 80) {
               // Scrolling down - hide navbar
-              isAnimating.current = true;
-              gsap.to(navRef.current, {
-                y: "100%",
-                duration: 0.4,
-                ease: "power3.out",
-                onComplete: () => {
-                  isAnimating.current = false;
-                }
-              });
+              if (lastDirection !== 'down') {
+                isAnimating.current = true;
+                gsap.to(navRef.current, {
+                  y: "100%",
+                  duration: 0.3,
+                  ease: "power3.out",
+                  onComplete: () => {
+                    isAnimating.current = false;
+                  }
+                });
+                lastDirection = 'down';
+              }
             } else if (currentScrollY < lastScrollY.current) {
               // Scrolling up - show navbar
-              isAnimating.current = true;
-              gsap.to(navRef.current, {
-                y: "0%",
-                duration: 0.35,
-                ease: "power2.inOut",
-                onComplete: () => {
-                  isAnimating.current = false;
-                }
-              });
+              if (lastDirection !== 'up') {
+                isAnimating.current = true;
+                gsap.to(navRef.current, {
+                  y: "0%",
+                  duration: 0.25,
+                  ease: "power2.inOut",
+                  onComplete: () => {
+                    isAnimating.current = false;
+                  }
+                });
+                lastDirection = 'up';
+              }
             }
-            
             lastScrollY.current = currentScrollY;
           }
           ticking = false;
@@ -85,7 +89,7 @@ const Navbar = () => {
     <NavLink
       to={to}
       end={isEnd}
-      className="flex flex-col items-center py-1 px-3 min-w-0 relative overflow-hidden"
+      className="flex flex-col items-center py-0.5 px-3 min-w-0 relative overflow-hidden"
       onClick={(e) => handleTap(index, e)}
     >
       {({ isActive }) => (
@@ -100,25 +104,21 @@ const Navbar = () => {
               }}
             />
           )}
-          
-          {/* Background fade effect for active state */}
+          {/* Background fade effect for active state - pink */}
           <div className={`absolute inset-0 transition-all duration-200 rounded-lg ${
-            isActive ? 'bg-purple-100' : 'bg-transparent'
+            isActive ? 'bg-pink-100' : 'bg-transparent'
           }`} />
-          
-          {/* Icon */}
+          {/* Icon - pink when active */}
           <div className={`p-1 relative z-10 transition-all duration-200 ${
-            isActive ? 'text-purple-500 scale-110' : 'text-gray-600'
+            isActive ? 'text-pink-500 scale-110' : 'text-gray-600'
           }`}>
             <Icon className="w-6 h-6" strokeWidth={1.5} />
-            {/* Notification Badge for Bag removed */}
           </div>
-          
-          {/* Label */}
+          {/* Label - pink when active */}
           <span className={`text-xs font-medium mt-1 relative z-10 transition-all duration-200 ${
             label === 'Store Nearby' ? 'text-center leading-tight' : ''
           } ${
-            isActive ? 'text-purple-500' : 'text-gray-600'
+            isActive ? 'text-pink-500' : 'text-gray-600'
           }`}>
             {label}
           </span>
@@ -144,11 +144,12 @@ const Navbar = () => {
       
       <nav 
         ref={navRef}
-        className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 px-4 py-2 z-20"
+        className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 px-4 py-1 z-20"
         style={{
           willChange: 'transform',
           backfaceVisibility: 'hidden',
-          perspective: 1000
+          perspective: 1000,
+          minHeight: '48px'
         }}
       >
         <div className="flex justify-between items-center max-w-md mx-auto">

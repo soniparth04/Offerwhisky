@@ -145,7 +145,7 @@ const Section6 = () => {
       <div className="bg-gradient-to-br from-gray-50 to-white p-3 sm:p-4">
         <div className="flex justify-center items-center py-12 sm:py-20">
           <div className="relative">
-            <div className="w-8 h-8 sm:w-12 sm:h-12 border-4 border-cyan-200 border-t-cyan-600 rounded-full animate-spin"></div>
+            <div className="w-8 h-8 sm:w-12 sm:h-12 border-4 border-violet-200 border-t-violet-600 rounded-full animate-spin"></div>
           </div>
         </div>
       </div>
@@ -159,7 +159,7 @@ const Section6 = () => {
         <div className="flex items-center justify-between">
           {/* Left Side: Icon + Title + Subtitle */}
           <div className="flex items-center gap-3">
-            <LoaderPinwheel className="text-cyan-500 w-7 h-7 flex-shrink-0" />
+            <LoaderPinwheel className="text-violet-500 w-7 h-7 flex-shrink-0" />
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Spin & Win
@@ -172,7 +172,7 @@ const Section6 = () => {
 
           {/* Right Side: Featured stacked above View All */}
           <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-cyan-500 font-medium bg-cyan-100 px-2 py-0.5 rounded-full">
+            <span className="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-full">
               Try Your Luck
             </span>
             <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
@@ -185,7 +185,7 @@ const Section6 = () => {
 
       {/* Cards */}
       <div className="overflow-x-auto scrollbar-hide px-3">
-        <div className="flex space-x-3 pb-4" style={{ width: "max-content" }}>
+        <div className="flex space-x-1 pb-4" style={{ width: "max-content" }}>
           {offers.map((offer) => {
             const isLiked = likedOffers.has(offer._id);
             return (
@@ -202,7 +202,7 @@ const Section6 = () => {
                       <div className="bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-xs">
                         {offer.happyHourTime}
                       </div>
-                      <div className="bg-red-500 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
+                      <div className="bg-violet-600 text-white px-1.5 py-0.5 rounded-full text-xs font-bold flex items-center space-x-0.5 animate-pulse shadow-md">
                         <GoDotFill className="w-2 h-2" />
                         <span>SPIN</span>
                       </div>
@@ -265,7 +265,7 @@ const Section6 = () => {
                   </div>
 
                   {/* Spin Now Button */}
-                  <button className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-transparent bg-clip-text border border-blue-600 py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
+                  <button className="w-full mt-2 bg-gradient-to-r from-violet-500 to-blue-600 text-transparent bg-clip-text border border-blue-600 py-1.5 px-3 rounded-lg text-xs font-medium transition-all duration-200">
                     Spin Now
                   </button>
                 </div>

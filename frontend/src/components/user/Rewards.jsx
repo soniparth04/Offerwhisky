@@ -20,38 +20,25 @@ export default function Rewards() {
 
   return (
     <div className="h-screen bg-gray-100 flex flex-col overflow-hidden">
-      {/* Header */}
-      <div className="bg-white flex items-center p-3 shadow-sm flex-shrink-0">
-        <button 
-          onClick={handleBack}
-          className="p-1 rounded-full hover:bg-gray-100 mr-3 transition-colors duration-200"
-        >
-          <ChevronLeft size={20} className="text-gray-700" />
-        </button>
-        <h1 className="text-lg font-semibold flex-1 text-gray-900">My Rewards</h1>
-        <div className="bg-amber-400 text-white rounded-full px-2.5 py-1 flex items-center shadow-sm">
-          <Coins className="w-3.5 h-3.5 mr-1" />
-          <span className="font-medium text-sm">1052</span>
+      {/* Header - updated to match Notification.jsx */}
+      <div className="bg-white w-full flex items-center justify-between p-4 shadow-sm border-b border-gray-100 sticky top-0 z-10">
+        <div className="flex items-center">
+          <button
+            onClick={handleBack}
+            className="mr-3 p-1.5 hover:bg-gray-100 rounded-full transition-colors"
+          >
+            <ChevronLeft className="w-6 h-6 text-gray-700" />
+          </button>
+          <h1 className="text-lg font-semibold text-gray-900">My Rewards</h1>
         </div>
-      </div>
-
-      {/* Rewards Balance */}
-      <div className="px-4 py-3 bg-gray-50/50 flex-shrink-0">
-        <div className="bg-white rounded-xl p-3 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-xs text-gray-600 font-medium">Your Balance</p>
-              <p className="text-xl font-bold text-gray-900">1,052 Points</p>
-            </div>
-            <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
-              <Trophy className="w-5 h-5 text-amber-600" />
-            </div>
-          </div>
+        <div className="border border-amber-400 text-black rounded-full px-2 py-1 flex items-center shadow-sm gap-1">
+          <span className="font-medium text-xl">0</span>
+          <img src="./Coin.png" alt="Coin" className="w-7 h-7" />
         </div>
       </div>
 
       {/* Main Content - Scrollable */}
-      <div className="flex-1 flex flex-col items-center px-4 py-4 overflow-y-auto">
+      <div className="flex-1 flex flex-col items-center px-4 py-4 overflow-y-auto mt-10">
         {/* Central Gift Illustration */}
         <div className="relative mb-4">
           {/* Floating sparkles */}
@@ -98,7 +85,7 @@ export default function Rewards() {
         </div>
 
         {/* Reward Categories */}
-        <div className="grid grid-cols-3 gap-3 mb-4 w-full max-w-sm">
+        <div className="grid grid-cols-3 gap-3 mb-4 w-full max-w-sm mt-4">
           <div className="bg-white rounded-xl p-3 text-center border border-gray-200 shadow-sm hover:shadow-md active:scale-95 transition-all duration-200 cursor-pointer">
             <div className="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center mx-auto mb-1">
               <Star className="w-4 h-4 text-blue-600 fill-current" />
@@ -121,22 +108,10 @@ export default function Rewards() {
           </div>
         </div>
 
-        {/* Social Proof */}
-        <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1.5 border border-gray-200 mb-4 shadow-sm">
-          <div className="flex -space-x-1">
-            <div className="w-4 h-4 bg-blue-500 rounded-full border-2 border-white"></div>
-            <div className="w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
-            <div className="w-4 h-4 bg-purple-500 rounded-full border-2 border-white"></div>
-          </div>
-          <p className="text-xs text-gray-700">
-            <span className="font-semibold text-gray-900">5,432</span> rewards claimed this week
-          </p>
-        </div>
-
         {/* CTA Button */}
         <button
           onClick={handleStartEarning}
-          className="w-full max-w-xs bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 hover:scale-105 text-white font-semibold py-3 rounded-xl text-base active:scale-95 transition-all duration-200 cursor-pointer shadow-lg"
+          className="w-full max-w-xs mt-8 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 hover:scale-105 text-white font-semibold py-3 rounded-xl text-base active:scale-95 transition-all duration-100 cursor-pointer shadow-lg"
         >
           <div className="flex items-center justify-center gap-2">
             <Sparkles className="w-4 h-4" />

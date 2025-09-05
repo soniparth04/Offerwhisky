@@ -163,12 +163,19 @@ const Header = () => {
           </div>
         </div>
 
-        <img
-          src={Heart}
-          alt="wishlist"
-          className="w-6 h-6 cursor-pointer"
+        <button
+          type="button"
+          className="p-0 bg-transparent border-none focus:outline-none cursor-pointer"
           onClick={() => navigate("/wishlist")}
-        />
+          aria-label="Go to wishlist"
+        >
+          <img
+            src={Heart}
+            alt="wishlist"
+            className="w-6 h-6"
+            draggable={false}
+          />
+        </button>
       </div>
     </div>
   );

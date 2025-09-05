@@ -83,10 +83,20 @@ const Slider = () => {
   const handleMouseUp = () => handleEnd();
 
   // Touch events
-  const handleTouchStart = (e) => handleStart(e.touches[0].clientX);
+  const [startY, setStartY] = React.useState(0);
+  const handleTouchStart = (e) => {
+    setStartY(e.touches[0].clientY);
+    handleStart(e.touches[0].clientX);
+  };
   const handleTouchMove = (e) => {
-    e.preventDefault();
-    handleMove(e.touches[0].clientX);
+    const deltaX = e.touches[0].clientX - startX;
+    const deltaY = Math.abs(e.touches[0].clientY - startY);
+    // Only preventDefault if horizontal movement is greater than vertical
+    if (Math.abs(deltaX) > deltaY) {
+      e.preventDefault();
+      handleMove(e.touches[0].clientX);
+    }
+    // Otherwise, let vertical scroll happen
   };
   const handleTouchEnd = () => handleEnd();
 

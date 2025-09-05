@@ -44,7 +44,7 @@ import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import OtpVerification from "./components/auth/OtpVerification";
 import SearchPage from "./components/user/Home/SearchPage";
-import Wishlist from "./components/user/Home/Wishlist";
+import Wishlist from "./components/user/Wishlist";
 import ComingSoon from "./components/user/ComingSoon";
 
 function App() {

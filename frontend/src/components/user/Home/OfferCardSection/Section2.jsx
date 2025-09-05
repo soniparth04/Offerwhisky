@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Heart, Clock, MapPin, Crown, Star, Eye, Shield } from "lucide-react";
 import { IoIosArrowForward } from "react-icons/io";
-import { FaCrown } from "react-icons/fa6";
+import { FaCrown } from "react-icons/fa";
 
 const Section2 = () => {
   const [offers, setOffers] = useState([]);
@@ -183,7 +183,7 @@ const Section2 = () => {
         <div className="flex items-center justify-between">
           {/* Left Side: Icon + Title + Subtitle */}
           <div className="flex items-center gap-3">
-            <FaCrown className="text-purple-600 w-7 h-7 flex-shrink-0" />
+            <FaCrown className="text-orange-500 w-7 h-7 flex-shrink-0" />
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Mega Brand Deal
@@ -196,7 +196,7 @@ const Section2 = () => {
 
           {/* Right Side: Featured stacked above View All */}
           <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-purple-500 font-medium bg-purple-100 px-2 py-0.5 rounded-full">
+            <span className="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-full">
               Sponsored
             </span>
             <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
@@ -326,14 +326,12 @@ const Section2 = () => {
                   {/* Footer - Countdown and Distance */}
                   <div className="flex flex-col pt-2 border-t border-gray-100">
                     <div className="flex items-center justify-between">
-                        {isHappyHours && offer.happyHourTime && (
                           <div className="flex items-center space-x-0.5 text-red-600">
                             <Clock className="w-3 h-3 animate-pulse" />
                             <span className="text-xs font-mono font-bold">
                               {getHappyHourCountdown(offer.happyHourEnd)}
                             </span>
                           </div>
-                        )}
                       <div className="flex items-center space-x-0.5 text-gray-500">
                         <MapPin className="w-3 h-3" />
                         <span className="text-xs">{offer.distance}</span>

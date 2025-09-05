@@ -325,14 +325,12 @@ const Section5 = () => {
                   <div className="flex flex-col pt-2 border-t border-gray-100">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-0.5 text-red-600">
-                        {isHappyHours && offer.happyHourTime && (
                           <>
                             <Clock className="w-3 h-3 animate-pulse" />
                             <span className="text-xs font-mono font-bold">
                               {getHappyHourCountdown(offer.happyHourEnd)}
                             </span>
                           </>
-                        )}
                       </div>
                       <div className="flex items-center space-x-0.5 text-gray-500">
                         <MapPin className="w-3 h-3" />

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Heart, Clock, MapPin } from "lucide-react";
 import { IoIosArrowForward } from "react-icons/io";
 import { GoDotFill } from "react-icons/go";
-import { FaClock } from "react-icons/fa6";
+import { FcAlarmClock } from "react-icons/fc";
 
 const Section3 = () => {
   const [offers, setOffers] = useState([]);
@@ -169,7 +169,7 @@ const Section3 = () => {
         <div className="flex items-center justify-between">
           {/* Left Side: Icon + Title + Subtitle */}
           <div className="flex items-center gap-3">
-            <FaClock className="text-fuchsia-500 w-7 h-7 flex-shrink-0" />
+            <FcAlarmClock className="text-pink-500 w-7 h-7 flex-shrink-0" />
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-0.5">
                 Happy Hours
@@ -182,8 +182,8 @@ const Section3 = () => {
 
           {/* Right Side: Featured stacked above View All */}
           <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-fuchsia-500 font-medium bg-fuchsia-100 px-2 py-0.5 rounded-full">
-              Live Now
+            <span className="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-0.5 rounded-full">
+              Sponsored
             </span>
             <button className="text-xs sm:text-sm font-medium flex items-center gap-1 text-pink-500 hover:text-pink-600 transition">
               View All
